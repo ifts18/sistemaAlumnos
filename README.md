@@ -25,4 +25,6 @@ Docker
 
 ```
 docker run --name ifts18-db -e MYSQL_ROOT_PASSWORD=terciario18 -p 3306:3306 -d mysql
+docker run --name ifts18-myadmin -d --link ifts18-db:db -p 8080:80 phpmyadmin/phpmyadmin
+/bin/php -S localhost:8000 -t ./SistemaAlumnos
 ```
