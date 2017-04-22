@@ -19,3 +19,10 @@ La estructura del proyecto es:
 ./ABM_Modal/Equivalencias.php         # Cargar equivalencias de alumnos
 ./ABM_Modal/Alumnos.php               # Alta y modificacion de usuarios alumnos
 ```
+
+Docker
+------
+
+```
+docker run --name ifts18-db -e MYSQL_ROOT_PASSWORD=terciario18 -p 3306:3306 -d mysql
+```
