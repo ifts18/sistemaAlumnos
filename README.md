@@ -20,7 +20,7 @@ La estructura del proyecto es:
 ./ABM_Modal/Alumnos.php               # Alta y modificacion de usuarios alumnos
 ```
 
-##Configuración
+## Configuración
 
 Para correr el sistema es necesario tener instalado:
 ```
@@ -30,10 +30,11 @@ Para correr el sistema es necesario tener instalado:
 
 ```
 
-###:one: Repositorio
+### :one: Repositorio
 
 Descarga el repositorio en la carpeta ```htdocs``` o la carpeta donde apunte el servidor web local.
-*Trabajaremos siempre utilizando como base la branch develop*
+
+**Trabajaremos siempre utilizando como base la branch develop**
 
 Cada tarea nueva será implementada en una branch nueva llamada ```feature/``` + nombre de la tarea nueva a implementar, por ejemplo ```feature/ModificarNotaActa```
 
@@ -41,7 +42,7 @@ Las tareas se ven en la solapa Projects en github. Cada proyecto es un board. De
 
 *es importante mantener actualizado el board*
 
-###:two: Buenas Practicas
+### :two: Buenas Practicas
 
 Previo a 2018 el codigo del sistema es "spaghetti":spaghetti:, codigo legacy sin documentación. A partir del 2018 nos enfocaremos en mantenerlo lo más claro y reusable posible. Esto se hará en etapas.
 
@@ -57,10 +58,10 @@ Previo a 2018 el codigo del sistema es "spaghetti":spaghetti:, codigo legacy sin
 
 
 
-###:three: Base De datos
+### :three: Base De datos
 
 La base de datos deberá ser importada localmente con el mismo nombre que indica el archivo de conección y dar de alta el usuario con privilegios globales.
 
-##:sos: Dudas?
+## :sos: Dudas?
 
-Si Google no puede responderlo preguntale a tus compañeres ;)
+Si Google no puede responderlo preguntale a tus compañeres :smiley:
