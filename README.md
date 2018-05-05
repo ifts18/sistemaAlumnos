@@ -20,7 +20,7 @@ La estructura del proyecto es:
 ./ABM_Modal/Alumnos.php               # Alta y modificacion de usuarios alumnos
 ```
 
-#Configuración
+##Configuración
 
 Para correr el sistema es necesario tener instalado:
 ```
@@ -30,7 +30,8 @@ Para correr el sistema es necesario tener instalado:
 
 ```
 
-#1.Repositorio
+###:one: Repositorio
+
 Descarga el repositorio en la carpeta ```htdocs``` o la carpeta donde apunte el servidor web local.
 *Trabajaremos siempre utilizando como base la branch develop*
 
@@ -40,24 +41,26 @@ Las tareas se ven en la solapa Projects en github. Cada proyecto es un board. De
 
 *es importante mantener actualizado el board*
 
-#2.Buenas Practicas
-Previo a 2018 el codigo del sistema es "spaghetti", codigo legacy sin documentación. A partir del 2018 nos enfocaremos en mantenerlo lo más claro y reusable posible. Esto se hará en etapas.
+###:two: Buenas Practicas
 
-```
-Documentación: Cada funcion/query/objeto creado deberá indicar su proposito de uso. Si existe alguna particularidad en el codigo/ bug conocido o simil deberá incluirse descripción.  
+Previo a 2018 el codigo del sistema es "spaghetti":spaghetti:, codigo legacy sin documentación. A partir del 2018 nos enfocaremos en mantenerlo lo más claro y reusable posible. Esto se hará en etapas.
 
-Estilos: Se empezará a migrar los estilos a hojas externas, evitando a toda costa los estilos inline. Los estilos deberán usar nombres de clases acordes. En el futuro se implementará un linter para mantener el css dentro de los estandares de CSS de Google.
+-Documentación: Cada funcion/query/objeto creado deberá indicar su proposito de uso. Si existe alguna particularidad en el codigo/ bug conocido o simil deberá incluirse descripción.  
 
-HTML: Se migrará progresivamente a HTML5. En el futuro se implementará un linter para mantener el css dentro de los estandares de HTML de Google.
+-Estilos: Se empezará a migrar los estilos a hojas externas, evitando a toda costa los estilos inline. Los estilos deberán usar nombres de clases acordes. En el futuro se implementará un linter para mantener el css dentro de los estandares de CSS de Google.
 
-JS: Deberá ser examinado. Debe estar en archivo separado no inline. En el futuro se implementará un linter para mantener el css dentro de los estandares de JS de Google.
+-HTML: Se migrará progresivamente a HTML5. En el futuro se implementará un linter para mantener el css dentro de los estandares de HTML de Google.
 
-PHP: Se migrará a usar templating para reducir la repetición de código.
+-JS: Deberá ser examinado. Debe estar en archivo separado no inline. En el futuro se implementará un linter para mantener el css dentro de los estandares de JS de Google.
 
-```
+-PHP: Se migrará a usar templating para reducir la repetición de código.
 
-#3.Base De datos
+
+
+###:three: Base De datos
+
 La base de datos deberá ser importada localmente con el mismo nombre que indica el archivo de conección y dar de alta el usuario con privilegios globales.
 
-#Dudas?
-De tenerlas no dudes en preguntar a tus compañeres ;)
+##:sos: Dudas?
+
+Si Google no puede responderlo preguntale a tus compañeres ;)
