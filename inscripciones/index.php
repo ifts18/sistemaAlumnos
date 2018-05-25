@@ -1,6 +1,5 @@
 <?php require_once('Connections/MySQL.php'); ?>
 <?php
-// Prevent SQL Injection on the database //
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
 {
@@ -37,10 +36,7 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-// get filename for replace in later html
 $loginFormAction = $_SERVER['PHP_SELF'];
-
-// dreamweaver code for checking user login 
 if (isset($_GET['accesscheck'])) {
   $_SESSION['PrevUrl'] = $_GET['accesscheck'];
 }
