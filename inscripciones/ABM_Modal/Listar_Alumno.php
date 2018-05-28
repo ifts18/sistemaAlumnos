@@ -6,12 +6,15 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
+
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
   $logoutAction .="&". htmlentities($_SERVER['QUERY_STRING']);
 }
 ?>
+
+
 
 <html lang="es">
   <head>
@@ -25,6 +28,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
   </head>
   <body>
   
+
   <?php include("modal/modal_modificarAlumnos.php");?> 
   <?php include("modal/modal_eliminarAlumnos.php");?>
       

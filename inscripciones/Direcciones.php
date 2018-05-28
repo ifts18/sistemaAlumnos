@@ -7,7 +7,6 @@ if (!isset($_SESSION)) {
 }
 ?>
 
-
 <table width="600" border="1" align="center">
   <tbody> 
     <?php if ($_SESSION['MM_UserGroup']=='Admin'){ ?>
@@ -81,6 +80,12 @@ if (!isset($_SESSION)) {
         <BR>
         </td>
     </tr>  
+      <tr>
+      <td width="100" align="center"> <A HREF = "CerrarSesion.php" >Cerrar Sesión</A>
+    <BR>
+    <BR>
+    </td>
+    </tr>
      
     <?php } else {
 	$par1 = $_SESSION['MM_Username'];
@@ -119,6 +124,13 @@ if (!isset($_SESSION)) {
 	
     <tr>
       <td width="100" align="center"> <A HREF = "Recuperar.php" >Cambiar Contrase&ntildea</A>
+    <BR>
+    <BR>
+    </td>
+    </tr>
+
+     <tr>
+      <td width="100" align="center"> <A HREF = "CerrarSesion.php" >Cerrar Sesión</A>
     <BR>
     <BR>
     </td>
