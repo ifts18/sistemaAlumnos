@@ -1,4 +1,3 @@
-
 <?php require_once('../Connections/MySQL.php'); ?>
 <?php
 //initialize the session
