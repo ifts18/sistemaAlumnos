@@ -98,7 +98,6 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
             if(($_POST['idmesa'.(string)$row_Recordset1['IdMesaFinal']])!='0')
             { 
             ?>
-                
                 <input type="hidden" name="IdMesaFinal<?php echo $numero?>" value="<?php echo $row_Recordset1['IdMesaFinal'] ?>" />
                 <?php $numero++ ;  ?>
                 <tr>
@@ -153,7 +152,6 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 
                             <tr>
                         </table>    
-
                         <?php 
                        } while ($row_Recordset2 = mysqli_fetch_assoc($Recordset2)); 
                     } ?>

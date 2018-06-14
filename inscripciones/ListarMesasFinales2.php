@@ -56,7 +56,7 @@ $query_Recordset1 = "select
                     from terciario.mesas_final mf
                                     inner join terciario.materias_plan mp on mp.IdMateriaPlan = mf.IdMateriaPlan
                                     inner join terciario.materias m on m.IdMateria = mp.IdMateria
-                                    inner join terciario.mesa_final_alumno mfa on mfa.IdMesaFinal = mf.IdMesaFinal
+                                    left join terciario.mesa_final_alumno mfa on mfa.IdMesaFinal = mf.IdMesaFinal
                     where mf.Abierta = 1
                     group by mf.IdMesaFinal,  m.Descripcion , mf.FechaMesa
                     ORDER BY mf.IdMesaFinal desc, m.descripcion asc,mf.fechaMesa desc;";
