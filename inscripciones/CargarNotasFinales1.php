@@ -64,12 +64,11 @@ for ( $numero = 1; $numero<$_POST['UltimoNumero']; $numero++) {
                                         inner join terciario.alumno_materias am on mfa.IdAlumnoMateria = am.idAlumnoMateria
                                         inner join terciario.alumnos a on a.IdAlumno = am.IdAlumno
                                     where  
-                                        mf.Abierta = 1 
-                                        and mfa.Procesada = 0 
-                                        and mf.IdMesaFinal = %s" , GetSQLValueString($par1, "int") ) ;
+                                        
+                                         mf.IdMesaFinal = %s" , GetSQLValueString($par1, "int") ) ;
         $Recordset2 = mysqli_query(dbconnect(),$query_Recordset2) or die(mysqli_error());
         $row_Recordset2 = mysqli_fetch_assoc($Recordset2);
-  
+        
         /*
         print "Presente";
         print $_POST['Presente'.(string)$row_Recordset2['IdMesaFinalAlumno']];
@@ -80,7 +79,7 @@ for ( $numero = 1; $numero<$_POST['UltimoNumero']; $numero++) {
         print "Nota";
         print $_POST['Nota'.(string)$row_Recordset2['IdMesaFinalAlumno']]; 
         */
-        do {
+        do { 
             if(($_POST['Presente'.(string)$row_Recordset2['IdMesaFinalAlumno']])!='0')
                 {
                     //$par2 = $_POST['Nota'.(string)$row_Recordset2['IdMesaFinalAlumno']];
