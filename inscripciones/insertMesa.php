@@ -3,6 +3,10 @@
 if (!isset($_SESSION)) {
   session_start();
 }
+// verify that the user is admin 
+if ($_SESSION['MM_UserGroup'] != 'Admin') {
+    die("No cuenta con permisos suficientes");
+}
 
 $loginFormAction = $_SERVER['PHP_SELF'];
 if (isset($_GET['accesscheck'])) {

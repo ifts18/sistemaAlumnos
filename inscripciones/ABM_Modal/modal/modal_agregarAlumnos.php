@@ -1,9 +1,13 @@
-
 <?php require_once('../Connections/MySQL.php'); ?>
 <?php
 //initialize the session
 if (!isset($_SESSION)) {
   session_start();
+}
+
+// verify that the user is admin 
+if ($_SESSION['MM_UserGroup'] != 'Admin') {
+    die("No cuenta con permisos suficientes");
 }
 
 // ** Logout the current user. **

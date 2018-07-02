@@ -5,6 +5,11 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
+// verify that the user is admin 
+if ($_SESSION['MM_UserGroup'] != 'Admin') {
+    die("No cuenta con permisos suficientes");
+}
+
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
@@ -51,7 +56,7 @@ $query_Recordset1 = "select
                     from terciario.mesas_final mf
                                     inner join terciario.materias_plan mp on mp.IdMateriaPlan = mf.IdMateriaPlan
                                     inner join terciario.materias m on m.IdMateria = mp.IdMateria
-                                    inner join terciario.mesa_final_alumno mfa on mfa.IdMesaFinal = mf.IdMesaFinal
+                                    left join terciario.mesa_final_alumno mfa on mfa.IdMesaFinal = mf.IdMesaFinal
                     where mf.Abierta = 1
                     group by mf.IdMesaFinal,  m.Descripcion , mf.FechaMesa
                     ORDER BY mf.IdMesaFinal desc, m.descripcion asc,mf.fechaMesa desc;";

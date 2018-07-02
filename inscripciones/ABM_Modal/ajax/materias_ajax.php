@@ -6,6 +6,7 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
+
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){

@@ -5,6 +5,12 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
+// verify that the user is admin 
+if ($_SESSION['MM_UserGroup'] != 'Admin') {
+    die("No cuenta con permisos suficientes");
+}
+
+
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
@@ -56,8 +62,6 @@ $query_Recordset1 = "select
                         inner join terciario.materias_plan mp on mp.IdMateriaPlan = mf.IdMateriaPlan
                         inner join terciario.materias m on m.IdMateria = mp.IdMateria
                         inner join terciario.mesa_final_alumno mfa on mfa.IdMesaFinal = mf.IdMesaFinal
-                    where 
-                        mf.Abierta = 1 
                     group by 
                         mf.IdMesaFinal,  
                         m.Descripcion , 
@@ -90,11 +94,11 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
     <?php 
     $numero = 1;
     if (mysqli_num_rows($Recordset1)>0){
-        do { 
-            if(($_POST['idmesa'.(string)$row_Recordset1['IdMesaFinal']])!='0')
+        do {//verifica que todos los argumentos que vienen en el post existen 
+            if(isset($_POST['idmesa'.(string)$row_Recordset1['IdMesaFinal']])&&
+              ($_POST['idmesa'.(string)$row_Recordset1['IdMesaFinal']])!='0')
             { 
             ?>
-                
                 <input type="hidden" name="IdMesaFinal<?php echo $numero?>" value="<?php echo $row_Recordset1['IdMesaFinal'] ?>" />
                 <?php $numero++ ;  ?>
                 <tr>
@@ -123,7 +127,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
                                                 inner join terciario.alumno_materias am on mfa.IdAlumnoMateria = am.idAlumnoMateria
                                                 inner join terciario.alumnos a on a.IdAlumno = am.IdAlumno
                                             where 
-                                                mf.Abierta = 1 and mfa.Procesada = 0 and mf.IdMesaFinal = %s" , GetSQLValueString($row_Recordset1['IdMesaFinal'], "int") ) ;
+                                                 mf.IdMesaFinal = %s" , GetSQLValueString($row_Recordset1['IdMesaFinal'], "int") ) ;
 
 
                 $Recordset2 = mysqli_query(dbconnect(),$query_Recordset2) or die(mysqli_error());
@@ -145,11 +149,10 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 
                                 <td><input type="radio" name="Presente<?php echo $row_Recordset2['IdMesaFinalAlumno']?>" value="0" >Ausente
                                 <input type="radio" name="Presente<?php echo $row_Recordset2['IdMesaFinalAlumno']?>" value="1" checked="checked"> Presente</td>
-                                <td><input style="text-align:center;" type="number" maxlength="2"  onKeyUp="if(this.value>10){this.value='';}else if(this.value<1){this.value='';}" name="Nota<?php echo $row_Recordset2['IdMesaFinalAlumno']?>" ></td>
+                                <td><input style="text-align:center;" type="number" maxlength="2"  onKeyUp="if(this.value>10){this.value='';}else if(this.value<1){this.value='';}" name="Nota<?php echo $row_Recordset2['IdMesaFinalAlumno']?>" value="<?php echo $row_Recordset2['Nota']?>"></td>
 
                             <tr>
                         </table>    
-
                         <?php 
                        } while ($row_Recordset2 = mysqli_fetch_assoc($Recordset2)); 
                     } ?>
