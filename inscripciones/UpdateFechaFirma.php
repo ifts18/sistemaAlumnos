@@ -5,13 +5,8 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-// verify that the user is admin 
-if ($_SESSION['MM_UserGroup'] != 'Admin') {
-    die("No cuenta con permisos suficientes");
-}
-
 if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
 {
   if (PHP_VERSION < 6) {
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
@@ -22,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   switch ($theType) {
     case "text":
       $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
+      break;
     case "long":
     case "int":
       $theValue = ($theValue != "") ? intval($theValue) : "NULL";
@@ -43,31 +38,40 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 ?>
 
 
-<h1>Actualiza fecha de firmas <?php print $_SESSION['MM_Username'] ?>  </h1>
+<h1>Fecha de firma actualizada con éxito </h1>
 
 <?php
-$query_Recordset1 = sprintf("select a.Apellido, a.DNI , m.Descripcion, am.FechaFirma, am.IdAlumnoMateria 
-                     from 
+$query_Recordset1 = sprintf("select a.Apellido, a.DNI , m.Descripcion, am.FechaFirma, am.IdAlumnoMateria
+                     from
                         terciario.materias m
-                            inner join terciario.materias_plan mp on mp.IdMateria = m.IdMateria 
+                            inner join terciario.materias_plan mp on mp.IdMateria = m.IdMateria
                             inner join terciario.alumno_materias am on m.IdMateria = am.IdMateriaPlan
                             inner join terciario.alumnos a on a.IdAlumno = am.IdAlumno
-                    where a.IdAlumno = %s", GetSQLValueString($_SESSION['MM_Username'], "int")); 
+                    where a.IdAlumno = %s", GetSQLValueString($_POST['id'], "int"));
 
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 ?>
 
-<?php 
-do { 
-    if(($_POST['idmesa'.(string)$row_Recordset1['IdAlumnoMateria']])!='0')
+<?php
+do {
+
+    if(($_POST['idmesa'.(string)$row_Recordset1['IdAlumnoMateria']])==='1')
     {
-        $par2 = $_POST['idAlumnoMateria'.(string)$row_Recordset1['IdAlumnoMateria']];  
+        $par2 = $_POST['idAlumnoMateria'.(string)$row_Recordset1['IdAlumnoMateria']];
         $par2 = "'".$par2."'";
         $par1 = $row_Recordset1['IdAlumnoMateria'];
+
         mysqli_query(dbconnect(),"UPDATE terciario.alumno_materias SET FechaFirma = $par2 WHERE IdAlumnoMateria=  $par1 ");
+    } else if (($_POST['idmesa'.(string)$row_Recordset1['IdAlumnoMateria']])==='2') {
+        $par1 = $row_Recordset1['IdAlumnoMateria'];
+        mysqli_query(dbconnect(),"UPDATE terciario.alumno_materias SET FechaFirma = NULL WHERE IdAlumnoMateria=  $par1 ");
     }
 } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
- header("Location: " . "Direcciones.php" );
-?>
 
+ //header("Location: " . "Direcciones.php" );
+?>
+<div style="text-align:center">
+    <BR>
+    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+</div>
