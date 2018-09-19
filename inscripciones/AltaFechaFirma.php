@@ -4,20 +4,16 @@
 if (!isset($_SESSION)) {
   session_start();
 }
-// verify that the user is admin 
+// verify that the user is admin
 if ($_SESSION['MM_UserGroup'] != 'Admin') {
     die("No cuenta con permisos suficientes");
 }
-// ** Logout the current user. **
-$logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
-if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
-  $logoutAction .="&". htmlentities($_SERVER['QUERY_STRING']);
-}
+
 ?>
 
 <?php
 if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
 {
   if (PHP_VERSION < 6) {
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
@@ -28,7 +24,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   switch ($theType) {
     case "text":
       $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
+      break;
     case "long":
     case "int":
       $theValue = ($theValue != "") ? intval($theValue) : "NULL";
@@ -46,25 +42,26 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 }
-
+//echo 'Hello ' . htmlspecialchars($_GET["id"]) . '!';
 //mysql_select_db($database_MySQL, $MySQL);
 
 $query_Recordset1 = sprintf("select a.Apellido,
-                            a.DNI , 
-                            m.Descripcion, 
-                            case when am.FechaFirma is not null then am.FechaFirma 
-                                    when ae.fechaCreacion is not null then ae.fechaCreacion 
-                                            else null end as FechaFirma, 
-                            am.IdAlumnoMateria 
-                            from terciario.materias m 
-                            inner join materias_plan mp on mp.IdMateria = m.IdMateria 
-                            inner join alumno_materias am on m.IdMateria = am.IdMateriaPlan 
-                            inner join alumnos a on a.IdAlumno = am.IdAlumno 
-                            left join alumno_equivalencias ae on ae.idAlumno = a.IdAlumno and ae.idMateriaPlan = am.IdMateriaPlan 
-                            where a.IdAlumno = %s", GetSQLValueString($_SESSION['MM_Username'], "int")); 
+                            a.DNI ,
+                            m.Descripcion,
+                            case when am.FechaFirma is not null then am.FechaFirma
+                                    when ae.fechaCreacion is not null then ae.fechaCreacion
+                                            else null end as FechaFirma,
+                            am.IdAlumnoMateria
+                            from terciario.materias m
+                            inner join materias_plan mp on mp.IdMateria = m.IdMateria
+                            inner join alumno_materias am on m.IdMateria = am.IdMateriaPlan
+                            inner join alumnos a on a.IdAlumno = am.IdAlumno
+                            left join alumno_equivalencias ae on ae.idAlumno = a.IdAlumno and ae.idMateriaPlan = am.IdMateriaPlan
+                            where a.IdAlumno = %s", GetSQLValueString($_GET['id'], "int"));
 
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+$modificarId = $_GET['id'];
 
 ?>
 
@@ -95,27 +92,30 @@ $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
     <td align="center" <h4><?php echo $row_Recordset1['FechaFirma']; ?></h4></td>
     <td
     <br><br>
+
         <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="0" checked="checked">No Cambiar
+        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="2" > Borrar Firma
         <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="1" > Modificar Ingrese fecha:
         <input type="date"  name="idAlumnoMateria<?php echo $row_Recordset1['IdAlumnoMateria']?>" >
-        
-    </td>  
+        <input type="hidden" name="id" value="<?=$_GET['id'];?>" />
+
+    </td>
   </tr>
-  <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1)); 
-  //var_dump($_POST); 
+  <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
+  echo $row_Recordset1;
   ?>
   </tbody>
 </table>
-    
-<div style="text-align:center">  
+
+<div style="text-align:center">
     <BR>
     <input type="submit" />
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
-</div>          
+</div>
 
-</form>    
-    
-    
+</form>
+
+
 <?php
 mysqli_free_result($Recordset1);
 ?>
