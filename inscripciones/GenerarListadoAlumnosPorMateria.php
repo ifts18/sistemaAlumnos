@@ -59,7 +59,9 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 //mysql_select_db($database_MySQL, $MySQL) ;
 $query_Recordset1 = "select
                             IdMateria, CodigoMateria , Descripcion
-                    from terciario.materias";
+                    from terciario.materias m inner join terciario.materias_plan mp on m.IdMateria = mp.IdMateria inner join terciario.alumno_materias am on am.IdMateriaPlan = mp.IdMateriaPlan 
+                    where FechaFirma = 'NULL' 
+                    ";
 
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
