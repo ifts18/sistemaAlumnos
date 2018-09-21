@@ -55,7 +55,20 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 }
+$query_Recordset1 = sprintf("select a.Apellido,
+                            a.DNI ,
+                            m.Descripcion,
+                            am.IdAlumnoMateria
+                            from terciario.materias m
+                            inner join materias_plan mp on mp.IdMateria = m.IdMateria
+                            inner join alumno_materias am on m.IdMateria = am.IdMateriaPlan
+                            inner join alumnos a on a.IdAlumno = am.IdAlumno
+                            left join alumno_equivalencias ae on ae.idAlumno = a.IdAlumno and ae.idMateriaPlan = am.IdMateriaPlan
+                            where am.FechaFirma is NULL or
+                            am.FechaFirma <= '0000-00-00 00:00:01'  and m.IdMateria = %s", GetSQLValueString($_POST['materia'], "int"));
 
+$Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
+$row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 ?>
 
 
@@ -64,7 +77,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   <tbody>
     <tr>
       <td width="604" align="center" ><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-      <td width="480" align="center"><h2>Alumno:<?php print $row_Recordset1['Descripcion'] ?>&nbsp;</h2></td>
+      <td width="480" align="center"><h2>Materia:<?php print $row_Recordset1['Descripcion'] ?>&nbsp;</h2></td>
     </tr>
   </tbody>
 </table>
@@ -72,15 +85,15 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 <table width="1103" border="1" align="center">
   <tbody>
     <tr>
-      <td width="100" align="center">Apellido</td>
-      <td width="100" align="center">DNI</td>
-      <td width="100" align="center">Materia</td>
+      <td width="100" align="center"><b>DNI</b></td>
+      <td width="100" align="center"><b>Apellido</b></td>
+      <td width="800" align="center"></td>
     </tr>
     <?php do { ?>
   <tr>
-    <td align="center" <h4><?php echo $row_Recordset1['Apellido']; ?></h4></td>
     <td align="center" <h4><?php echo $row_Recordset1['DNI']; ?></h4></td>
-    <td align="center" <h4><?php echo $row_Recordset1['Descripcion']; ?></h4></td>
+    <td align="center" <h4><?php echo $row_Recordset1['Apellido']; ?></h4></td>
+    <td width="100" align="center"></td>
   </tr>
   <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
   echo $row_Recordset1;

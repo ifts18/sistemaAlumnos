@@ -59,9 +59,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 //mysql_select_db($database_MySQL, $MySQL) ;
 $query_Recordset1 = "select
                             IdMateria, CodigoMateria , Descripcion
-                    from terciario.materias m inner join terciario.materias_plan mp on m.IdMateria = mp.IdMateria inner join terciario.alumno_materias am on am.IdMateriaPlan = mp.IdMateriaPlan 
-                    where FechaFirma = 'NULL' 
-                    ";
+                    from terciario.materias";
 
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
@@ -77,7 +75,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
     </tr>
   </tbody>
 </table>
-<form method="post" action="ListadoAlumnosPorMateria.php">
+<form method="post" name="selectMateria" action="ListadoAlumnosPorMateria.php">
 <table width="1103" border="1"align="center">
   <tbody>
     <tr>
@@ -93,7 +91,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
       <td>
       <br><br>
 
-          <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="0">Seleccionar
+          <input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar
 
 
       </td>
@@ -103,13 +101,14 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   ?>
   </tbody>
 </table>
-</form>
 
 <div style="text-align:center">
     <BR>
     <input type="submit" />
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
+</form>
+
 
 <?php
 mysqli_free_result($Recordset1);
