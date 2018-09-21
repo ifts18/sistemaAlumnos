@@ -9,83 +9,83 @@ if (!isset($_SESSION)) {
 
 
 <table width="600" border="1" align="center">
-  <tbody> 
+  <tbody>
     <?php if ($_SESSION['MM_UserGroup']=='Admin'){ ?>
     <tr>
-    <td width="100" align="center"> <A HREF = "ListarMesasFinales.php">Actas de ex&aacute;menes</A>    
+    <td width="100" align="center"> <A HREF = "ListarMesasFinales.php">Actas de ex&aacute;menes</A>
     <BR>
     <BR>
     </td>
-    </tr>  
+    </tr>
 
     <tr>
-    <td width="100" align="center"> <A HREF = "ListarMesasFinales2.php">Cargar notas de mesas de final</A>     
+    <td width="100" align="center"> <A HREF = "ListarMesasFinales2.php">Cargar notas de mesas de final</A>
     <BR>
     <BR>
     </td>
-    </tr>  
+    </tr>
 
     <tr>
-    <td 
-      width="100" align="center"> <A HREF = "Busquedaalumno.php">Ingresar Fecha de firma de regularidad de materias de alumnos</A> 
+    <td
+      width="100" align="center"> <A HREF = "Busquedaalumno.php">Ingresar Fecha de firma de regularidad de materias de alumnos</A>
     <BR>
     <BR>
 	</td>
     </tr>
-	
+
 	<tr>
-    <td 
-       
+    <td
+
         width="100" align="center"> <A HREF ="ABM_Modal/Alta_Alumnos.php">Dar de alta un alumno</A>
     <BR>
     <BR>
 	</td>
     </tr>
   <tr>
-    
-      <td 
-        
+
+      <td
+
         width="100" align="center"> <A HREF = "alumnos_rep.php">Listar alumnos</A>
     <BR>
     <BR>
     </td>
-    </tr> 
+    </tr>
 	<tr>
-    <td 
-      width="100" align="center"> <A HREF = "AltaMesa1.php">Dar de alta una mesa</A> 
+    <td
+      width="100" align="center"> <A HREF = "AltaMesa1.php">Dar de alta una mesa</A>
     <BR>
     <BR>
     </td>
-    </tr> 
+    </tr>
     <tr>
-    <td 
-        width="100" align="center"> <A HREF = "ABM_Modal/Equivalencias.php">Equivalencias Aprobadas por Alumnos</A> 
+    <td
+        width="100" align="center"> <A HREF = "ABM_Modal/Equivalencias.php">Equivalencias Aprobadas por Alumnos</A>
     <BR>
     <BR>
     </td>
-    </tr> 
+    </tr>
     <tr>
-    <td 
-        width="100" align="center"> <A HREF = "ABM_Modal/MateriasPorAlumnos.php">Materias por Alumnos</A> 
+    <td
+        width="100" align="center"> <A HREF = "ABM_Modal/MateriasPorAlumnos.php">Materias por Alumnos</A>
     <BR>
     <BR>
     </td>
-    </tr> 
+    </tr>
     <tr>
-    <td 
-        width="100" align="center"> <A HREF = "ABM_Modal/MesasDeFinales.php">Mesas de Finales</A> 
+    <td
+        width="100" align="center"> <A HREF = "ABM_Modal/MesasDeFinales.php">Mesas de Finales</A>
     <BR>
     <BR>
     </td>
-    </tr> 
-    
+    </tr>
+
     <tr>
-    <td 
-        width="100" align="center"> <A HREF = "ABM_Modal/Listar_Alumno.php">Alta y Modificacion de Alumnos </A> 
+    <td
+        width="100" align="center"> <A HREF = "ABM_Modal/Listar_Alumno.php">Alta y Modificacion de Alumnos </A>
     <BR>
     <BR>
     </td>
-    </tr> 
+    </tr>
     <?php } else {
 	$par1 = $_SESSION['MM_Username'];
 	$sql2 = "SELECT DNI, Password FROM alumnos WHERE IdAlumno = '$par1' ";
@@ -105,22 +105,22 @@ if (!isset($_SESSION)) {
     <BR>
     <BR>
      </td>
-    </tr>  
+    </tr>
     <tr>
       <td width="100" align="center"> <A HREF = "EditFinales.php" >Modificar mesas en las que se anoto</A>
     <BR>
     <BR>
     </td>
     </tr>
-	
+
     <tr>
-    <td 
-        width="100" align="center"> <A HREF = "ABM_Modal/MateriasPorAlumnos.php">Ver Estado de las Materias</A> 
+    <td
+        width="100" align="center"> <A HREF = "ABM_Modal/MateriasPorAlumnos.php">Ver Estado de las Materias</A>
     <BR>
     <BR>
     </td>
-    </tr> 
-	
+    </tr>
+
     <tr>
       <td width="100" align="center"> <A HREF = "Recuperar.php" >Cambiar Contrase&ntildea</A>
     <BR>
@@ -129,12 +129,7 @@ if (!isset($_SESSION)) {
     </tr>
     <?php }
 	?>
-	
 
-	
+
+
 </table>
-
-
-
-
-
