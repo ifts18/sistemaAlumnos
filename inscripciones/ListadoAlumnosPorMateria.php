@@ -55,20 +55,107 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 }
-$query_Recordset1 = sprintf("select a.Apellido,
-                            a.DNI ,
-                            m.Descripcion,
-                            am.IdAlumnoMateria
-                            from terciario.materias m
-                            inner join materias_plan mp on mp.IdMateria = m.IdMateria
-                            inner join alumno_materias am on m.IdMateria = am.IdMateriaPlan
-                            inner join alumnos a on a.IdAlumno = am.IdAlumno
-                            left join alumno_equivalencias ae on ae.idAlumno = a.IdAlumno and ae.idMateriaPlan = am.IdMateriaPlan
-                            where am.FechaFirma is NULL or
-                            am.FechaFirma <= '0000-00-00 00:00:01'  and m.IdMateria = %s", GetSQLValueString($_POST['materia'], "int"));
 
+function getSubject($id) {
+  $query = "select * from terciario.materias_plan where idMateria={$id}";
+  $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
+
+  $subject = mysqli_fetch_assoc($recordset);
+
+  return $subject;
+}
+
+function getSubjectCorrelatives($subject) {
+  $correlatives = [];
+
+  $query = "select * from terciario.correlativas
+            where (IdMateriaPlan={$subject['IdMateriaPlan']})";
+  $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
+  $result = mysqli_fetch_all($recordset, MYSQLI_ASSOC);
+
+  foreach($result as $correlative_result) {
+    array_push($correlatives, getSubject($correlative_result['IdCorrelativa']));
+  }
+
+  return $correlatives;
+}
+
+function getStudents() {
+  $query_students = "select * from terciario.alumnos";
+  $recordset_students = mysqli_query(dbconnect(),$query_students) or die(mysqli_error());
+  $students = mysqli_fetch_all($recordset_students, MYSQLI_ASSOC);
+
+  return $students;
+}
+
+function studentHasSign($student, $subject) {
+  $hasSign = False;
+
+  $query = "select * from terciario.alumno_materias
+            where (IdAlumno={$student['IdAlumno']} and IdMateriaPlan={$subject['IdMateriaPlan']})";
+  $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
+  $result = mysqli_fetch_assoc($recordset);
+
+  if (isset($result['FechaFirma'])) {
+    $hasSign = True;
+  }
+
+  return $hasSign;
+}
+
+function studentHasCorrelatives($student, $subject_correlatives) {
+  $has_correlatives = True;
+
+  foreach($subject_correlatives as $correlative) {
+    if (!studentHasSign($student, $correlative)) {
+      $has_correlatives = False;
+      break;
+    }
+  }
+
+  return $has_correlatives;
+}
+
+$materia_id = $_GET['materia_id'];
+
+$subject = getSubject($materia_id);
+$subject_correlatives = getSubjectCorrelatives($subject);
+
+$allowed_student =[];
+
+foreach (getStudents() as $student) {
+  if (!studentHasSign($student, $subject) and
+    studentHasCorrelatives($student, $subject_correlatives)) {
+
+    array_push($allowed_student, $student);
+  }
+}
+
+print_r(count(getStudents()));
+print_r('foo');
+print_r(count($allowed_student));
+die();
+
+
+
+//$query_alumnos = "select * from terciario.alumnos";
+//$recordset_alumnos = mysqli_query(dbconnect(),$query_alumnos) or die(mysqli_error());
+
+
+//$row_alumnos = mysqli_fetch_assoc($Recordset1);
+//print_r(getStudents()); die();
+
+//mysql_select_db($database_MySQL, $MySQL) ;
+$query_Recordset1 = "
+                    select  a.Apellido, a.DNI, m.Descripcion
+                    from terciario.alumnos a inner join alumno_materias am on a.IdAlumno = am.IdAlumno inner join terciario.materias_plan mp on am.IdMateriaPlan = mp.IdMateriaPlan inner join terciario.materias m on mp.idMateria = m.idMateria
+                    where  am.FechaFirma is 'NULL'
+";
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+$totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+?>
+
 ?>
 
 
@@ -77,7 +164,7 @@ $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
   <tbody>
     <tr>
       <td width="604" align="center" ><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-      <td width="480" align="center"><h2>Materia:<?php print $row_Recordset1['Descripcion'] ?>&nbsp;</h2></td>
+      <td width="480" align="center"><h2>Alumno:<?php print $row_Recordset1['Descripcion'] ?>&nbsp;</h2></td>
     </tr>
   </tbody>
 </table>
@@ -85,15 +172,15 @@ $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 <table width="1103" border="1" align="center">
   <tbody>
     <tr>
-      <td width="100" align="center"><b>DNI</b></td>
-      <td width="100" align="center"><b>Apellido</b></td>
-      <td width="800" align="center"></td>
+      <td width="100" align="center">Apellido</td>
+      <td width="100" align="center">DNI</td>
+      <td width="100" align="center">Materia</td>
     </tr>
     <?php do { ?>
   <tr>
-    <td align="center" <h4><?php echo $row_Recordset1['DNI']; ?></h4></td>
     <td align="center" <h4><?php echo $row_Recordset1['Apellido']; ?></h4></td>
-    <td width="100" align="center"></td>
+    <td align="center" <h4><?php echo $row_Recordset1['DNI']; ?></h4></td>
+    <td align="center" <h4><?php echo $row_Recordset1['Descripcion']; ?></h4></td>
   </tr>
   <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
   echo $row_Recordset1;
