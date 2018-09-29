@@ -57,11 +57,9 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 function getSubject($id) {
-  $query = "select * from terciario.materias_plan where idMateria={$id}";
+  $query = "select * from terciario.materias_plan where IdMateria={$id}";
   $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
-
   $subject = mysqli_fetch_assoc($recordset);
-
   return $subject;
 }
 
@@ -115,12 +113,10 @@ function studentHasCorrelatives($student, $subject_correlatives) {
 
   return $has_correlatives;
 }
-
-$materia_id = $_GET['materia_id'];
-
+$materia_id = 18;
+//$materia_id = $_GET['materia_id'];
 $subject = getSubject($materia_id);
 $subject_correlatives = getSubjectCorrelatives($subject);
-
 $allowed_student =[];
 
 foreach (getStudents() as $student) {
@@ -148,7 +144,7 @@ die();
 //mysql_select_db($database_MySQL, $MySQL) ;
 $query_Recordset1 = "
                     select  a.Apellido, a.DNI, m.Descripcion
-                    from terciario.alumnos a inner join alumno_materias am on a.IdAlumno = am.IdAlumno inner join terciario.materias_plan mp on am.IdMateriaPlan = mp.IdMateriaPlan inner join terciario.materias m on mp.idMateria = m.idMateria
+                    from terciario.alumnos a inner join alumno_materias am on a.IdAlumno = am.IdAlumno inner join terciario.materias_plan mp on am.IdMateriaPlan = mp.IdMateriaPlan inner join terciario.materias m on mp.IdMateria = m.IdMateria
                     where  am.FechaFirma is 'NULL'
 ";
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
