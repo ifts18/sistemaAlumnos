@@ -107,7 +107,7 @@ $modificarId = $_GET['id'];
   </tbody>
 </table>
 
-<div style="text-align:center">
+<div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0">
     <BR>
     <input type="submit" />
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
