@@ -75,7 +75,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   </tbody>
 </table>
 
-<form method="post" action="IngresarAlumnosNotasFinales1.php">
+<form method="post" action="IngresarAlumnosNotasFinales1.php" style="padding-bottom: 60px;">
 
 <table width="1103" border="1" align="center">
   <tbody>
@@ -103,7 +103,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   </tbody>
 </table>
 
-<div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0">  
+<div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
     <BR>
     <input type="submit" />
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>

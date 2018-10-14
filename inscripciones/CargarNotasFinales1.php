@@ -76,25 +76,28 @@ for ( $numero = 1; $numero<$_POST['UltimoNumero']; $numero++) {
         // print $_POST['Nota'.(string)$row_Recordset2['IdMesaFinalAlumno']];
 
         do {
-            $par0 = $_POST['Presente'.(string)$row_Recordset2['IdMesaFinalAlumno']];
 
-            //$par2 = $_POST['Nota'.(string)$row_Recordset2['IdMesaFinalAlumno']];
-            $par2 = $_POST['Nota'.$row_Recordset2['IdMesaFinalAlumno']];
-            if ($par2 >=1 && $par2 <=3)
-            {
-                $par1 = '0';
-            }
-            elseif($par2 >= 4)
-            {
-                $par1 = '1';
-            }
+          $par0 = $_POST['Presente'.(string)$row_Recordset2['IdMesaFinalAlumno']];
 
+          $par2 = $_POST['Nota'.$row_Recordset2['IdMesaFinalAlumno']];
 
-            $par3 = $row_Recordset2['IdMesaFinalAlumno'];
-            $par4 = $row_Recordset2['IdMesaFinal'];
-            print($par2 . $par3 . $par4 . 'caca');
-            mysqli_query(dbconnect(),"UPDATE terciario.mesa_final_alumno SET Ausente = $par0, Procesada = 1, Aprobado = $par1, Nota =  $par2  WHERE IdMesaFinalAlumno = $par3") or printf('error', mysqli_error(dbconnect()));
+          if (empty($par2) || $par2 === 0) {
+            $par2 = "NULL";
+          }
+          if (!empty($par2) && $par2 >=1 && $par2 <=3)
+          {
+              $par1 = '0';
+          }
+          elseif($par2 >= 4)
+          {
+              $par1 = '1';
+          }
 
-           } while ($row_Recordset2 = mysqli_fetch_assoc($Recordset2));
+          $par3 = $row_Recordset2['IdMesaFinalAlumno'];
+          $par4 = $row_Recordset2['IdMesaFinal'];
+
+          mysqli_query(dbconnect(),"UPDATE terciario.mesa_final_alumno SET Ausente = $par0, Procesada = 1, Aprobado = $par1, Nota =  $par2  WHERE IdMesaFinalAlumno = $par3") or printf('error', mysqli_error(dbconnect()));
+
+         } while ($row_Recordset2 = mysqli_fetch_assoc($Recordset2));
 }
 header("Location: " . "Direcciones.php" ); ?>
