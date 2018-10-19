@@ -134,9 +134,10 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 
                                             <!--fecha frima-->
                                              <?php if($row['FechaDeFirma'] == "No") { ?>
-                                                <td align="center" style="color:#DF0101"<h4><b> <?php echo $row['FechaDeFirma']; ?><b></h4></td>
+                                                <td align="center" style="color:#DF0101"<h4><b> <?php echo $row['FechaDeFirma'];?><b></h4></td>
                                             <?php } else { ?>
-                                                <td align="center" style="color:#04B404"<h4><b> <?php echo $row['FechaDeFirma']; ?><b> </h4></td>
+                                                <td align="center" style="color:#04B404"<h4><b> <?php echo $row['FechaDeFirma'];
+                                                    //echo date_format('FechaDeFirma', 'd-m-Y');?><b> </h4></td>
                                             <?php } ?>
 
                                                                 
