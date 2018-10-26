@@ -144,7 +144,7 @@ $subjectDetails = getSubjectDetails($materia_id);
   <tbody>
     <tr>
       <td width="604" align="center" ><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-      <td width="480" align="center"><h2>Materia:<?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+      <td width="480" align="center"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
     </tr>
   </tbody>
 </table>
