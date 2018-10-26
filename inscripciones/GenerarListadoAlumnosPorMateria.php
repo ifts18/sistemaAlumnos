@@ -58,7 +58,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 //mysql_select_db($database_MySQL, $MySQL) ;
 $query_Recordset1 = "select
-                            IdMateria, CodigoMateria , Descripcion
+                    IdMateria, CodigoMateria , Descripcion
                     from terciario.materias";
 
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
