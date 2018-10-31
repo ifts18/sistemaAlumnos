@@ -1,6 +1,5 @@
 <?php require_once('Connections/MySQL.php'); ?>
 <?php
-
 //
 //
 //***para generar listado de presentismo y la de finales***
@@ -136,8 +135,16 @@ foreach (getStudents() as $student) {
 #print_r($allowed_student);
 $subjectDetails = getSubjectDetails($materia_id);
 
+
 ?>
 
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
 
 
 <table width="1000" border="1" align="center">
@@ -161,15 +168,45 @@ $subjectDetails = getSubjectDetails($materia_id);
   <tr>
     <td align="center"><h4><?php echo $student['DNI']; ?></h4></td>
     <td align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
-    <td align="center"></td>
+    <td align="center" class="actions">
+      <BR>
+    <input
+      data-alumno-id=<?php echo $student['IdAlumno']; ?>
+      type=button
+      onClick="deleteStudent(<?php echo $student['IdAlumno']; ?>)"
+      value='Quitar de la lista' name="borrar"> 
+    </td>
   </tr>
 <?php endforeach; ?>
 </tbody>
 </table>
-</form>
-
 <div style="text-align:center">
     <BR>
+    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>  
+    <input type=button onClick="" value='Agregar a la lista'> 
     <input type="submit" />
-    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="ABM_Modal/js/jquery.min.js"></script>
+
+  <script>
+
+//    $.ajax({
+  //    data: {"$student['IdAlumno']"},
+    //  type: "Get",
+      //dataType: "json",
+     // url : "ListadoAlumnosPorMateria.php", 
+   // })
+
+    function deleteStudent(studentId) {
+      console.log(studentId);
+      $.get( "www.google.com", function( data ) {
+        //$( ".result" ).html( data );
+        alert( "Seguro desea quitar a esta persona de la lista?." );
+      });
+  }
+  </script>
+        
+ </body>
+</html>
