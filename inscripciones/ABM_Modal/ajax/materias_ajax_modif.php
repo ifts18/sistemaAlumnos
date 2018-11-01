@@ -126,21 +126,22 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                             <?php } ?>
                                                 
                                             <td align="left" <h4> <?php echo $row['Materia']; ?></h4></td>
-                                            <?php if($row['Firmada'] == "No") { ?>
+                                            <?php if($row['Firmada'] == "No"): ?>
                                                 <td align="center" style="color:#DF0101"<h4><b> <?php echo $row['Firmada']; ?><b></h4></td>
-                                            <?php } else { ?>
+                                            <?php else:  ?>
                                                 <td align="center" style="color:#04B404"<h4><b> <?php echo $row['Firmada']; ?><b> </h4></td>
-                                            <?php } ?>
+                                            <?php endif; ?>
 
                                             <!--fecha frima-->
-                                             <?php if($row['FechaDeFirma'] == "No") 
-                                                    { ?>
-                                                <td align="center" style="color:#DF0101"<h4><b> <?php echo $row['FechaDeFirma'];?><b></h4></td>
-                                            <?php } else($row1['Fecha'] = date('d/m/Y', strtotime($row['FechaDeFirma'])));
-                                                    { ?>
-                                                <td align="center" style="color:#04B404"<h4><b> 
+                                             <?php if($row['Firmada'] == "No"): ?>
+                                                <td align="center" style="color:#DF0101"<h4><b> </td>
+                                            <?php else :
+                                                $row1['Fecha'] = date('d/m/Y', strtotime($row['FechaDeFirma']));
+                                                    ?>
+                                                    <td align="center" style="color:#04B404"<h4><b> 
                                                     <?php echo $row1['Fecha'];?><b> </h4></td>
-                                            <?php } ?>
+                                                     
+                                            <?php endif;?>
 
                                                                 
                                             <?php if($row['Aprobada'] == "No") { ?>
