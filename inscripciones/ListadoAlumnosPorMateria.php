@@ -168,13 +168,14 @@ $subjectDetails = getSubjectDetails($materia_id);
   <tr>
     <td align="center"><h4><?php echo $student['DNI']; ?></h4></td>
     <td align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
+    <td align="center"><h4></h4></td>
     <td align="center" class="actions">
       <BR>
     <input
       data-alumno-id=<?php echo $student['IdAlumno']; ?>
       type=button
       onClick="deleteStudent(<?php echo $student['IdAlumno']; ?>)"
-      value='Quitar de la lista' name="borrar"> 
+      value='Quitar' name="borrar"> 
     </td>
   </tr>
 <?php endforeach; ?>
