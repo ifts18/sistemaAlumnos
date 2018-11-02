@@ -4,12 +4,10 @@
 if (!isset($_SESSION)) {
   session_start();
 }
-
 // verify that the user is admin 
 if ($_SESSION['MM_UserGroup'] != 'Admin') {
     die("No cuenta con permisos suficientes");
 }
-
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
@@ -24,9 +22,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   if (PHP_VERSION < 6) {
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
-
   $theValue = function_exists("mysqli_real_escape_string") ? mysqli_real_escape_string(dbconnect(), $theValue) : mysqli_escape_string(dbconnect(), $theValue);
-
   switch ($theType) {
     case "text":
       $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
@@ -55,7 +51,6 @@ if (!isset($_SESSION['MM_Username']))
     }
     else 
         {
-
 //mysql_select_db($database_MySQL, $MySQL);
 $par1 = $_SESSION['MM_Username'];
 $query_Recordset1 = "select 
@@ -67,7 +62,6 @@ $query_Recordset1 = "select
                     where mf.Abierta = 1
                     group by mf.IdMesaFinal,  m.Descripcion , mf.FechaMesa
                     ORDER BY mf.IdMesaFinal desc, m.descripcion asc,mf.fechaMesa desc;";
-
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
@@ -83,7 +77,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 </table>
 
 
-<form method="post" action="ListarAlumnosMesasFinales2.php">
+<form method="post" action="ListarAlumnosMesasFinales2.php" style="padding-bottom: 60px;">
 
 <table width="1103" border="1" align="center">
   <tbody>
@@ -113,7 +107,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   </tbody>
 </table>
     
-<div style="text-align:center">  
+<div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">  
     <BR>
     <input type="submit" />
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>

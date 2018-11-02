@@ -57,6 +57,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 						if(am.FechaFirma is not null, 'Si ', 'No') as Firmada , 
 						case when (select mfa.aprobado from mesa_final_alumno mfa where am.idAlumnoMateria = mfa.IdAlumnoMateria order by IdMesaFinal desc LIMIT 1 ) = 1 
 						or ae.idAlumnoEquivalencia is not null then 'Si' else 'No' end as Aprobada, 
+                        (select am.FechaFirma) as FechaDeFirma,
 						(select mfa.nota from mesa_final_alumno mfa where am.idAlumnoMateria = mfa.IdAlumnoMateria order by IdMesaFinal desc LIMIT 1 ) as Nota,
                                                 (select mfa.IdMesaFinalAlumno from mesa_final_alumno mfa where am.idAlumnoMateria = mfa.IdAlumnoMateria order by IdMesaFinal desc LIMIT 1 ) as IdMesaFinalAlumno
                                                 FROM alumnos a 
@@ -70,10 +71,11 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                         LIMIT $offset,$per_page ";
                  
                     $count_query = mysqli_query(dbconnect(),"SELECT count(*) AS numrows  FROM (
-										SELECT a.DNI , a.Apellido, a.Nombre , m.Descripcion as Materia, 
-										if(am.FechaFirma is not null, 'Si ', 'No') as Firmada , 
+										SELECT a.DNI , a.Apellido, a.Nombre , m.Descripcion as Materia,
+										if(am.FechaFirma is not null, 'Si ', 'No') as Firmada ,    
 										case when (select mfa.aprobado from mesa_final_alumno mfa where am.idAlumnoMateria = mfa.IdAlumnoMateria order by IdMesaFinal desc LIMIT 1 ) = 1 
 										or ae.idAlumnoEquivalencia is not null then 'Si' else 'No' end as Aprobada, 
+                                        (select am.FechaFirma) as FechaDeFirma,
 										(select mfa.nota from mesa_final_alumno mfa where am.idAlumnoMateria = mfa.IdAlumnoMateria  order by IdMesaFinal desc LIMIT 1 ) as Nota 
 										FROM alumnos a 
 										INNER JOIN alumno_materias am on am.IdAlumno = a.IdAlumno 
@@ -104,6 +106,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                         <?php } ?>
                                         <td width="100" align="center">Materia</td>
                                         <td width="100" align="center">Firmada</td>
+                                        <td width="100" align="center">Fecha de Firma</td>
                                         <td width="100" align="center">Aprobada</td>
                                         <td width="80" align="center">Nota</td>
                                         <?php if ($_SESSION['MM_UserGroup']=='Admin'){ ?>
@@ -123,11 +126,23 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                             <?php } ?>
                                                 
                                             <td align="left" <h4> <?php echo $row['Materia']; ?></h4></td>
-                                            <?php if($row['Firmada'] == "No") { ?>
+                                            <?php if($row['Firmada'] == "No"): ?>
                                                 <td align="center" style="color:#DF0101"<h4><b> <?php echo $row['Firmada']; ?><b></h4></td>
-                                            <?php } else { ?>
+                                            <?php else:  ?>
                                                 <td align="center" style="color:#04B404"<h4><b> <?php echo $row['Firmada']; ?><b> </h4></td>
-                                            <?php } ?>
+                                            <?php endif; ?>
+
+                                            <!--fecha frima-->
+                                             <?php if($row['Firmada'] == "No"): ?>
+                                                <td align="center" style="color:#DF0101"<h4><b> </td>
+                                            <?php else :
+                                                $row1['Fecha'] = date('d/m/Y', strtotime($row['FechaDeFirma']));
+                                                    ?>
+                                                    <td align="center" style="color:#04B404"<h4><b> 
+                                                    <?php echo $row1['Fecha'];?><b> </h4></td>
+                                                     
+                                            <?php endif;?>
+
                                                                 
                                             <?php if($row['Aprobada'] == "No") { ?>
                                                 <td align="center" style="color:#DF0101"<h4><b> <?php echo $row['Aprobada']; ?><b></h4></td>
