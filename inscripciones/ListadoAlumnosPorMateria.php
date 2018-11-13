@@ -155,7 +155,7 @@ $subjectDetails = getSubjectDetails($materia_id);
     </tr>
   </tbody>
 </table>
-
+<div id="result" ></div>
 <table width="1103" border="1" align="center">
   <tbody>
     <tr>
@@ -174,7 +174,7 @@ $subjectDetails = getSubjectDetails($materia_id);
     <input
       data-alumno-id=<?php echo $student['IdAlumno']; ?>
       type=button
-      onClick="deleteStudent(<?php echo $student['IdAlumno']; ?>)"
+      onClick="this.deleteStudent(<?php echo $student['IdAlumno']; ?>)"
       value='Quitar' name="borrar"> 
     </td>
   </tr>
@@ -200,12 +200,18 @@ $subjectDetails = getSubjectDetails($materia_id);
      // url : "ListadoAlumnosPorMateria.php", 
    // })
 
-    function deleteStudent(studentId) {
-      console.log(studentId);
-      $.get( "www.google.com", function( data ) {
-        //$( ".result" ).html( data );
-        alert( "Seguro desea quitar a esta persona de la lista?." );
-      });
+     $(document).ready(function(){
+      function deleteStudent(student) {
+        $.ajax({
+            url: 'ListadoAlumnosPorMateriaQuitar.php',
+            data: "id=<?php echo $student['IdAlumno']; ?>&listado=<?php echo $allowed_student; ?>",
+            success: function(data) {
+                $('#result').remove();
+                $('#result').html(data);
+            }
+        });
+      }
+   });
   }
   </script>
         
