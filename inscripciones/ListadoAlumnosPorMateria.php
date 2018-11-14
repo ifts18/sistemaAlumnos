@@ -119,22 +119,58 @@ function studentHasCorrelatives($student, $subject_correlatives) {
 
   return $has_correlatives;
 }
-$materia_id = $_POST['materia'];
-$subject = getSubject($materia_id);
-$subject_correlatives = getSubjectCorrelatives($subject);
-$allowed_student =[];
 
-foreach (getStudents() as $student) {
-  if (!studentHasSign($student, $subject) and
-    studentHasCorrelatives($student, $subject_correlatives)) {
+print_r($_POST);
 
-    array_push($allowed_student, $student);
+try {
+  if($_POST['materia']) {
+    $materia_id = $_POST['materia'];
+    $subject = getSubject($materia_id);
+    $subject_correlatives = getSubjectCorrelatives($subject);
+    $allowed_student =[];
+
+    foreach (getStudents() as $student) {
+      if (!studentHasSign($student, $subject) and
+        studentHasCorrelatives($student, $subject_correlatives)) {
+
+        array_push($allowed_student, $student);
+      }
+    }
   }
 }
+catch(Exception $e) {
+  echo 'Message: ' .$e->getMessage();
+}
 
+function DeleteAlumnoFromResult($listado, $id) {
+  if(in_array($id, $listado)) {
+    if (($key = array_search($id, $listado)) !== false) {
+      unset($listado[$key]);
+    } else {
+      print("error1 ");
+    }
+  } else {
+    print("error2 ");
+  }
+
+  return $listado;
+}
+try {
+  if($_POST['id']) {
+    DeleteAlumnoFromResult($allowed_student,$_POST['id']);
+  }
+}
+catch(Exception $e) {
+  echo 'Message: ' .$e->getMessage();
+}
 #print_r($allowed_student);
 $subjectDetails = getSubjectDetails($materia_id);
-
+// asort($allowed_student);
+// foreach ($allowed_student as $key => $value) {
+//   print("<p>" . $key . "<p>");
+//   #print_r($value);
+// }
+$valuesAllowedStudent = array_values($allowed_student);
 
 ?>
 
@@ -143,6 +179,9 @@ $subjectDetails = getSubjectDetails($materia_id);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
+
   </head>
   <body>
 
@@ -171,11 +210,7 @@ $subjectDetails = getSubjectDetails($materia_id);
     <td align="center"><h4></h4></td>
     <td align="center" class="actions">
       <BR>
-    <input
-      data-alumno-id=<?php echo $student['IdAlumno']; ?>
-      type=button
-      onClick="this.deleteStudent(<?php echo $student['IdAlumno']; ?>)"
-      value='Quitar' name="borrar"> 
+    <button class="quitarBtn" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
     </td>
   </tr>
 <?php endforeach; ?>
@@ -183,37 +218,32 @@ $subjectDetails = getSubjectDetails($materia_id);
 </table>
 <div style="text-align:center">
     <BR>
-    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>  
-    <input type=button onClick="" value='Agregar a la lista'> 
+    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+    <input type=button onClick="" value='Agregar a la lista'>
     <input type="submit" />
 </div>
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="ABM_Modal/js/jquery.min.js"></script>
 
   <script>
 
-//    $.ajax({
-  //    data: {"$student['IdAlumno']"},
-    //  type: "Get",
-      //dataType: "json",
-     // url : "ListadoAlumnosPorMateria.php", 
-   // })
-
      $(document).ready(function(){
-      function deleteStudent(student) {
-        $.ajax({
-            url: 'ListadoAlumnosPorMateriaQuitar.php',
-            data: "id=<?php echo $student['IdAlumno']; ?>&listado=<?php echo $allowed_student; ?>",
-            success: function(data) {
-                $('#result').remove();
-                $('#result').html(data);
-            }
+       $('.quitarBtn').each(function () {
+        const $this = $(this);
+        $this.on('click', function(){
+          const studentId = $this.attr('data-alumno-id');
+          $.ajax({
+              url: 'ListadoAlumnosPorMateria.php',
+              data: 'id='+ studentId + '&materia=<?php echo $materia_id ?>',
+              success: function(data) {
+                console.log("CACA", data)
+                  $('#result').html(data);
+              }
+          });
         });
-      }
+      });
    });
-  }
+
   </script>
-        
+
  </body>
 </html>
