@@ -118,59 +118,38 @@ function studentHasCorrelatives($student, $subject_correlatives) {
   }
 
   return $has_correlatives;
-}
+  }
 
 print_r($_POST);
 
-try {
-  if($_POST['materia']) {
-    $materia_id = $_POST['materia'];
-    $subject = getSubject($materia_id);
-    $subject_correlatives = getSubjectCorrelatives($subject);
-    $allowed_student =[];
+$materia_id = $_POST['materia'];
+$subject = getSubject($materia_id);
+$subject_correlatives = getSubjectCorrelatives($subject);
+$allowed_student =[];
 
-    foreach (getStudents() as $student) {
-      if (!studentHasSign($student, $subject) and
-        studentHasCorrelatives($student, $subject_correlatives)) {
+foreach (getStudents() as $student) {
+  if (!studentHasSign($student, $subject) and
+    studentHasCorrelatives($student, $subject_correlatives)) {
 
-        array_push($allowed_student, $student);
-      }
-    }
+    array_push($allowed_student, $student);
   }
-}
-catch(Exception $e) {
-  echo 'Message: ' .$e->getMessage();
 }
 
 function DeleteAlumnoFromResult($listado, $id) {
-  if(in_array($id, $listado)) {
-    if (($key = array_search($id, $listado)) !== false) {
+  foreach ($listado as $key => $val) {
+    if ($val['IdAlumno'] === $id) {
       unset($listado[$key]);
-    } else {
-      print("error1 ");
     }
-  } else {
-    print("error2 ");
   }
-
   return $listado;
 }
-try {
-  if($_POST['id']) {
-    DeleteAlumnoFromResult($allowed_student,$_POST['id']);
-  }
+
+if(isset($_POST['id'])) {
+  $allowed_student = DeleteAlumnoFromResult($allowed_student,$_POST['id']);
 }
-catch(Exception $e) {
-  echo 'Message: ' .$e->getMessage();
-}
+
 #print_r($allowed_student);
 $subjectDetails = getSubjectDetails($materia_id);
-// asort($allowed_student);
-// foreach ($allowed_student as $key => $value) {
-//   print("<p>" . $key . "<p>");
-//   #print_r($value);
-// }
-$valuesAllowedStudent = array_values($allowed_student);
 
 ?>
 
@@ -233,6 +212,7 @@ $valuesAllowedStudent = array_values($allowed_student);
           const studentId = $this.attr('data-alumno-id');
           $.ajax({
               url: 'ListadoAlumnosPorMateria.php',
+              type: 'POST',
               data: 'id='+ studentId + '&materia=<?php echo $materia_id ?>',
               success: function(data) {
                 console.log("CACA", data)
