@@ -120,22 +120,28 @@ function studentHasCorrelatives($student, $subject_correlatives) {
   return $has_correlatives;
   }
 
-print_r($_POST);
-
 $materia_id = $_POST['materia'];
 $subject = getSubject($materia_id);
 $subject_correlatives = getSubjectCorrelatives($subject);
-$allowed_student =[];
 
-foreach (getStudents() as $student) {
-  if (!studentHasSign($student, $subject) and
-    studentHasCorrelatives($student, $subject_correlatives)) {
+if(!isset($_POST['listado'])) {
+  $allowed_student =[];
 
-    array_push($allowed_student, $student);
+  foreach (getStudents() as $student) {
+    if (!studentHasSign($student, $subject) and
+      studentHasCorrelatives($student, $subject_correlatives)) {
+
+      array_push($allowed_student, $student);
+    }
   }
 }
 
+if(isset($_POST['listado'])) {
+  $allowed_student = json_decode($_POST['listado'], true);
+}
+
 function DeleteAlumnoFromResult($listado, $id) {
+  print_r($listado);
   foreach ($listado as $key => $val) {
     if ($val['IdAlumno'] === $id) {
       unset($listado[$key]);
@@ -143,7 +149,6 @@ function DeleteAlumnoFromResult($listado, $id) {
   }
   return $listado;
 }
-
 if(isset($_POST['id'])) {
   $allowed_student = DeleteAlumnoFromResult($allowed_student,$_POST['id']);
 }
@@ -163,67 +168,67 @@ $subjectDetails = getSubjectDetails($materia_id);
 
   </head>
   <body>
+    <div id="result">
 
+      <table width="1000" border="1" align="center">
+        <tbody>
+          <tr>
+            <td width="604" align="center" ><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
+            <td width="480" align="center"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+          </tr>
+        </tbody>
+      </table>
+      <form action="ListadoAlumnosPorMateriaGuardar.php" name="ListadoAlumnosPorMateria">
+      <table width="1103" border="1" align="center" style="padding-bottom: 60px;">
+        <tbody>
+          <tr>
+            <td width="100" align="center">DNI</td>
+            <td width="100" align="center">Apellido y Nombre</td>
+            <td width="700" align="center"></td>
+          </tr>
+        <?php asort($allowed_student);
+        foreach ($allowed_student as $student): ?>
+        <tr>
+          <td align="center"><h4><?php echo $student['DNI']; ?></h4></td>
+          <td align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
+          <td align="center"><h4></h4></td>
+          <td align="center" class="actions">
+            <BR>
+          <button class="quitarBtn" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+      </table>
+      </form>
+      <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
+          <BR>
+          <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+          <input type=button onClick="" value='Agregar a la lista'>
+          <input type="submit" value="Guardar" />
+      </div>
+    </div>
 
-<table width="1000" border="1" align="center">
-  <tbody>
-    <tr>
-      <td width="604" align="center" ><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-      <td width="480" align="center"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
-    </tr>
-  </tbody>
-</table>
-<div id="result" ></div>
-<table width="1103" border="1" align="center">
-  <tbody>
-    <tr>
-      <td width="100" align="center">DNI</td>
-      <td width="100" align="center">Apellido y Nombre</td>
-      <td width="700" align="center"></td>
-    </tr>
-  <?php asort($allowed_student);
-  foreach ($allowed_student as $student): ?>
-  <tr>
-    <td align="center"><h4><?php echo $student['DNI']; ?></h4></td>
-    <td align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
-    <td align="center"><h4></h4></td>
-    <td align="center" class="actions">
-      <BR>
-    <button class="quitarBtn" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
-    </td>
-  </tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-<div style="text-align:center">
-    <BR>
-    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
-    <input type=button onClick="" value='Agregar a la lista'>
-    <input type="submit" />
-</div>
+    <script>
 
-
-  <script>
-
-     $(document).ready(function(){
-       $('.quitarBtn').each(function () {
-        const $this = $(this);
-        $this.on('click', function(){
-          const studentId = $this.attr('data-alumno-id');
-          $.ajax({
-              url: 'ListadoAlumnosPorMateria.php',
-              type: 'POST',
-              data: 'id='+ studentId + '&materia=<?php echo $materia_id ?>',
-              success: function(data) {
-                console.log("CACA", data)
-                  $('#result').html(data);
-              }
+    $(document).ready(function(){
+     $('.quitarBtn').each(function () {
+       const $this = $(this);
+       $this.on('click', function(){
+         const studentId = $this.attr('data-alumno-id');
+         $.ajax({
+            url: 'ListadoAlumnosPorMateria.php',
+            type: 'POST',
+            data: 'id='+ studentId + '&materia=<?php echo $materia_id ?>' + '&listado=<?php echo json_encode($allowed_student) ?>',
+            success: function(data) {
+              $('#result').html(data);
+            }
           });
         });
       });
-   });
+    });
 
-  </script>
+    </script>
 
- </body>
+  </body>
 </html>
