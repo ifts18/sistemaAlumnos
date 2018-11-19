@@ -178,7 +178,7 @@ $subjectDetails = getSubjectDetails($materia_id);
           </tr>
         </tbody>
       </table>
-      <form action="ListadoAlumnosPorMateriaGuardar.php" name="ListadoAlumnosPorMateria">
+      <form action="ListadoAlumnosPorMateriaGuardar.php" method="post" name="ListadoAlumnosPorMateria">
       <table width="1103" border="1" align="center" style="padding-bottom: 60px;">
         <tbody>
           <tr>
@@ -204,8 +204,8 @@ $subjectDetails = getSubjectDetails($materia_id);
       <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
           <BR>
           <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
-          <input type=button onClick="" value='Agregar a la lista'>
-          <input type="submit" value="Guardar" />
+          <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
+          <input type=button onClick="location.href='ListadoAlumnosPorMateriasAgregarNuevo.php'" value='Agregar a la lista'>
       </div>
     </div>
 
