@@ -141,7 +141,6 @@ if(isset($_POST['listado'])) {
 }
 
 function DeleteAlumnoFromResult($listado, $id) {
-  print_r($listado);
   foreach ($listado as $key => $val) {
     if ($val['IdAlumno'] === $id) {
       unset($listado[$key]);
@@ -163,11 +162,17 @@ $subjectDetails = getSubjectDetails($materia_id);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="ABM_Modal/css/bootstrap.min.css" rel="stylesheet">
+    <link href="ABM_Modal/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="ABM_Modal/css/bootstrap-select.min.css" rel="stylesheet">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
+    <script src="ABM_Modal/js/bootstrap.min.js"></script>
+    <script src="ABM_Modal/js/bootstrap-select.min.js"></script>
 
   </head>
   <body>
+    <?php include("ABM_Modal/modal/modal_ListadoAgregarAlumno.php");?>
     <div id="result">
 
       <table width="1000" border="1" align="center">
@@ -178,7 +183,6 @@ $subjectDetails = getSubjectDetails($materia_id);
           </tr>
         </tbody>
       </table>
-      <form action="ListadoAlumnosPorMateriaGuardar.php" method="post" name="ListadoAlumnosPorMateria">
       <table width="1103" border="1" align="center" style="padding-bottom: 60px;">
         <tbody>
           <tr>
@@ -200,17 +204,18 @@ $subjectDetails = getSubjectDetails($materia_id);
       <?php endforeach; ?>
       </tbody>
       </table>
-      </form>
       <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
           <BR>
           <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
           <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <input type=button onClick="location.href='ListadoAlumnosPorMateriasAgregarNuevo.php'" value='Agregar a la lista'>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate">
+            <i class='glyphicon glyphicon-edit'></i> Modificar
+          </button>
       </div>
     </div>
 
     <script>
-
+    // eliminar alumno de la lista x id
     $(document).ready(function(){
      $('.quitarBtn').each(function () {
        const $this = $(this);
@@ -228,6 +233,14 @@ $subjectDetails = getSubjectDetails($materia_id);
       });
     });
 
+    // agregar alumno por dni a la lista
+    $('#dataUpdate').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Botón que activó el modal
+		  var modal = $(this)
+		  modal.find('.modal-title').text('Modificar Mesa de Final ');
+
+		  $('.alert').hide();//Oculto alert
+		})
     </script>
 
   </body>

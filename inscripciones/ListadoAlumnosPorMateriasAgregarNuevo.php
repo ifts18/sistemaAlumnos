@@ -34,7 +34,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       Apellido: <input type="text" name="apellido"/><br><br>
       Nombre: <input type="text" name="nombre"/><br><br>
 
-    <input type="submit" / onclick="ListadoAlumnosPorMateria.php">
+    <input type="submit">
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </form>
 </body>

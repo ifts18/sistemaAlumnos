@@ -27,7 +27,7 @@ if (!isset($_SESSION)) {
 
     <tr>
     <td
-        width="100" align="center"> <a href="GenerarListadoAlumnosPorMateria.php">General Listado Alumnos por Materias</A>
+        width="100" align="center"> <a href="GenerarListadoAlumnosPorMateria.php">Generar Listado Alumnos por Materias</A>
     <BR>
     <BR>
     </td>
