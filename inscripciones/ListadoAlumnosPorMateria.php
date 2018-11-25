@@ -208,8 +208,8 @@ $subjectDetails = getSubjectDetails($materia_id);
           <BR>
           <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
           <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate">
-            <i class='glyphicon glyphicon-edit'></i> Modificar
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataAgregar">
+            <i class='glyphicon glyphicon-edit'></i> Agregar Alumno
           </button>
       </div>
     </div>
@@ -234,13 +234,23 @@ $subjectDetails = getSubjectDetails($materia_id);
     });
 
     // agregar alumno por dni a la lista
-    $('#dataUpdate').on('show.bs.modal', function (event) {
-		  var button = $(event.relatedTarget) // Botón que activó el modal
+    $('#dataAgregar').on('show.bs.modal', function (event) {
 		  var modal = $(this)
-		  modal.find('.modal-title').text('Modificar Mesa de Final ');
+		  modal.find('.modal-title').text('Buscar alumno por DNI ');
+      var DNI = modal.find("#dniBuscar");
+      $(DNI).on('change', function(){
+        var valorABuscar = DNI.val();
+        $.ajax({
+           url: 'ABM_Modal/ajax/agregarAlumnosListado_ajax.php',
+           type: 'GET',
+           data: 'DNI='+ valorABuscar,
+           success: function(data) {
+             $('#alumnos_busqueda').html(data);
+           }
+         });
+      });
 
-		  $('.alert').hide();//Oculto alert
-		})
+		});
     </script>
 
   </body>

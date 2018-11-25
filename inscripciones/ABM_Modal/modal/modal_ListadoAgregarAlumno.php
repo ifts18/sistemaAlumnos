@@ -3,7 +3,6 @@
 if (!isset($_SESSION)) {
   session_start();
 }
-
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
@@ -12,7 +11,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 ?>
 
 <form id="actualidarDatos">
-<div class="modal fade" id="dataUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="dataAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -24,15 +23,15 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
           <input type="hidden" class="form-control" id="id" name="id">
 
           <div class="form-group">
-                <label for="dni" class="control-label">DNI:</label>
-                <input type="text" class="form-control" id="dni" name="dni">
+            <label for="dni" class="control-label">DNI:</label>
+            <input type="text" class="form-control" id="dniBuscar" name="dni">
           </div>
 
           <div id="alumnos_busqueda"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Actualizar Mesa</button>
+        <button type="submit" class="btn btn-primary">Agregar al listado</button>
       </div>
     </div>
   </div>
