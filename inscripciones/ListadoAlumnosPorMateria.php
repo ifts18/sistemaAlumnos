@@ -152,6 +152,15 @@ if(isset($_POST['id'])) {
   $allowed_student = DeleteAlumnoFromResult($allowed_student,$_POST['id']);
 }
 
+function AddAlumnoFromResult($listado, $datosAlumno) {
+  $result=array_diff($listado,$datosAlumno);
+  print_r($result);
+}
+
+if(isset($_POST['agregarAlumno'])) {;
+  //print_r($_POST);
+  AddAlumnoFromResult($allowed_student, $_POST);
+}
 #print_r($allowed_student);
 $subjectDetails = getSubjectDetails($materia_id);
 
@@ -183,7 +192,7 @@ $subjectDetails = getSubjectDetails($materia_id);
           </tr>
         </tbody>
       </table>
-      <table width="1103" border="1" align="center" style="padding-bottom: 60px;">
+      <table width="1103" border="1" align="center" style="margin-bottom: 80px;">
         <tbody>
           <tr>
             <td width="100" align="center">DNI</td>
@@ -217,6 +226,8 @@ $subjectDetails = getSubjectDetails($materia_id);
     <script>
     // eliminar alumno de la lista x id
     $(document).ready(function(){
+      var alumnoAAgregar = {};
+
      $('.quitarBtn').each(function () {
        const $this = $(this);
        $this.on('click', function(){
@@ -231,26 +242,47 @@ $subjectDetails = getSubjectDetails($materia_id);
           });
         });
       });
+
+      // buscar alumno por dni en el modal
+      $('#dataAgregar').on('show.bs.modal', function (event) {
+  		  var modal = $(this)
+  		  modal.find('.modal-title').text('Buscar alumno por DNI ');
+        modal.find('#materia_id').val(<?php echo $materia_id ?>);
+        var DNI = modal.find("#dniBuscar");
+        $(DNI).on('change', function(){
+          var valorABuscar = DNI.val();
+          $.ajax({
+             url: 'ABM_Modal/ajax/agregarAlumnosListado_ajax.php',
+             type: 'GET',
+             data: 'DNI='+ valorABuscar,
+             success: function(data) {
+               var lala = {};
+               $('#alumnos_busqueda').html(data);
+               lala['IdAlumno'] = modal.find('.agregarAlumno_idAlumno').val();
+               lala['DNI'] = modal.find('.agregarAlumno_dni').text().trim();
+               lala['Apellido'] = modal.find('.agregarAlumno_apellido').text().trim();
+               lala['Nombre'] = modal.find('.agregarAlumno_nombre').text().trim();
+               alumnoAAgregar = lala;
+             }
+           });
+        });
+  		});
+
+      // agregar el alumno a la lista
+      $("#actualidarDatos").submit(function( event ) {
+        console.log(alumnoAAgregar);
+        $.ajax({
+          type: "POST",
+          url: "ListadoAlumnosPorMateria.php",
+          data: 'agregarAlumno=' + JSON.stringify(alumnoAAgregar) + '&materia=<?php echo $materia_id ?>' + '&listado=<?php echo json_encode($allowed_student) ?>',
+          success: function(data){
+            $("#result").html(data);
+          }
+        });
+        event.preventDefault();
+      });
     });
 
-    // agregar alumno por dni a la lista
-    $('#dataAgregar').on('show.bs.modal', function (event) {
-		  var modal = $(this)
-		  modal.find('.modal-title').text('Buscar alumno por DNI ');
-      var DNI = modal.find("#dniBuscar");
-      $(DNI).on('change', function(){
-        var valorABuscar = DNI.val();
-        $.ajax({
-           url: 'ABM_Modal/ajax/agregarAlumnosListado_ajax.php',
-           type: 'GET',
-           data: 'DNI='+ valorABuscar,
-           success: function(data) {
-             $('#alumnos_busqueda').html(data);
-           }
-         });
-      });
-
-		});
     </script>
 
   </body>

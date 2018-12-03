@@ -20,7 +20,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       </div>
       <div class="modal-body">
           <div id="datos_ajax"></div>
-          <input type="hidden" class="form-control" id="id" name="id">
+          <input type="hidden" class="form-control" id="materia_id" name="materia_id">
 
           <div class="form-group">
             <label for="dni" class="control-label">DNI:</label>

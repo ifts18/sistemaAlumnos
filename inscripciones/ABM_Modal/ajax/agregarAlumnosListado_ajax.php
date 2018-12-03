@@ -52,29 +52,31 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 <?php
 
- $sql = sprintf("SELECT idAlumno, DNI, Apellido, Nombre
+ $sql = sprintf("SELECT IdAlumno, DNI, Apellido, Nombre
  from alumnos where DNI = %s", GetSQLValueString($_GET['DNI'], "int"));
  $Recordset1 = mysqli_query(dbconnect(),$sql) or die(mysqli_error());
  $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
  $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
  if($row_Recordset1) {
 ?>
+  <input type="hidden" value="<?php echo $row_Recordset1['IdAlumno'] ?>" class="agregarAlumno_idAlumno" />
   <table style="width: 100%;" aria-describedby="table_info" role="grid"
   class="table table-striped table-bordered dataTable" cellspacing="0" width="100%">
     <thead>
       <tr style="font-weight: bold">
-      <td width="100" align="center">DNI</td>
-      <td width="100" align="center">Apellido</td>
-      <td width="100" align="center">Nombre</td>
+        <td width="100" align="center">DNI</td>
+        <td width="100" align="center">Apellido</td>
+        <td width="100" align="center">Nombre</td>
+      </tr>
     </thead>
     <tbody>
       <?php
         do {
       ?>
       <tr >
-              <td align="center" <h4> <?php echo $row_Recordset1['DNI']; ?></h4></td>
-              <td align="left" <h4> <?php echo $row_Recordset1['Apellido'];?></h4></td>
-              <td align="left" <h4> <?php echo $row_Recordset1['Nombre']; ?></h4></td>
+        <td align="center" class="agregarAlumno_dni"> <h4> <?php echo $row_Recordset1['DNI']; ?></h4></td>
+        <td align="left" class="agregarAlumno_apellido"> <h4> <?php echo $row_Recordset1['Apellido'];?></h4></td>
+        <td align="left" class="agregarAlumno_nombre"> <h4> <?php echo $row_Recordset1['Nombre']; ?></h4></td>
       </tr>
     <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));  ?>
     </tbody>
