@@ -141,7 +141,6 @@ if(isset($_POST['listado'])) {
 }
 
 function DeleteAlumnoFromResult($listado, $id) {
-  print_r($listado);
   foreach ($listado as $key => $val) {
     if ($val['IdAlumno'] === $id) {
       unset($listado[$key]);
@@ -153,7 +152,6 @@ if(isset($_POST['id'])) {
   $allowed_student = DeleteAlumnoFromResult($allowed_student,$_POST['id']);
 }
 
-#print_r($allowed_student);
 $subjectDetails = getSubjectDetails($materia_id);
 
 ?>
@@ -165,52 +163,74 @@ $subjectDetails = getSubjectDetails($materia_id);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="print.css" type="text/css" media="print" />
 
   </head>
   <body>
     <div id="result">
-
-      <table width="1000" border="1" align="center">
+      <table id="customers">
         <tbody>
           <tr>
-            <td width="604" align="center" ><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-            <td width="480" align="center"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+            <td><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
+            <td><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
           </tr>
         </tbody>
       </table>
-      <form action="ListadoAlumnosPorMateriaGuardar.php" method="post" name="ListadoAlumnosPorMateria">
-      <table width="1103" border="1" align="center" style="padding-bottom: 60px;">
+
+      <table id="customers">
         <tbody>
           <tr>
-            <td width="100" align="center">DNI</td>
-            <td width="100" align="center">Apellido y Nombre</td>
-            <td width="700" align="center"></td>
+            <td>DNI</td>
+            <td>Apellido y Nombre</td>
+            <td>
+              <table id="customers-anidada">
+                <tr>
+                  <td>Primer Parcial</td>
+                  <tr>
+                    <td>Calificación</td>
+                    <td>Recuperatorio</td>
+                  </tr>
+              </table>
+            </td>
+            <td>
+              <table id="customers-anidada">
+                <tr>
+                  <td>Segundo Parcial</td>
+                  <tr>
+                    <td>Calificación</td>
+                    <td>Recuperatorio</td>
+                  </tr>
+              </table>
+            </td>
           </tr>
         <?php asort($allowed_student);
         foreach ($allowed_student as $student): ?>
         <tr>
-          <td align="center"><h4><?php echo $student['DNI']; ?></h4></td>
-          <td align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
-          <td align="center"><h4></h4></td>
-          <td align="center" class="actions">
+          <td><h4><?php echo $student['DNI']; ?></h4></td>
+          <td><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
+          <td></td>
+          <td></td>
+          <td class="actions">
             <BR>
-          <button class="quitarBtn" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
+          <button class="quitarBtn quitar button button1" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
           </td>
         </tr>
       <?php endforeach; ?>
       </tbody>
       </table>
-      </form>
+
       <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
           <BR>
-          <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+        <div class="noprint">
+          <button class="button button1" type=button onClick="location.href='Direcciones.php'">Volver al menu principal</button>
           <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <input type=button onClick="location.href='ListadoAlumnosPorMateriasAgregarNuevo.php'" value='Agregar a la lista'>
-      </div>
+          <button class="button button1" type="button" onClick="window.print()" href="style.css">Imprimir Listado De Presencia</button>
+          <button class="button button1" type="button" onClick="window.print()" href="print.css">Imprimir Listado Para Parciales</button>
+        </div>
     </div>
 
     <script>
-
     $(document).ready(function(){
      $('.quitarBtn').each(function () {
        const $this = $(this);

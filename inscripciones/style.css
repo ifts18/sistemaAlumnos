@@ -1,0 +1,77 @@
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+#customers-anidada {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  display: none;
+}
+
+#customers-anidada td, #customers-anidada th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+
+}
+
+#customers-anidada tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers-anidada tr:hover {background-color: #ddd;}
+
+#customers-anidada th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+body {
+  display: block;
+  margin: 50px;
+}
+
+h4{
+  font-weight: normal;
+}
+
+.button {
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 9px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {
+  border-radius: 14px;
+}

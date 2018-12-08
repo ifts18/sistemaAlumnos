@@ -66,34 +66,34 @@ $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 ?>
 
+<html>
+<head>
+  <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+</head>
 
-
-<table width="1000" border="1" align="center">
+<table id=customers>
   <tbody>
     <tr>
-      <td width="604" align="center" ><h1> IFTS18 - Generar listado por Materia </h1></td>
+      <td><h1> IFTS18 - Generar listado por Materia </h1></td>
     </tr>
   </tbody>
 </table>
 <form method="post" name="selectMateria" action="ListadoAlumnosPorMateria.php" style="padding-bottom: 60px;">
-<table width="1103" border="1"align="center">
+<table id=customers>
   <tbody>
     <tr>
-      <td width="100" align="center">ID Materia</td>
-      <td width="100" align="center">Codigo Materia</td>
-      <td width="100" align="center">Nombre</td>
+      <td>ID Materia</td>
+      <td>Codigo Materia</td>
+      <td>Nombre</td>
     </tr>
 <?php do { ?>
     <tr>
-      <td align="center" <h4> <?php echo $row_Recordset1['IdMateria']; ?> </h4></td>
-      <td align="center" <h4> <?php echo $row_Recordset1['CodigoMateria']; ?> </h4></td>
-      <td align="center" <h4> <?php echo $row_Recordset1['Descripcion']; ?> </h4></td>
+      <td><h4> <?php echo $row_Recordset1['IdMateria']; ?> </h4></td>
+      <td><h4> <?php echo $row_Recordset1['CodigoMateria']; ?> </h4></td>
+      <td><h4> <?php echo $row_Recordset1['Descripcion']; ?> </h4></td>
       <td>
       <br><br>
-
           <input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar
-
-
       </td>
     </tr>
   <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
@@ -104,8 +104,8 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 
 <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
     <BR>
-    <input type="submit" />
-    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+    <input class="button button1" type="submit" />
+    <input class="button button1" type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
 </form>
 
@@ -113,3 +113,4 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 <?php
 mysqli_free_result($Recordset1);
 ?>
+<html>
