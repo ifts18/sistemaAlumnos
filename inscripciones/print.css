@@ -1,13 +1,13 @@
 #customers {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+
 }
 
 #customers td, #customers th {
   border: 1px solid #ddd;
   padding: 8px;
-  
+  text-align: center;
   font-weight: bold;
 }
 
@@ -23,11 +23,33 @@
   color: white;
 }
 
+#customers-anidada {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+
+
+}
+
+#customers-anidada td, #customers-anidada th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+  padding: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 @media print {
 .noprint{
-display: none;
+  display: none;
 }
 }
 .quitar{
   display: none;
+}
+.name{
+  position:relative;
+  width:190;
+  overflow:auto"
 }

@@ -25,29 +25,33 @@
 
 #customers-anidada {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
   width: 100%;
+  border-collapse: collapse;
   display: none;
 }
 
 #customers-anidada td, #customers-anidada th {
   border: 1px solid #ddd;
-  padding: 8px;
+
   text-align: center;
   font-weight: bold;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: none;
 
 }
 
 #customers-anidada tr:nth-child(even){background-color: #f2f2f2;}
 
-#customers-anidada tr:hover {background-color: #ddd;}
+#customers-anidada tr:hover {background-color: #ddd; }
 
 #customers-anidada th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
   color: white;
+  display: none;
 }
 
 body {
@@ -74,4 +78,8 @@ h4{
 
 .button1 {
   border-radius: 14px;
+}
+
+.titulo{
+  display: none;
 }

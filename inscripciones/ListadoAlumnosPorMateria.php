@@ -168,54 +168,57 @@ $subjectDetails = getSubjectDetails($materia_id);
 
   </head>
   <body>
-    <div id="result">
-      <table id="customers">
-        <tbody>
-          <tr>
-            <td><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-            <td><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table id="customers">
-        <tbody>
-          <tr>
-            <td>DNI</td>
-            <td>Apellido y Nombre</td>
-            <td>
-              <table id="customers-anidada">
-                <tr>
-                  <td>Primer Parcial</td>
-                  <tr>
-                    <td>Calificación</td>
-                    <td>Recuperatorio</td>
-                  </tr>
-              </table>
-            </td>
-            <td>
-              <table id="customers-anidada">
-                <tr>
-                  <td>Segundo Parcial</td>
-                  <tr>
-                    <td>Calificación</td>
-                    <td>Recuperatorio</td>
-                  </tr>
-              </table>
-            </td>
-          </tr>
-        <?php asort($allowed_student);
-        foreach ($allowed_student as $student): ?>
+  <div id="result">
+    <table id="customers">
+      <tbody>
         <tr>
-          <td><h4><?php echo $student['DNI']; ?></h4></td>
-          <td><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
-          <td></td>
-          <td></td>
-          <td class="actions">
-            <BR>
-          <button class="quitarBtn quitar button button1" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
-          </td>
+          <td><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
+          <td><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
         </tr>
+      </tbody>
+    </table>
+
+  <table id="customers">
+    <tbody>
+      <td>DNI</td>
+      <td>
+        <div class="name">Apellido y Nombre</div>
+      </td>
+      <td>
+        <table  id="customers-anidada">
+          <tr>
+            <div class="titulo">Primer Parcial</div>
+            <tr>
+              <td>Calificación</td>
+              <td>Recuperatorio</td>
+            </tr>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table id="customers-anidada">
+          <tr>
+          <div class="titulo">Segundo Parcial</div>
+            <tr>
+              <td>Calificación</td>
+              <td>Recuperatorio</td>
+            </tr>
+          </tr>
+        </table>
+      </td>
+
+      <?php asort($allowed_student);
+      foreach ($allowed_student as $student): ?>
+      <tr>
+        <td><h4><?php echo $student['DNI']; ?></h4></td>
+        <td><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
+        <td id="customers-anidada"></td>
+        <td id="customers-anidada"></td>
+        <td class="actions">
+          <BR>
+        <button class="quitarBtn quitar button button1" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
+        </td>
+      </tr>
       <?php endforeach; ?>
       </tbody>
       </table>
@@ -225,12 +228,12 @@ $subjectDetails = getSubjectDetails($materia_id);
         <div class="noprint">
           <button class="button button1" type=button onClick="location.href='Direcciones.php'">Volver al menu principal</button>
           <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <button class="button button1" type="button" onClick="window.print()" href="style.css">Imprimir Listado De Presencia</button>
-          <button class="button button1" type="button" onClick="window.print()" href="print.css">Imprimir Listado Para Parciales</button>
+          <button class="button button1" type="button">Imprimir Listado De Presencia</button>
+          <button class="button button1" type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
         </div>
     </div>
 
-    <script>
+<script>
     $(document).ready(function(){
      $('.quitarBtn').each(function () {
        const $this = $(this);
@@ -247,8 +250,7 @@ $subjectDetails = getSubjectDetails($materia_id);
         });
       });
     });
-
-    </script>
+</script>
 
   </body>
 </html>
