@@ -158,8 +158,6 @@ function AddAlumnoFromResult($listado, $student) {
 
   // print_r($allowed_students); print_r($student);
   foreach($allowed_students as $allowed_student) {
-    print_r($allowed_student);
-    print_r($student);
     if ($allowed_student["IdAlumno"] == $student["IdAlumno"]) {
       $student_in_allowed_students = TRUE;
     }
