@@ -152,14 +152,30 @@ if(isset($_POST['id'])) {
   $allowed_student = DeleteAlumnoFromResult($allowed_student,$_POST['id']);
 }
 
-function AddAlumnoFromResult($listado, $datosAlumno) {
-  $result=array_diff($listado,$datosAlumno);
-  print_r($result);
+function AddAlumnoFromResult($listado, $student) {
+  $allowed_students = json_decode($_POST['listado'], true);
+  $student_in_allowed_students = FALSE;
+
+  // print_r($allowed_students); print_r($student);
+  foreach($allowed_students as $allowed_student) {
+    print_r($allowed_student);
+    print_r($student);
+    if ($allowed_student["IdAlumno"] == $student["IdAlumno"]) {
+      $student_in_allowed_students = TRUE;
+    }
+  }
+
+  if (!$student_in_allowed_students) {
+    $allowed_students[] = $student;
+  }
+
+  return $allowed_students;
 }
 
 if(isset($_POST['agregarAlumno'])) {;
-  //print_r($_POST);
-  AddAlumnoFromResult($allowed_student, $_POST);
+  $student = json_decode($_POST['agregarAlumno'], true);
+
+  $allowed_student = AddAlumnoFromResult($allowed_student, $student);
 }
 #print_r($allowed_student);
 $subjectDetails = getSubjectDetails($materia_id);
@@ -270,6 +286,8 @@ $subjectDetails = getSubjectDetails($materia_id);
 
       // agregar el alumno a la lista
       $("#actualidarDatos").submit(function( event ) {
+        event.preventDefault();
+        var modal = $(this);
         console.log(alumnoAAgregar);
         $.ajax({
           type: "POST",
@@ -279,7 +297,7 @@ $subjectDetails = getSubjectDetails($materia_id);
             $("#result").html(data);
           }
         });
-        event.preventDefault();
+        $("#dataAgregar").modal("hide").data("bs.modal", null );
       });
     });
 
