@@ -51,13 +51,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 ?>
 
 <?php
-
- $sql = sprintf("SELECT IdAlumno, DNI, Apellido, Nombre
- from alumnos where DNI = %s", GetSQLValueString($_GET['DNI'], "int"));
- $Recordset1 = mysqli_query(dbconnect(),$sql) or die(mysqli_error());
- $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
- $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
- if($row_Recordset1) {
+   $sql = sprintf("SELECT IdAlumno, DNI, Apellido, Nombre
+   from alumnos where DNI = %s", GetSQLValueString($_GET['DNI'], "int"));
+   $Recordset1 = mysqli_query(dbconnect(),$sql) or die(mysqli_error());
+   $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+   $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+   if($row_Recordset1) {
 ?>
   <input type="hidden" value="<?php echo $row_Recordset1['IdAlumno'] ?>" class="agregarAlumno_idAlumno" />
   <table style="width: 100%;" aria-describedby="table_info" role="grid"

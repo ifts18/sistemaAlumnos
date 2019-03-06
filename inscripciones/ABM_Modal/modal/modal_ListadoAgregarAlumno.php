@@ -19,12 +19,13 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
         <h4 class="modal-title" id="exampleModalLabel">Buscar Alumnos por DNI:</h4>
       </div>
       <div class="modal-body">
+        <div id="datos_error"></div>
           <div id="datos_ajax"></div>
           <input type="hidden" class="form-control" id="materia_id" name="materia_id">
 
           <div class="form-group">
             <label for="dni" class="control-label">DNI:</label>
-            <input type="text" class="form-control" id="dniBuscar" name="dni">
+            <input type="text" class="form-control" id="dniBuscar" name="dni" required>
           </div>
 
           <div id="alumnos_busqueda"></div>

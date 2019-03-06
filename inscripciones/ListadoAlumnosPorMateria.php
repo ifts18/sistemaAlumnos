@@ -238,33 +238,86 @@ $subjectDetails = getSubjectDetails($materia_id);
     </div>
 
     <script>
-    // eliminar alumno de la lista x id
     $(document).ready(function(){
       var alumnoAAgregar = {};
 
-     $('.quitarBtn').each(function () {
-       const $this = $(this);
-       $this.on('click', function(){
-         const studentId = $this.attr('data-alumno-id');
-         $.ajax({
-            url: 'ListadoAlumnosPorMateria.php',
-            type: 'POST',
-            data: 'id='+ studentId + '&materia=<?php echo $materia_id ?>' + '&listado=<?php echo json_encode($allowed_student) ?>',
-            success: function(data) {
-              $('#result').html(data);
-            }
-          });
-        });
-      });
+      $('#dataAgregar').on('hide.bs.modal', function(e)
+    {
+      console.log('asasassas',  $(this).parent())
+        $(this).parent().trigger('reset');
+        $(this).find('#alumnos_busqueda').empty();
+        $(this).find('#datos_error').empty();
+    }) ;
+
+      // eliminar alumno de la lista x id
+      $('.quitarBtn').each(function () {
+        const $this = $(this);
+        $this.on('click', function(){
+          const studentId = $this.attr('data-alumno-id');
+          $.ajax({
+             url: 'ListadoAlumnosPorMateria.php',
+             type: 'POST',
+             data: 'id='+ studentId + '&materia=<?php echo $materia_id ?>' + '&listado=<?php echo json_encode($allowed_student) ?>',
+             success: function(data) {
+               $('#result').html(data);
+             }
+           });
+         });
+       });
 
       // buscar alumno por dni en el modal
       $('#dataAgregar').on('show.bs.modal', function (event) {
-  		  var modal = $(this)
+  		  var modal = $(this);
+
   		  modal.find('.modal-title').text('Buscar alumno por DNI ');
+
+        const submitButton = modal.find('.btn-primary');
         modal.find('#materia_id').val(<?php echo $materia_id ?>);
-        var DNI = modal.find("#dniBuscar");
-        $(DNI).on('change', function(){
+
+        const listadoAlumnosJS = <?php echo json_encode($allowed_student) ?>;
+        let sarasa;
+        let error = false;
+
+        var DNI = modal.find('#dniBuscar');
+        let Agregarerror = modal.find('#datos_error');
+
+        $(DNI).on('change', function() {
           var valorABuscar = DNI.val();
+
+          // chequeo que el dni a agregar no exista en el listado
+          for( const alumno in Object.values(listadoAlumnosJS)) {
+            sarasa = Object.values(listadoAlumnosJS[alumno]).filter(pis => {
+            //  console.log(pis === valorABuscar, pis, valorABuscar)
+              return pis === valorABuscar
+            });
+
+            //console.log(sarasa)
+
+            if(sarasa.length > 0) {
+              const data = '<div class="alert alert-warning alert-dismissable">Alumno ya se encuentra en la lista</div>'
+              $('#datos_error').html(data);
+              error = true;
+              break;
+            } else if(error) {
+              console.log('asasas')
+              error = false;
+            }
+          }
+
+          if(error) {
+            submitButton.attr('disabled', 'disabled');
+          } else {
+            submitButton.removeAttr('disabled');
+            $('#datos_error').empty();
+          }
+
+          if(valorABuscar === '') {
+            Agregarerror.empty();
+            if(error) {
+              submitButton.removeAttr('disabled');
+            }
+          }
+
           $.ajax({
              url: 'ABM_Modal/ajax/agregarAlumnosListado_ajax.php',
              type: 'GET',
@@ -283,10 +336,10 @@ $subjectDetails = getSubjectDetails($materia_id);
   		});
 
       // agregar el alumno a la lista
-      $("#actualidarDatos").submit(function( event ) {
+      $('#actualidarDatos').submit(function( event ) {
         event.preventDefault();
         var modal = $(this);
-        console.log(alumnoAAgregar);
+
         $.ajax({
           type: "POST",
           url: "ListadoAlumnosPorMateria.php",
@@ -295,7 +348,9 @@ $subjectDetails = getSubjectDetails($materia_id);
             $("#result").html(data);
           }
         });
-        $("#dataAgregar").modal("hide").data("bs.modal", null );
+
+        modal.find('#datos_error').html('<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>¡Bien hecho!</strong></div>')
+
       });
     });
 
