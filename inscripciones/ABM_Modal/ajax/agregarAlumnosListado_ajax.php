@@ -51,12 +51,27 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 ?>
 
 <?php
+
+  //busco en la base el alumno por dni
    $sql = sprintf("SELECT IdAlumno, DNI, Apellido, Nombre
    from alumnos where DNI = %s", GetSQLValueString($_GET['DNI'], "int"));
    $Recordset1 = mysqli_query(dbconnect(),$sql) or die(mysqli_error());
    $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
    $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
-   if($row_Recordset1) {
+
+   $student_in_allowed_students = FALSE;
+
+   //si ya tengo un listado en memoria y un dni a agregar chequeo que no exista
+   if(isset($_SESSION["listado"]) && isset($_REQUEST["DNI"])) {
+     foreach($_SESSION["listado"] as $allowed_student) {
+       if ($allowed_student["DNI"] == $_REQUEST["DNI"]) {
+         $student_in_allowed_students = TRUE;
+       }
+     }
+   }
+
+
+   if($row_Recordset1 && !$student_in_allowed_students) {
 ?>
   <input type="hidden" value="<?php echo $row_Recordset1['IdAlumno'] ?>" class="agregarAlumno_idAlumno" />
   <table style="width: 100%;" aria-describedby="table_info" role="grid"
@@ -79,7 +94,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       </tr>
     <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));  ?>
     </tbody>
-</table>
+  </table>
+<?php } elseif ($student_in_allowed_students) { ?>
+  <div class="alert alert-warning alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4>Aviso!!!</h4> Alumno ya se encuentra en la lista
+  </div>
 <?php } else { ?>
 	<div class="alert alert-warning alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

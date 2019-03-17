@@ -240,11 +240,9 @@ function getSubjectDetails($id) {
       var alumnoAAgregar = {};
 
       $('#dataAgregar').on('hide.bs.modal', function(e){
-          console.log('asasassas',  $(this).parent())
+          //console.log('asasassas',  $(this).parent())
             $(this).parent().trigger('reset');
             $(this).find('#alumnos_busqueda').empty();
-            $(this).find('#datos_error').empty();
-            $('.modal-backdrop').remove();
         }) ;
 
       //obtengo listado inicial de alumnos que pueden cursar
@@ -290,21 +288,33 @@ function getSubjectDetails($id) {
              type: 'GET',
              data: 'DNI='+ valorABuscar,
              success: function(data) {
-               var lala = {};
+               var tempDatos = {};
                $('#alumnos_busqueda').html(data);
-               lala['IdAlumno'] = modal.find('.agregarAlumno_idAlumno').val();
-               lala['DNI'] = modal.find('.agregarAlumno_dni').text().trim();
-               lala['Apellido'] = modal.find('.agregarAlumno_apellido').text().trim();
-               lala['Nombre'] = modal.find('.agregarAlumno_nombre').text().trim();
-               alumnoAAgregar = lala;
+               tempDatos['IdAlumno'] = modal.find('.agregarAlumno_idAlumno').val();
+               tempDatos['DNI'] = modal.find('.agregarAlumno_dni').text().trim();
+               tempDatos['Apellido'] = modal.find('.agregarAlumno_apellido').text().trim();
+               tempDatos['Nombre'] = modal.find('.agregarAlumno_nombre').text().trim();
+               alumnoAAgregar = tempDatos;
              }
            });
         });
       });
 
-      //falta hacer chequeo de si esta en la lista y mostrar error del lado de <?php  ?>
-      //falta accion de botton agregar (dado que no haya error antes)
-
+      //agregar el alumno a la lista
+      $('#actualidarDatos').submit(function( event ) {
+        event.preventDefault();
+        var modal = $(this);
+        $.ajax({
+          type: "POST",
+          url: "./ABM_Modal/ajax/alumnosListado_ajax.php",
+          data: {'action': 'agregar', 'materia': <?php echo $materia_id ?>, 'agregarAlumno': alumnoAAgregar},
+          success: function(data){
+            //console.log(data)
+            $("#listado").html(data);
+          }
+        });
+        modal.find('#datos_error').html('<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Alumno Agregado</strong></div>')
+      });
 
     });
 

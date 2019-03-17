@@ -21,8 +21,8 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 
 <?php
 
-	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
-	if($action == 'ajax'){
+	$action = (isset($_REQUEST["action"])&& $_REQUEST["action"] !=NULL)?$_REQUEST["action"]:'';
+	if($action == "ajax"){
 		$reload = 'Equivalencias.php';
 		//consulta principal para recuperar los datos
 
@@ -91,7 +91,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       return $has_correlatives;
       }
 
-    $materia_id = $_REQUEST['materia'];
+    $materia_id = $_REQUEST["materia"];
     $subject = getSubject($materia_id);
     $subject_correlatives = getSubjectCorrelatives($subject);
 
@@ -106,8 +106,8 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
         }
       }
 
-    if(isset($_SESSION['listado'])) {
-      $_SESSION['listado'] = $allowed_student;
+    if(isset($_SESSION["listado"])) {
+      $_SESSION["listado"] = $allowed_student;
     }
 
     #print_r($allowed_student);
@@ -136,10 +136,10 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
             </div>
 			<?php
 		}
-	} elseif ($action == 'borrar') {
+	} elseif ($action == "borrar") {
     function DeleteAlumnoFromResult($listado, $id) {
       foreach ($listado as $key => $val) {
-        if ($val['IdAlumno'] === $id) {
+        if ($val["IdAlumno"] === $id) {
           unset($listado[$key]);
         }
       }
@@ -147,65 +147,66 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
     }
 
     if(isset($_REQUEST['id'])) {
-      $_SESSION['listado'] = DeleteAlumnoFromResult($_SESSION['listado'],$_REQUEST['id']);
+      $_SESSION["listado"] = DeleteAlumnoFromResult($_SESSION["listado"],$_REQUEST['id']);
     }
 
-    if ($_SESSION['listado']) {
-      asort($_SESSION['listado']);
-      foreach ($_SESSION['listado'] as $student): ?>
+    if ($_SESSION["listado"]) {
+      foreach ($_SESSION["listado"] as $student): ?>
       <tr>
-        <td width="500"> <?php echo '<pre>' . print_r($_SESSION['listado']) . '</pre>'; ?></td>
-        <td width="150"  align="center"><h4><?php echo $student['DNI']; ?></h4></td>
-        <td width="400"  align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
+        <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
+        <td width="400"  align="center"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
         <td idth="700" align="center"><h4></h4></td>
         <td width="100" align="center" class="actions">
           <BR>
-        <button class="quitarBtn" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
+        <button class="quitarBtn" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
     <?php endforeach;
 
 		}
-  } elseif ($action == 'agregar') {
-    function AddAlumnoFromResult($listado, $student) {
-      $allowed_students = $listado;
-      $student_in_allowed_students = FALSE;
+  } elseif ($action == "agregar") {
+    $student_in_allowed_students = FALSE;
+      // se supone que el alert ya salio antes en caso de ser duplicado
 
-      // print_r($allowed_students); print_r($student);
-      foreach($allowed_students as $allowed_student) {
-        if ($allowed_student["IdAlumno"] == $student["IdAlumno"]) {
+      foreach($_SESSION["listado"] as $allowed_student) {
+        if ($allowed_student["IdAlumno"] == $_REQUEST["agregarAlumno"]["IdAlumno"]) {
           $student_in_allowed_students = TRUE;
         }
       }
 
       if (!$student_in_allowed_students) {
-        $allowed_students[] = $student;
+        $_SESSION["listado"][] = $_REQUEST["agregarAlumno"];
       }
 
-      return $allowed_students;
-    }
 
-    if(isset($_REQUEST['agregarAlumno'])) {;
-      $student = $_REQUEST['agregarAlumno'];
-
-      $_SESSION['listado'] = AddAlumnoFromResult($_SESSION['listado'], $student);
-    }
-
-    if ($_SESSION['listado']) {
-      asort($_SESSION['listado']);
-      foreach ($_SESSION['listado'] as $student): ?>
+    if ($student_in_allowed_students === FALSE) {
+      asort($_SESSION["listado"]);
+      foreach ($_SESSION["listado"] as $student): ?>
       <tr>
-        <td width="500"> <?php echo '<pre>' . print_r($_SESSION['listado']) . '</pre>'; ?></td>
-        <td width="150"  align="center"><h4><?php echo $student['DNI']; ?></h4></td>
-        <td width="400"  align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
+        <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
+        <td width="400"  align="center"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
         <td idth="700" align="center"><h4></h4></td>
         <td width="100" align="center" class="actions">
           <BR>
-        <button class="quitarBtn" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
+        <button class="quitarBtn" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
     <?php endforeach;
 
-		}
-  }
+  } else {
+    asort($_SESSION["listado"]);
+    foreach ($_SESSION["listado"] as $student): ?>
+    <tr>
+      <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
+      <td width="400"  align="center"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
+      <td idth="700" align="center"><h4></h4></td>
+      <td width="100" align="center" class="actions">
+        <BR>
+      <button class="quitarBtn" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
+      </td>
+    </tr>
+  <?php endforeach;
+   }
+}
+
 ?>
