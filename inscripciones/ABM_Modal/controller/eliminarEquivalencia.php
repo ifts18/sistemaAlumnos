@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-// verify that the user is admin 
+// verify that the user is admin
 if ($_SESSION['MM_UserGroup'] != 'Admin') {
     die("No cuenta con permisos suficientes");
 }
@@ -23,15 +23,15 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 	 if (empty($_POST['idAlumnoEquivalencia'])){
 			$errors[] = "ID vacío";
 		}   else if (
-			!empty($_POST['idAlumnoEquivalencia']) 
-			
+			!empty($_POST['idAlumnoEquivalencia'])
+
 		){
 
 		// escaping, additionally removing everything that could be (html/javascript-) code
 		$id_equivalencia=intval($_POST['idAlumnoEquivalencia']);
                 $alumno=mysqli_real_escape_string(dbconnect(),(strip_tags($_POST["alumno"],ENT_QUOTES)));
 		$materia=mysqli_real_escape_string(dbconnect(),(strip_tags($_POST["materia"],ENT_QUOTES)));
-		
+
 		$sqlDelete="DELETE FROM alumno_equivalencias WHERE idAlumnoEquivalencia='".$id_equivalencia."' ";
 		$query_delete = mysqli_query(dbconnect(),$sqlDelete);
 			if ($query_delete){
@@ -39,7 +39,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 			} else{
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}
-                $sqlUpdate= "UPDATE alumno_materias SET EsEquivalencia = 0 WHERE IdAlumno ='".$alumno."' AND IdMateriaPlan = '".$materia."'";        
+                $sqlUpdate= "UPDATE alumno_materias SET EsEquivalencia = 0, FechaFirma = NULL WHERE IdAlumno ='".$alumno."' AND IdMateriaPlan = '".$materia."'";
                 $query_delete = mysqli_query(dbconnect(),$sqlUpdate);
 			if ($query_delete){
 				$messages[] = "Los datos han sido eliminados satisfactoriamente.";
@@ -49,13 +49,13 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 		} else {
 			$errors []= "Error desconocido.";
 		}
-		
+
 		if (isset($errors)){
-			
+
 			?>
 			<div class="alert alert-danger" role="alert">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<strong>Error!</strong> 
+					<strong>Error!</strong>
 					<?php
 						foreach ($errors as $error) {
 								echo $error;
@@ -65,7 +65,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 			<?php
 			}
 			if (isset($messages)){
-				
+
 				?>
 				<div class="alert alert-success" role="alert">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -79,4 +79,4 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 				<?php
 			}
 
-?>	
+?>

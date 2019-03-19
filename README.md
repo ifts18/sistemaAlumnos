@@ -44,19 +44,9 @@ Las tareas se ven en la solapa Projects en github. Cada proyecto es un board. De
 
 ### :two: Buenas Practicas
 
-Previo a 2018 el codigo del sistema es "spaghetti":spaghetti:, codigo legacy sin documentación. A partir del 2018 nos enfocaremos en mantenerlo lo más claro y reusable posible. Esto se hará en etapas.
-
--Documentación: Cada funcion/query/objeto creado deberá indicar su proposito de uso. Si existe alguna particularidad en el codigo/ bug conocido o simil deberá incluirse descripción.  
-
--Estilos: Se empezará a migrar los estilos a hojas externas, evitando a toda costa los estilos inline. Los estilos deberán usar nombres de clases acordes. En el futuro se implementará un linter para mantener el css dentro de los estandares de CSS de Google.
-
--HTML: Se migrará progresivamente a HTML5. En el futuro se implementará un linter para mantener el css dentro de los estandares de HTML de Google.
-
--JS: Deberá ser examinado. Debe estar en archivo separado no inline. En el futuro se implementará un linter para mantener el css dentro de los estandares de JS de Google.
-
--PHP: Se migrará a usar templating para reducir la repetición de código.
-
-
+Tratar de documentar las funciones (pensá en el que viene después que vos :pray:)
+Evita hardcodeos
+Usa nombres de variables y funciones acordes
 
 ### :three: Base De datos
 
