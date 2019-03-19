@@ -117,7 +117,6 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       asort($allowed_student);
       foreach ($allowed_student as $student): ?>
       <tr>
-        <td width="500"> <?php echo '<pre>' . print_r($allowed_student) . '</pre>'; ?></td>
         <td width="150"  align="center"><h4><?php echo $student['DNI']; ?></h4></td>
         <td width="400"  align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
         <td idth="700" align="center"><h4></h4></td>
@@ -168,14 +167,16 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
     $student_in_allowed_students = FALSE;
       // se supone que el alert ya salio antes en caso de ser duplicado
 
-      foreach($_SESSION["listado"] as $allowed_student) {
-        if ($allowed_student["IdAlumno"] == $_REQUEST["agregarAlumno"]["IdAlumno"]) {
-          $student_in_allowed_students = TRUE;
+      if(isset($_REQUEST["agregarAlumno"]) && isset($_REQUEST["agregarAlumno"]["IdAlumno"])) {
+        foreach($_SESSION["listado"] as $allowed_student) {
+          if ($allowed_student["IdAlumno"] == $_REQUEST["agregarAlumno"]["IdAlumno"]) {
+            $student_in_allowed_students = TRUE;
+          }
         }
-      }
 
-      if (!$student_in_allowed_students) {
-        $_SESSION["listado"][] = $_REQUEST["agregarAlumno"];
+        if (!$student_in_allowed_students) {
+          $_SESSION["listado"][] = $_REQUEST["agregarAlumno"];
+        }
       }
 
 
@@ -183,6 +184,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       asort($_SESSION["listado"]);
       foreach ($_SESSION["listado"] as $student): ?>
       <tr>
+        <!-- <td width="150"  align="center"><h4><?php //print_r($_REQUEST["agregarAlumno"]); ?></h4></td> -->
         <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
         <td width="400"  align="center"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
         <td idth="700" align="center"><h4></h4></td>

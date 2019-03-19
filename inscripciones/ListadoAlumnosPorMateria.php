@@ -55,127 +55,8 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-// function getSubject($id) {
-//   $query = "select * from terciario.materias_plan where IdMateria={$id}";
-//   $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error(dbconnect()));
-//   $subject = mysqli_fetch_assoc($recordset);
-//   return $subject;
-// }
-//
-// function getSubjectDetails($id) {
-//   $query = "select * from terciario.materias where IdMateria={$id}";
-//   $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error(dbconnect()));
-//   $subjectDetails = mysqli_fetch_assoc($recordset);
-//   return $subjectDetails;
-// }
-//
-// function getSubjectCorrelatives($subject) {
-//   $correlatives = [];
-//
-//   $query = "select * from terciario.correlativas
-//             where (IdMateriaPlan={$subject['IdMateriaPlan']})";
-//   $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
-//   $result = mysqli_fetch_all($recordset, MYSQLI_ASSOC);
-//
-//   foreach($result as $correlative_result) {
-//     array_push($correlatives, getSubject($correlative_result['IdCorrelativa']));
-//   }
-//
-//   return $correlatives;
-// }
-//
-// function getStudents() {
-//   $query_students = "select Apellido, Nombre, DNI, IdAlumno from terciario.alumnos";
-//   $recordset_students = mysqli_query(dbconnect(),$query_students) or die(mysqli_error());
-//   $students = mysqli_fetch_all($recordset_students, MYSQLI_ASSOC);
-//
-//   return $students;
-// }
-//
-// function studentHasSign($student, $subject) {
-//   $hasSign = False;
-//
-//   $query = "select * from terciario.alumno_materias
-//             where (IdAlumno={$student['IdAlumno']} and IdMateriaPlan={$subject['IdMateriaPlan']})";
-//   $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
-//   $result = mysqli_fetch_assoc($recordset);
-//
-//   if (isset($result['FechaFirma'])) {
-//     $hasSign = True;
-//   }
-//
-//   return $hasSign;
-// }
-//
-// function studentHasCorrelatives($student, $subject_correlatives) {
-//   $has_correlatives = True;
-//
-//   foreach($subject_correlatives as $correlative) {
-//     if (!studentHasSign($student, $correlative)) {
-//       $has_correlatives = False;
-//       break;
-//     }
-//   }
-//
-//   return $has_correlatives;
-//   }
-//
+
  $materia_id = $_POST['materia'];
-// $subject = getSubject($materia_id);
-// $subject_correlatives = getSubjectCorrelatives($subject);
-//
-// if(!isset($_POST['listado'])) {
-//   $allowed_student =[];
-//
-//   foreach (getStudents() as $student) {
-//     if (!studentHasSign($student, $subject) and
-//       studentHasCorrelatives($student, $subject_correlatives)) {
-//
-//       array_push($allowed_student, $student);
-//     }
-//   }
-// }
-//
-// if(isset($_POST['listado'])) {
-//   $allowed_student = json_decode($_POST['listado'], true);
-// }
-//
-// function DeleteAlumnoFromResult($listado, $id) {
-//   foreach ($listado as $key => $val) {
-//     if ($val['IdAlumno'] === $id) {
-//       unset($listado[$key]);
-//     }
-//   }
-//   return $listado;
-// }
-// if(isset($_POST['id'])) {
-//   $allowed_student = DeleteAlumnoFromResult($allowed_student,$_POST['id']);
-// }
-//
-// function AddAlumnoFromResult($listado, $student) {
-//   $allowed_students = json_decode($_POST['listado'], true);
-//   $student_in_allowed_students = FALSE;
-//
-//   // print_r($allowed_students); print_r($student);
-//   foreach($allowed_students as $allowed_student) {
-//     if ($allowed_student["IdAlumno"] == $student["IdAlumno"]) {
-//       $student_in_allowed_students = TRUE;
-//     }
-//   }
-//
-//   if (!$student_in_allowed_students) {
-//     $allowed_students[] = $student;
-//   }
-//
-//   return $allowed_students;
-// }
-//
-// if(isset($_POST['agregarAlumno'])) {;
-//   $student = json_decode($_POST['agregarAlumno'], true);
-//
-//   $allowed_student = AddAlumnoFromResult($allowed_student, $student);
-// }
-// #print_r($allowed_student);
 
 // obtengo los datos de la materia solamente
  $subjectDetails = getSubjectDetails($materia_id);
@@ -243,6 +124,7 @@ function getSubjectDetails($id) {
           //console.log('asasassas',  $(this).parent())
             $(this).parent().trigger('reset');
             $(this).find('#alumnos_busqueda').empty();
+            $(this).find('#datos_error').empty();
         }) ;
 
       //obtengo listado inicial de alumnos que pueden cursar
@@ -271,7 +153,6 @@ function getSubjectDetails($id) {
 
       // buscar alumno por dni en el modal
       $('#dataAgregar').on('show.bs.modal', function (event) {
-        console.log(event)
         var modal = $(this);
         modal.find('.modal-title').text('Buscar alumno por DNI ');
         const submitButton = modal.find('.btn-primary');
