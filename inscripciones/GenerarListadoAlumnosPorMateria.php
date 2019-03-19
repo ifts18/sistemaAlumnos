@@ -1,15 +1,22 @@
 <?php require_once('Connections/MySQL.php'); ?>
 <?php
+
+//
+//
+//***para generar listado de presentismo y la de finales***
+//
+//
+
 //initialize the session
 if (!isset($_SESSION)) {
   session_start();
 }
 
 // verify that the user is admin
-
 if ($_SESSION['MM_UserGroup'] != 'Admin') {
     die("No cuenta con permisos suficientes");
 }
+
 // ** Logout the current user. **
 $logoutAction = $_SERVER['PHP_SELF']."?doLogout=true";
 if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
@@ -24,7 +31,9 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   if (PHP_VERSION < 6) {
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
+
   $theValue = function_exists("mysqli_real_escape_string") ? mysqli_real_escape_string(dbconnect(), $theValue) : mysqli_escape_string(dbconnect(), $theValue);
+
   switch ($theType) {
     case "text":
       $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
@@ -46,77 +55,58 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 }
-if (!isset($_SESSION['MM_Username']))
-    {
-        header("Location: " .$MM_Redirigir);
 
-    }
-    else
-        {
-//mysql_select_db($database_MySQL, $MySQL);
-$par1 = $_SESSION['MM_Username'];
+//mysql_select_db($database_MySQL, $MySQL) ;
 $query_Recordset1 = "select
-                            mf.IdMesaFinal,  m.Descripcion , mf.FechaMesa , count(*) as Inscriptos
-                    from terciario.mesas_final mf
-                                    inner join terciario.materias_plan mp on mp.IdMateriaPlan = mf.IdMateriaPlan
-                                    inner join terciario.materias m on m.IdMateria = mp.IdMateria
-                                    inner join terciario.mesa_final_alumno mfa on mfa.IdMesaFinal = mf.IdMesaFinal
-                    where mf.Abierta = 1
-                    group by mf.IdMesaFinal,  m.Descripcion , mf.FechaMesa
-                    ORDER BY mf.IdMesaFinal desc, m.descripcion asc,mf.fechaMesa desc;";
+                    IdMateria, CodigoMateria , Descripcion
+                    from terciario.materias";
+
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 ?>
 
+
+
 <table width="1000" border="1" align="center">
   <tbody>
     <tr>
-      <td width="604" align="center" ><h1> IFTS18 - Inscriptos en mesas de Final </h1></td>
-      <td width="480" align="center"><h2>Admin:<?php print $_SESSION['ApeNom'] ?>&nbsp;</h2></td>
+      <td width="604" align="center" ><h1> IFTS18 - Generar listado por Materia </h1></td>
     </tr>
   </tbody>
 </table>
-
-
-<form method="post" action="ListarAlumnosMesasFinales2.php" style="padding-bottom: 60px;">
-
-<table width="1103" border="1" align="center">
+<form method="post" name="selectMateria" action="ListadoAlumnosPorMateria.php" style="padding-bottom: 60px;">
+<table width="1103" border="1"align="center">
   <tbody>
     <tr>
-      <td width="100" align="center">Mesa</td>
-      <td width="100" align="center">Materia</td>
-      <td width="100" align="center">Fecha</td>
-      <td width="100" align="center">Alumnos Inscriptos</td>
-
+      <td width="100" align="center">ID Materia</td>
+      <td width="100" align="center">Codigo Materia</td>
+      <td width="100" align="center">Nombre</td>
     </tr>
-    <?php do { ?>
-  <tr>
-    <td align="center" <h4> <?php echo $row_Recordset1['IdMesaFinal']; ?></h4></td>
-    <td align="center" <h4> <?php echo $row_Recordset1['Descripcion']; ?></h4></td>
-    <td align="center" <h4> <?php echo $row_Recordset1['FechaMesa']; ?></h4></td>
-    <td align="center" <h4> <?php echo $row_Recordset1['Inscriptos']; ?></h4></td>
+<?php do { ?>
+    <tr>
+      <td align="center" <h4> <?php echo $row_Recordset1['IdMateria']; ?> </h4></td>
+      <td align="center" <h4> <?php echo $row_Recordset1['CodigoMateria']; ?> </h4></td>
+      <td align="center" <h4> <?php echo $row_Recordset1['Descripcion']; ?> </h4></td>
+      <td>
+      <br><br>
 
-    <td
-    <br><br>
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdMesaFinal']?>" value="0" checked="checked">No listar
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdMesaFinal']?>" value="1">Listar
-    </td>
-  </tr>
+          <input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar
+
+
+      </td>
+    </tr>
   <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
-  //var_dump($_POST);
+  echo $row_Recordset1;
   ?>
   </tbody>
 </table>
 
-
 <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
-
     <BR>
     <input type="submit" />
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
-
 </form>
 
 
