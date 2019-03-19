@@ -214,8 +214,8 @@ $subjectDetails = getSubjectDetails($materia_id);
       <tr>
         <td><h4><?php echo $student['DNI']; ?></h4></td>
         <td><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
-        <td class="espacio-1"></td>
-        <td class="espacio-2"></td>
+        <td class="esconder"></td>
+        <td class="columna"></td>
         <td class="actions">
           <BR>
         <button class="quitarBtn quitar button button1" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
@@ -238,8 +238,9 @@ $subjectDetails = getSubjectDetails($materia_id);
 <script>
     function imprimirHoja(){
       var elemento = document.getElementById("printable-table")
-        elemento.class.add("print")
+        elemento.classList.add("print")
         window.print()
+        elemento.classList.remove("print")
     }
 
     $(document).ready(function(){

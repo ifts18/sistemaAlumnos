@@ -4,7 +4,7 @@
   display: none;
 }
 
-.quitar{
+.quitar, .print .esconder{
   display: none;
 }
 .name{
@@ -14,30 +14,27 @@
 }
 
 
-.customers {
+#printable-table.print .customers {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
 
 }
 
 #customers td, #customers th {
-  border: 1px solid red;
+  border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
 
 }
-.customers-anidada {
+#printable-table.print #customers-anidada {
   display: none;
 }
-.titulo{
+#printable-table.print .titulo{
   display: none;
 }
-.title{
+#printable-table.print .title{
   display: none;
 }
-.columna{
+#printable-table.print .columna{
   width: 100%;
-}
-.body{
-  background-color:  red;
 }
