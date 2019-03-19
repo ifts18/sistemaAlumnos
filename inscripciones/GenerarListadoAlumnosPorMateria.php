@@ -71,7 +71,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
 </head>
 
-<table id=customers>
+<table class="printcustomers">
   <tbody>
     <tr>
       <td><h1> IFTS18 - Generar listado por Materia </h1></td>
@@ -79,7 +79,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   </tbody>
 </table>
 <form method="post" name="selectMateria" action="ListadoAlumnosPorMateria.php" style="padding-bottom: 60px;">
-<table id=customers>
+<table class="printcustomers">
   <tbody>
     <tr>
       <td>ID Materia</td>

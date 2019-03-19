@@ -165,27 +165,29 @@ $subjectDetails = getSubjectDetails($materia_id);
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="print-presencia.css" type="text/css" media="print" />
 
   </head>
   <body>
   <div id="result">
-    <table id="customers">
+    <table class="customers-header">
       <tbody>
         <tr>
-          <td><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
+          <td class="title"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
           <td><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
         </tr>
       </tbody>
     </table>
 
-  <table id="customers">
+  <table class="printcustomers" id="printable-table">
     <tbody>
       <td>DNI</td>
       <td>
         <div class="name">Apellido y Nombre</div>
       </td>
+      </td>
       <td>
-        <table  id="customers-anidada">
+        <table id="customers-anidada">
           <tr>
             <div class="titulo">Primer Parcial</div>
             <tr>
@@ -212,8 +214,8 @@ $subjectDetails = getSubjectDetails($materia_id);
       <tr>
         <td><h4><?php echo $student['DNI']; ?></h4></td>
         <td><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
-        <td id="customers-anidada"></td>
-        <td id="customers-anidada"></td>
+        <td class="espacio-1"></td>
+        <td class="espacio-2"></td>
         <td class="actions">
           <BR>
         <button class="quitarBtn quitar button button1" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
@@ -228,12 +230,18 @@ $subjectDetails = getSubjectDetails($materia_id);
         <div class="noprint">
           <button class="button button1" type=button onClick="location.href='Direcciones.php'">Volver al menu principal</button>
           <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <button class="button button1" type="button">Imprimir Listado De Presencia</button>
+          <button class="button button1" type="button" onclick="imprimirHoja()" >Imprimir Listado De Presencia</button>
           <button class="button button1" type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
         </div>
     </div>
 
 <script>
+    function imprimirHoja(){
+      var elemento = document.getElementById("printable-table")
+        elemento.class.add("print")
+        window.print()
+    }
+
     $(document).ready(function(){
      $('.quitarBtn').each(function () {
        const $this = $(this);

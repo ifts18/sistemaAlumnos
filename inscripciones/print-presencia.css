@@ -1,0 +1,43 @@
+
+@media print {
+.noprint{
+  display: none;
+}
+
+.quitar{
+  display: none;
+}
+.name{
+  position:relative;
+  width:190;
+  overflow:auto"
+}
+
+
+.customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+
+}
+
+#customers td, #customers th {
+  border: 1px solid red;
+  padding: 8px;
+  text-align: center;
+
+}
+.customers-anidada {
+  display: none;
+}
+.titulo{
+  display: none;
+}
+.title{
+  display: none;
+}
+.columna{
+  width: 100%;
+}
+.body{
+  background-color:  red;
+}

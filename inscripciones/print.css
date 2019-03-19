@@ -1,55 +1,31 @@
-#customers {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
 
-}
-
-#customers td, #customers th {
+.printcustomers td, .printcustomers th {
   border: 1px solid #ddd;
-  padding: 8px;
   text-align: center;
-  font-weight: bold;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
-}
-
-#customers-anidada {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-
+  font-size: 26px;
 
 }
 
 #customers-anidada td, #customers-anidada th {
   border: 1px solid #ddd;
-  padding: 8px;
   text-align: center;
-  font-weight: bold;
-  padding: 40px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  font-size: 26px;
 }
 
 @media print {
 .noprint{
   display: none;
 }
-}
+
 .quitar{
   display: none;
 }
 .name{
   position:relative;
-  width:190;
-  overflow:auto"
+  width:200px;
+  overflow:auto;
+}
+
+.title{
+  display: none;
 }

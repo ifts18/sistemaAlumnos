@@ -1,21 +1,24 @@
-#customers {
+.customers-header {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
+.printcustomers{
+  width: 100%;
+}
 
-#customers td, #customers th {
+.printcustomers td, .printcustomers th {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
   font-weight: bold;
 }
 
-#customers tr:nth-child(even){background-color: #f2f2f2;}
+.printcustomers tr:nth-child(even){background-color: #f2f2f2;}
 
-#customers tr:hover {background-color: #ddd;}
+.printcustomers tr:hover {background-color: #ddd;}
 
-#customers th {
+.printcustomers th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
@@ -30,7 +33,7 @@
   display: none;
 }
 
-#customers-anidada td, #customers-anidada th {
+.customers-anidada td, .customers-anidada th {
   border: 1px solid #ddd;
 
   text-align: center;
@@ -46,7 +49,7 @@
 
 #customers-anidada tr:hover {background-color: #ddd; }
 
-#customers-anidada th {
+.customers-anidada th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
