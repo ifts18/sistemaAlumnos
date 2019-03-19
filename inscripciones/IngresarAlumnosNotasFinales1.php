@@ -148,9 +148,9 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 								<?php echo $row_Recordset2['Nombre']; ?>								</td>
 
                                 <td><input type="radio" name="Presente<?php echo $row_Recordset2['IdMesaFinalAlumno']?>"
-                                  <?php if ($row_Recordset2['Ausente'] === '1') {?>checked="checked"<?php } echo $row_Recordset2['Ausente'] ?> value="1" >Ausente
+                                  <?php if ($row_Recordset2['Ausente'] === '1') {?>checked="checked"<?php } ?> value="1" >Ausente
                                 <input type="radio" name="Presente<?php echo $row_Recordset2['IdMesaFinalAlumno']?>" value="0"
-                                <?php if ($row_Recordset2['Ausente'] === '0') {?>checked="checked"<?php } echo $row_Recordset2['Ausente'] ?>> Presente</td>
+                                <?php if ($row_Recordset2['Ausente'] === '0') {?>checked="checked"<?php } ?> > Presente</td>
                                 <td><input style="text-align:center;" type="number" maxlength="2"  onKeyUp="if(this.value>10){this.value='10';}" name="Nota<?php echo $row_Recordset2['IdMesaFinalAlumno']?>" value="<?php echo $row_Recordset2['Nota']?>"></td>
 
                             <tr>
