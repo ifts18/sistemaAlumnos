@@ -81,10 +81,10 @@ for ( $numero = 1; $numero<$_POST['UltimoNumero']; $numero++) {
 
           $par2 = $_POST['Nota'.$row_Recordset2['IdMesaFinalAlumno']];
 
-          if (empty($par2) || $par2 === 0) {
+          if (empty($par2) || $par2 === 0 || $par0 == 1) {
             $par2 = "NULL";
           }
-          if (!empty($par2) && $par2 >=1 && $par2 <=3)
+          if (empty($par2) || $par2 >=0 && $par2 <=3)
           {
               $par1 = '0';
           }
@@ -93,8 +93,11 @@ for ( $numero = 1; $numero<$_POST['UltimoNumero']; $numero++) {
               $par1 = '1';
           }
 
+          if(empty($par2) && $par0 == 0 || $par2 == 0 && $par0 == 0) {
+            $par0 = '1';
+          }
+
           $par3 = $row_Recordset2['IdMesaFinalAlumno'];
-          $par4 = $row_Recordset2['IdMesaFinal'];
 
           mysqli_query(dbconnect(),"UPDATE terciario.mesa_final_alumno SET Ausente = $par0, Procesada = 1, Aprobado = $par1, Nota =  $par2  WHERE IdMesaFinalAlumno = $par3") or printf('error', mysqli_error(dbconnect()));
 

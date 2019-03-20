@@ -1,0 +1,103 @@
+
+@media print {
+  .print-parcial {
+    display: table-cell;
+  }
+
+  .print-parcial table {
+    width: 100%;
+  }
+
+  .print-parcial table .titulo {
+    border-bottom: 1px solid #000;
+  }
+
+  .print-parcial table td + td {
+    border-left: 1px solid #000;
+  }
+
+  .print-parcial-col table {
+    width: 100%;
+    height: 40px;
+
+  }
+
+  .print-parcial-col table  td + td {
+    border-left: 1px solid #000;
+  }
+
+  .print-presencia {
+    display: none;
+  }
+
+  .print-presencia-col,
+  .print-presencia-col table{
+    display: none;
+  }
+
+  .noprint {
+    display: none;
+  }
+
+  .quitar, .print .esconder{
+    display: none;
+  }
+
+  .name{
+    position:relative;
+    width:190px;
+    overflow:auto"
+  }
+
+
+  .printable-text {
+    font-size: 16pt;
+  }
+
+  #printable-table.presencia .print-presencia {
+    display: table-cell;
+  }
+
+  #printable-table.presencia .print-presencia-col {
+    display: table-cell;
+  }
+
+  #printable-table.presencia .print-presencia-col table {
+    width: 100%;
+    height: 40px;
+    display: table;
+  }
+
+  #printable-table.presencia .print-presencia-col tr + tr {
+    border-top: 1px solid #000;
+  }
+
+  #printable-table.presencia .print-presencia-col table  td + td {
+    border-left: 1px solid #000;
+  }
+
+
+  #printable-table.presencia .print-parcial-col,
+  #printable-table.presencia .print-parcial-col table{
+    display: none;
+  }
+
+  .name{
+    position:relative;
+    width:190px;
+    overflow:auto;
+  }
+
+  #printable-table.presencia .print-parcial {
+    display: none;
+  }
+
+  .printable-text {
+    display: table-cell;
+  }
+
+  .printable-title {
+    font-size: 18pt;
+  }
+
+}
