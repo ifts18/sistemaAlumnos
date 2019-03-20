@@ -76,11 +76,12 @@ function getSubjectDetails($id) {
     <link href="ABM_Modal/css/bootstrap.min.css" rel="stylesheet">
     <link href="ABM_Modal/css/dataTables.bootstrap.css" rel="stylesheet">
     <link href="ABM_Modal/css/bootstrap-select.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?<?php echo time(); ?>" type="text/css" media="screen" />
+    <link rel="stylesheet" href="print.css?<?php echo time(); ?>" type="text/css" media="print"  id="printCss"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
     <script src="ABM_Modal/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="print.css" type="text/css" media="print"  id="printCss"/>
+
 
 
   </head>
@@ -89,16 +90,13 @@ function getSubjectDetails($id) {
 
     <div id="printable-table">
 
-      <table width="1000" border="1" align="center">
-        <tbody>
-          <tr>
-            <td width="604" align="center" class="noprint"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-            <td width="480" align="center" class="printable-text"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
-          </tr>
-        </tbody>
-      </table>
       <table width="1000" border="1" align="center" style="margin-bottom: 80px;" >
         <thead>
+          <tr>
+            <td width="604" colspan="2" align="center" class="noprint"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
+            <td width="480" colspan="2" align="center" class="noprint"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+            <td class="printable-text" colspan="4" align="center" ><h2 class="printable-title"><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+          </tr>
           <tr>
             <td width="150" align="center"><h4>DNI</h4></td>
             <td width="300" align="left" style="padding-left: 7px"><h4>Apellido y Nombre</h4></td>

@@ -2,6 +2,8 @@
 .print-parcial,
 .print-presencia,
 .print-parcial-col,
-.print-presencia-col  {
+.print-presencia-col,
+.printable-text .printable-title,
+.printable-text  {
   display: none;
 }

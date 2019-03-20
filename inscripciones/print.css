@@ -85,7 +85,7 @@
   .name{
     position:relative;
     width:190px;
-    overflow:auto"
+    overflow:auto;
   }
 
   #printable-table.presencia .print-parcial {
@@ -93,7 +93,11 @@
   }
 
   .printable-text {
-    font-size: 16pt;
+    display: table-cell;
+  }
+
+  .printable-title {
+    font-size: 18pt;
   }
 
 }

@@ -114,9 +114,11 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
     $subjectDetails = getSubjectDetails($materia_id);
 
 		if ($allowed_student) {
+      $_SESSION["listado"] = $allowed_student;
       asort($allowed_student);
       foreach ($allowed_student as $student): ?>
       <tr>
+        <!-- <td width="150"  align="center"><h4><?php var_dump($allowed_student); ?></h4></td> -->
         <td width="150"  align="center"><h4><?php echo $student['DNI']; ?></h4></td>
         <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
         <td width="700" align="center" class="noprint">
@@ -163,8 +165,10 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
     }
 
     if ($_SESSION["listado"]) {
+      asort($_SESSION["listado"]);
       foreach ($_SESSION["listado"] as $student): ?>
       <tr>
+        <!-- <td width="150"  align="center"><h4><?php var_dump($_SESSION["listado"]); ?></h4></td> -->
         <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
         <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
         <td width="700" align="center" class="noprint">
