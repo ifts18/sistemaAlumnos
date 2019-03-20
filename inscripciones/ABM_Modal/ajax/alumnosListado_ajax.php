@@ -118,9 +118,22 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       foreach ($allowed_student as $student): ?>
       <tr>
         <td width="150"  align="center"><h4><?php echo $student['DNI']; ?></h4></td>
-        <td width="400"  align="center"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
-        <td idth="700" align="center"><h4></h4></td>
-        <td width="100" align="center" class="actions">
+        <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
+        <td width="700" align="center" class="noprint">
+        </td>
+        <td width="700" align="center" class="print-presencia-col">
+          <table>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          </table>
+        </td>
+        <td width="200" align="center" class="print-parcial-col">
+          <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        </td>
+        <td width="200" align="center" class="print-parcial-col">
+          <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        </td>
+        <td width="100" align="center" class="actions noprint">
           <BR>
         <button class="quitarBtn" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
         </td>
@@ -153,9 +166,22 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       foreach ($_SESSION["listado"] as $student): ?>
       <tr>
         <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
-        <td width="400"  align="center"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
-        <td idth="700" align="center"><h4></h4></td>
-        <td width="100" align="center" class="actions">
+        <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
+        <td width="700" align="center" class="noprint">
+        </td>
+        <td width="700" align="center" class="print-presencia-col">
+          <table>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          </table>
+        </td>
+        <td width="200" align="center" class="print-parcial-col">
+          <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        </td>
+        <td width="200" align="center" class="print-parcial-col">
+          <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        </td>
+        <td width="100" align="center" class="actions noprint">
           <BR>
         <button class="quitarBtn" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
@@ -186,9 +212,22 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
       <tr>
         <!-- <td width="150"  align="center"><h4><?php //print_r($_REQUEST["agregarAlumno"]); ?></h4></td> -->
         <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
-        <td width="400"  align="center"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
-        <td idth="700" align="center"><h4></h4></td>
-        <td width="100" align="center" class="actions">
+        <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
+        <td width="700" align="center" class="noprint">
+        </td>
+        <td width="700" align="center" class="print-presencia-col">
+          <table>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          </table>
+        </td>
+        <td width="200" align="center" class="print-parcial-col">
+          <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        </td>
+        <td width="200" align="center" class="print-parcial-col">
+          <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        </td>
+        <td width="100" align="center" class="actions noprint">
           <BR>
         <button class="quitarBtn" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
@@ -200,9 +239,22 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
     foreach ($_SESSION["listado"] as $student): ?>
     <tr>
       <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
-      <td width="400"  align="center"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
-      <td idth="700" align="center"><h4></h4></td>
-      <td width="100" align="center" class="actions">
+      <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
+      <td width="700" align="center" class="noprint">
+      </td>
+      <td width="700" align="center" class="print-presencia-col">
+        <table>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </table>
+      </td>
+      <td width="200" align="center" class="print-parcial-col">
+        <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+      </td>
+      <td width="200" align="center" class="print-parcial-col">
+        <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+      </td>
+      <td width="100" align="center" class="actions noprint">
         <BR>
       <button class="quitarBtn" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
       </td>

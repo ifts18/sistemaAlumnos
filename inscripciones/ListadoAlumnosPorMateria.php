@@ -79,44 +79,75 @@ function getSubjectDetails($id) {
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
     <script src="ABM_Modal/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="print.css" type="text/css" media="print"  id="printCss"/>
+
 
   </head>
   <body>
     <?php include("ABM_Modal/modal/modal_ListadoAgregarAlumno.php");?>
 
-    <div id="result">
+    <div id="printable-table">
 
       <table width="1000" border="1" align="center">
         <tbody>
           <tr>
-            <td width="604" align="center" ><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-            <td width="480" align="center"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+            <td width="604" align="center" class="noprint"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
+            <td width="480" align="center" class="printable-text"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
           </tr>
         </tbody>
       </table>
-      <table width="1103" border="1" align="center" style="margin-bottom: 80px;">
+      <table width="1000" border="1" align="center" style="margin-bottom: 80px;" >
         <thead>
           <tr>
-            <td width="150" align="center">DNI</td>
-            <td width="300" align="center">Apellido y Nombre</td>
-            <td width="700" align="center"></td>
-            <td width="100" align="center"></td>
+            <td width="150" align="center"><h4>DNI</h4></td>
+            <td width="300" align="left" style="padding-left: 7px"><h4>Apellido y Nombre</h4></td>
+            <td class="noprint" width="700" align="center"></td>
+            <td class="noprint" width="100" align="center"></td>
+            <td class="print-parcial" align="center">
+              <table>
+                <tr><td align="center"  colspan="2" class="titulo">Primer Parcial</td></tr>
+                <tr>
+                  <td align="center">Calificación</td>
+                  <td align="center">Recuperatorio</td>
+                </tr>
+              </table>
+            </td>
+            <td align="center" class="print-parcial">
+              <table>
+                <tr><td align="center" colspan="2" class="titulo">Segundo Parcial</td></tr>
+                <tr>
+                  <td align="center">Calificación</td>
+                  <td align="center">Recuperatorio</td>
+                </tr>
+              </table>
+            </td>
+            <td class="print-presencia" align="center"><h4>Asistencias</h4></td>
           </tr>
         </thead>
         <tbody id="listado"></tbody>
       </table>
 
-      <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
+      <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
           <BR>
           <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
           <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
           <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataAgregar">
             <i class='glyphicon glyphicon-edit'></i> Agregar Alumno
           </button>
+          <button  class="btn btn-primary"  type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
+          <button  class="btn btn-primary"  type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
       </div>
     </div>
 
     <script>
+    function printPresencia(){
+      var elemento = document.getElementById("printable-table")
+        elemento.classList.add("presencia")
+        window.print()
+        elemento.classList.remove("presencia")
+    }
+
     $(document).ready(function(){
       var alumnoAAgregar = {};
 
