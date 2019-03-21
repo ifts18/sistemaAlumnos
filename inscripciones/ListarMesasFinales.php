@@ -123,3 +123,6 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 <?php
 mysqli_free_result($Recordset1);
 ?>
+<?php
+        }
+        ?>
