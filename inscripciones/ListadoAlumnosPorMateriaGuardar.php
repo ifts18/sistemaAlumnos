@@ -38,17 +38,27 @@ mysqli_report(MYSQLI_REPORT_ALL) ;
 $fecha = date('Y-m-d');
 $idMateria= (int)$_POST["IdMateria"];
 $idMateria = GetSQLValueString($idMateria, "int");
+
+$sqlUpdateListadoMateria = "UPDATE lista_materia SET fechaCicloLectivo = '$fecha' WHERE IdListaMateria = $idMateria";
 $sqlListadoMateria = "INSERT INTO lista_materia (IdListaMateria, fechaCicloLectivo) VALUES ($idMateria, '$fecha')";
+$sqlCheckListadoMateria = "SELECT * FROM lista_materia  WHERE IdListaMateria = $idMateria";
+//chequeo si la lista ya existe
+$Recordset1 = mysqli_query(dbconnect(),$sqlCheckListadoMateria) or die(mysqli_error(dbconnect()));
+$row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+if($row_Recordset1) {
+  if(!mysqli_query(dbconnect(),$sqlUpdateListadoMateria)) {
+    echo ('error al guardar lista'. mysqli_error(dbconnect()));
+  }
 
-if(!mysqli_query(dbconnect(),$sqlListadoMateria)) {
-  echo ('error al guardar lista'. mysqli_error(dbconnect()));
+
+} else {
+  //chequeo si agregar el id salió bien
+  if(!mysqli_query(dbconnect(),$sqlListadoMateria)) {
+    echo ('error al guardar lista'. mysqli_error(dbconnect()));
+  }
+
 }
-
-?>
-
-
-<?php
-
+//grabo en cada alumno_materia_id el id de la listaMateria
 foreach ($_SESSION["listado"] as $student) {
   $par1= $student["IdAlumno"];
 
@@ -56,7 +66,7 @@ foreach ($_SESSION["listado"] as $student) {
 }
 ?>
 
-<h1>Listado guardado con éxito </h1>
+<h1>Listado guardado con éxito <?php var_dump($row_Recordset1);?></h1>
 <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
     <BR>
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
