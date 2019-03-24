@@ -55,11 +55,17 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 <?php
 
 	$action = (isset($_REQUEST["action"])&& $_REQUEST["action"] !=NULL)?$_REQUEST["action"]:'';
+
 	if($action == "ajax"){
+    $allowed_student =[];
+
+    //para cargar desde base o cargar de 0 por correlativas
     $idMateria = GetSQLValueString($_REQUEST["materia"], "int");
     $sqlCheckListExist = "SELECT * FROM lista_materia WHERE IdListaMateria = '$idMateria'";
     $Recordset0 = mysqli_query(dbconnect(),$sqlCheckListExist) or die(mysqli_error(dbconnect()));
     $resultarr0 = mysqli_fetch_assoc($Recordset0);
+
+    //si la lista existe cargo los que esten asociados
     if($resultarr0) {
       $sqlSelectStudentsWithIdLista = "SELECT * from alumno_materias where IdListaMateria = '$idMateria'";
       $Recordset2 = mysqli_query(dbconnect(),$sqlSelectStudentsWithIdLista) or die(mysqli_error(dbconnect()));
@@ -73,9 +79,9 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       }
       mysqli_free_result($Recordset2);
       mysqli_free_result($Recordset0);
-
-    } else {
-  		//consulta principal para recuperar los datos
+    }
+    if(!$resultarr0) {
+      //sino cargo a todos los que esten habilitados (con correlativas las que tienen)
 
       function getSubject($id) {
         $query = "select * from terciario.materias_plan where IdMateria={$id}";
@@ -145,7 +151,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       $materia_id = $_REQUEST["materia"];
       $subject = getSubject($materia_id);
       $subject_correlatives = getSubjectCorrelatives($subject);
-      $allowed_student =[];
 
       foreach (getStudents() as $student) {
         if (!studentHasSign($student, $subject) and
@@ -168,7 +173,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       asort($allowed_student);
       foreach ($allowed_student as $student): ?>
       <tr>
-        <td width="150"  align="center"><h4><?php echo 'cola'; var_dump($student); ?></h4></td>
+        <!-- <td width="150"  align="center"><h4><?php //var_dump($student); ?></h4></td> -->
         <td width="150"  align="center"><h4><?php echo $student['DNI']; ?></h4></td>
         <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
         <td width="700" align="center" class="noprint">
@@ -194,13 +199,16 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 		} else {
 			?>
-			<div class="alert alert-warning alert-dismissable">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <tr><td colspan="4">
+			<div class="alert alert-warning ">
               <h4>Aviso!!!</h4> No hay datos para mostrar
+              <p>Puede agregar alumnos via el botón "Agregar Alumno"</p>
             </div>
+      </td></tr>
 			<?php
 		}
 	} elseif ($action == "borrar") {
+    //borra de la lista temporarea
     function DeleteAlumnoFromResult($listado, $id) {
       foreach ($listado as $key => $val) {
         if ($val["IdAlumno"] === $id) {
@@ -210,7 +218,19 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       return $listado;
     }
 
+    //agrego a array para borrarlo en la base si es que ya tenia listado
+    function DeleteAlumnoFromDBList($listado, $id) {
+      foreach ($listado as $key => $val) {
+        if ($val["IdAlumno"] === $id) {
+          return $listado[$key];
+        }
+      }
+      return $listadoTrash;
+    }
+
+
     if(isset($_REQUEST['id'])) {
+      $_SESSION["trash"][] = DeleteAlumnoFromDBList($_SESSION["listado"], $_REQUEST['id']);
       $_SESSION["listado"] = DeleteAlumnoFromResult($_SESSION["listado"],$_REQUEST['id']);
     }
 

@@ -64,10 +64,20 @@ foreach ($_SESSION["listado"] as $student) {
 
   mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = $idMateria WHERE IdAlumno = $par1 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
 }
+
+if(isset($_SESSION["trash"])){
+  foreach ($_SESSION["trash"] as $student) {
+    $par2= $student["IdAlumno"];
+
+   mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = NULL WHERE IdAlumno = $par2 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
+  }
+  unset($_SESSION["trash"]);
+}
+
 ?>
 
-<h1>Listado guardado con éxito <?php var_dump($row_Recordset1);?></h1>
-<div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
+<h1>Listado guardado con éxito </h1>
+<div style="text-align:center;">
     <BR>
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
