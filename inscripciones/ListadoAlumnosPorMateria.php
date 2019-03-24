@@ -89,8 +89,8 @@ function getSubjectDetails($id) {
     <?php include("ABM_Modal/modal/modal_ListadoAgregarAlumno.php");?>
 
     <div id="printable-table">
-
-      <table width="1000" border="1" align="center" style="margin-bottom: 80px;" >
+      <form action="ListadoAlumnosPorMateriaGuardar.php" method="post" onsubmit="return confirm('¿Seguro quiere guardar los datos?');">
+        <table width="1000" border="1" align="center" style="margin-bottom: 80px;" >
         <thead>
           <tr>
             <td width="604" colspan="2" align="center" class="noprint"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
@@ -126,16 +126,18 @@ function getSubjectDetails($id) {
         <tbody id="listado"></tbody>
       </table>
 
-      <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
-          <BR>
-          <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
-          <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataAgregar">
-            <i class='glyphicon glyphicon-edit'></i> Agregar Alumno
-          </button>
-          <button  class="btn btn-primary"  type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
-          <button  class="btn btn-primary"  type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
-      </div>
+        <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
+            <BR>
+            <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+            <input type="hidden" name="IdMateria" value="<?php print $_POST['materia'];?>">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataAgregar">
+              <i class='glyphicon glyphicon-edit'></i> Agregar Alumno
+            </button>
+            <button  class="btn btn-primary"  type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
+            <button  class="btn btn-primary"  type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
+            <input type="submit" value='Guardar'>
+        </div>
+      </form>
     </div>
 
     <script>

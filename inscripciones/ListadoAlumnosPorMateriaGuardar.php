@@ -4,7 +4,6 @@
 if (!isset($_SESSION)) {
   session_start();
 }
-
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
 {
@@ -35,43 +34,30 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 }
+mysqli_report(MYSQLI_REPORT_ALL) ;
+$fecha = date('Y-m-d');
+$idMateria= (int)$_POST["IdMateria"];
+$idMateria = GetSQLValueString($idMateria, "int");
+$sqlListadoMateria = "INSERT INTO lista_materia (IdListaMateria, fechaCicloLectivo) VALUES ($idMateria, '$fecha')";
+
+if(!mysqli_query(dbconnect(),$sqlListadoMateria)) {
+  echo ('error al guardar lista'. mysqli_error(dbconnect()));
+}
+
 ?>
 
+
+<?php
+
+foreach ($_SESSION["listado"] as $student) {
+  $par1= $student["IdAlumno"];
+
+  mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = $idMateria WHERE IdAlumno = $par1 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
+}
+?>
 
 <h1>Listado guardado con éxito </h1>
-
-<?php
-$query_Recordset1 = sprintf("select a.Apellido, a.DNI , m.Descripcion, am.FechaFirma, am.IdAlumnoMateria
-                     from
-                        terciario.materias m
-                            inner join terciario.materias_plan mp on mp.IdMateria = m.IdMateria
-                            inner join terciario.alumno_materias am on m.IdMateria = am.IdMateriaPlan
-                            inner join terciario.alumnos a on a.IdAlumno = am.IdAlumno
-                    where a.IdAlumno = %s", GetSQLValueString($_POST['IdMateria'], "int"));
-
-$Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
-$row_Recordset1 = mysqli_fetch_assoc($Recordset1);
-?>
-
-<?php
-do {
-
-    if(($_POST['idmesa'.(string)$row_Recordset1['IdAlumnoMateria']])==='1')
-    {
-        $par2 = $_POST['idAlumnoMateria'.(string)$row_Recordset1['IdAlumnoMateria']];
-        $par2 = "'".$par2."'";
-        $par1 = $row_Recordset1['IdAlumnoMateria'];
-
-        mysqli_query(dbconnect(),"UPDATE terciario.alumno_materias SET FechaFirma = $par2 WHERE IdAlumnoMateria=  $par1 ");
-    } else if (($_POST['idmesa'.(string)$row_Recordset1['IdAlumnoMateria']])==='2') {
-        $par1 = $row_Recordset1['IdAlumnoMateria'];
-        mysqli_query(dbconnect(),"UPDATE terciario.alumno_materias SET FechaFirma = NULL WHERE IdAlumnoMateria=  $par1 ");
-    }
-} while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
-
- //header("Location: " . "Direcciones.php" );
-?>
-<div style="text-align:center">
+<div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
     <BR>
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
