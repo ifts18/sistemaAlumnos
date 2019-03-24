@@ -66,8 +66,10 @@ $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 ?>
 
-
-
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</script>
+</head>
 <table width="1000" border="1" align="center">
   <tbody>
     <tr>
@@ -90,10 +92,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
       <td align="center" <h4> <?php echo $row_Recordset1['Descripcion']; ?> </h4></td>
       <td>
       <br><br>
-
-          <input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar
-
-
+          <input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar  
       </td>
     </tr>
   <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
@@ -101,15 +100,35 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   ?>
   </tbody>
 </table>
-
 <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
-    <BR>
-    <input type="submit" />
-    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+  <button id ="btn">Enviar</button>
+    <div class="data"></div>
+  <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>  
 </div>
 </form>
+<script>
+  $(document).ready(function(){
+  var $btn = $('#btn');
+  var $data = $('.data');
+  $btn.click(function(){
+    $.ajax({
+     beforeSend: function() {
+      $data.html('<div class="loading"><img src="loader.gif" alt="loading" /><br/>Un momento, por favor...</div>');
+     }
+    }).done(function(resp){
+      setTimeout(function(){
+       $loader.hide();
+       $data.html(resp[0].about);
+      }, 5000);
+    }).fail(function(err){
+      $loader.hide();
+      alert(err);
+    })
+    return;
+  });
 
-
+});
+</script>
 <?php
 mysqli_free_result($Recordset1);
 ?>

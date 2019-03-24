@@ -5,7 +5,7 @@
 //***para generar listado de presentismo y la de finales***
 //
 //
-
+sleep(1);
 //initialize the session
 if (!isset($_SESSION)) {
   session_start();
@@ -81,15 +81,10 @@ function getSubjectDetails($id) {
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
     <script src="ABM_Modal/js/bootstrap.min.js"></script>
-
-
-
   </head>
   <body>
     <?php include("ABM_Modal/modal/modal_ListadoAgregarAlumno.php");?>
-
     <div id="printable-table">
-
       <table width="1000" border="1" align="center" style="margin-bottom: 80px;" >
         <thead>
           <tr>
@@ -125,16 +120,15 @@ function getSubjectDetails($id) {
         </thead>
         <tbody id="listado"></tbody>
       </table>
-
       <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
-          <BR>
-          <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
-          <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataAgregar">
-            <i class='glyphicon glyphicon-edit'></i> Agregar Alumno
-          </button>
-          <button  class="btn btn-primary"  type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
-          <button  class="btn btn-primary"  type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
+          <div style="padding: 10px;">
+            <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dataAgregar">
+              <i class='glyphicon glyphicon-edit'></i> Agregar Alumno</button>
+              <button  class="btn btn-primary" type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
+            <button  class="btn btn-primary" type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
+          </div>
+          <button class="btn btn-info" type="button" onClick="location.href='Direcciones.php'" >Volver al menu principal</button>
       </div>
     </div>
 
