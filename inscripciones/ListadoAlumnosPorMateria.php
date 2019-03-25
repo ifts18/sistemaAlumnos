@@ -66,6 +66,16 @@ function getSubjectDetails($id) {
   $subjectDetails = mysqli_fetch_assoc($recordset);
   return $subjectDetails;
 }
+
+function getListDetails($id) {
+ $query = "select * from terciario.lista_materia where IdListaMateria={$id}";
+ $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error(dbconnect()));
+ $listDetails = mysqli_fetch_assoc($recordset);
+ return $listDetails;
+}
+
+$listDetails = getListDetails($materia_id);
+
 ?>
 
 <html lang="es">
@@ -92,9 +102,9 @@ function getSubjectDetails($id) {
         <table width="1000" border="1" align="center" style="margin-bottom: 100px;" >
         <thead>
           <tr>
-            <td width="604" colspan="3" align="center" class="noprint"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
-            <td width="480" colspan="2" align="center" class="noprint"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
-            <td class="printable-text" colspan="5" align="center" ><h2 class="printable-title"><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+            <td width="604" colspan="3" align="center" class="noprint"><h3> IFTS18 - Listado Alumnos por Materia </h3></td>
+            <td width="480" colspan="2" align="center" class="noprint"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2><small>Última modificación: <?php print($listDetails['fechaCicloLectivo']); ?></small></td>
+            <td class="printable-text" colspan="5" align="center" ><h2 class="printable-title"><?php print($subjectDetails['Descripcion']); ?>&nbsp;</h2></td>
           </tr>
           <tr>
             <td width="50" align="center"><h4>Nro</h4></td>

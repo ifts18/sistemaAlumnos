@@ -73,7 +73,7 @@ if(isset($_SESSION["trash"])){
   }
   unset($_SESSION["trash"]);
 }
-
+mysqli_free_result($Recordset1);
 ?>
 
 <h1>Listado guardado con éxito </h1>

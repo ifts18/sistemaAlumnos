@@ -85,7 +85,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
    }
   }
 
-  mysqli_report(MYSQLI_REPORT_ALL) ;
+  //  mysqli_report(MYSQLI_REPORT_ALL) ;
 
 
   if($row_Recordset1 && !$student_in_allowed_students) {
@@ -123,4 +123,5 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <h4>No hay datos para mostrar, asegurese de que los datos sean correctos</h4>
   </div>
-<?php } ?>
+<?php }
+ ?>
