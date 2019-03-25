@@ -81,15 +81,10 @@ function getSubjectDetails($id) {
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
     <script src="ABM_Modal/js/bootstrap.min.js"></script>
-
-
-
   </head>
   <body>
     <?php include("ABM_Modal/modal/modal_ListadoAgregarAlumno.php");?>
-
     <div id="printable-table">
-
       <table width="1000" border="1" align="center" style="margin-bottom: 80px;" >
         <thead>
           <tr>
@@ -125,16 +120,16 @@ function getSubjectDetails($id) {
         </thead>
         <tbody id="listado"></tbody>
       </table>
-
+    	<div id="loader" class="text-center noprint"> <img src="./ABM_Modal/loader.gif"></div>
       <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
-          <BR>
-          <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
-          <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataAgregar">
-            <i class='glyphicon glyphicon-edit'></i> Agregar Alumno
-          </button>
-          <button  class="btn btn-primary"  type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
-          <button  class="btn btn-primary"  type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
+          <div style="padding: 10px;">
+            <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dataAgregar">
+              <i class='glyphicon glyphicon-edit'></i> Agregar Alumno</button>
+              <button  class="btn btn-primary" type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
+            <button  class="btn btn-primary" type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
+          </div>
+          <button class="btn btn-info" type="button" onClick="location.href='Direcciones.php'" >Volver al menu principal</button>
       </div>
     </div>
 
@@ -148,7 +143,7 @@ function getSubjectDetails($id) {
 
     $(document).ready(function(){
       var alumnoAAgregar = {};
-
+      $("#loader").fadeIn('slow');
       $('#dataAgregar').on('hide.bs.modal', function(e){
           //console.log('asasassas',  $(this).parent())
             $(this).parent().trigger('reset');
@@ -160,8 +155,12 @@ function getSubjectDetails($id) {
       $.ajax({
   			url:'./ABM_Modal/ajax/alumnosListado_ajax.php',
   			data: {'action': 'ajax', 'materia': <?php echo $materia_id ?>},
+        beforeSend: function(objeto){
+          $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
+        },
   			success:function(data){
   				$("#listado").html(data);
+          $("#loader").html("");
   			}
   		});
 
@@ -174,8 +173,12 @@ function getSubjectDetails($id) {
            url: './ABM_Modal/ajax/alumnosListado_ajax.php',
            type: 'POST',
            data: {'action': 'borrar', 'materia': <?php echo $materia_id ?>, 'id': studentId},
+           beforeSend: function(objeto){
+             $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
+           },
            success: function(data) {
              $("#listado").html(data);
+             $("#loader").html("");
            }
          });
       });
@@ -218,9 +221,14 @@ function getSubjectDetails($id) {
           type: "POST",
           url: "./ABM_Modal/ajax/alumnosListado_ajax.php",
           data: {'action': 'agregar', 'materia': <?php echo $materia_id ?>, 'agregarAlumno': alumnoAAgregar},
+          beforeSend: function(objeto){
+            $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
+          },
           success: function(data){
             //console.log(data)
             $("#listado").html(data);
+            $("#loader").html("");
+            
           }
         });
         modal.find('#datos_error').html('<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Alumno Agregado</strong></div>')

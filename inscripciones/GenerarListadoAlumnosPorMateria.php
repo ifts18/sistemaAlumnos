@@ -66,8 +66,6 @@ $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 ?>
 
-
-
 <table width="1000" border="1" align="center">
   <tbody>
     <tr>
@@ -90,10 +88,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
       <td align="center" <h4> <?php echo $row_Recordset1['Descripcion']; ?> </h4></td>
       <td>
       <br><br>
-
           <input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar
-
-
       </td>
     </tr>
   <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
@@ -101,15 +96,11 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   ?>
   </tbody>
 </table>
-
 <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
-    <BR>
-    <input type="submit" />
-    <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+  <button type="submit">Enviar</button>
+  <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
 </form>
-
-
 <?php
 mysqli_free_result($Recordset1);
 ?>
