@@ -5,7 +5,7 @@
 //***para generar listado de presentismo y la de finales***
 //
 //
-sleep(1);
+
 //initialize the session
 if (!isset($_SESSION)) {
   session_start();
@@ -120,6 +120,7 @@ function getSubjectDetails($id) {
         </thead>
         <tbody id="listado"></tbody>
       </table>
+    	<div id="loader" class="text-center noprint"> <img src="./ABM_Modal/loader.gif"></div>
       <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
           <div style="padding: 10px;">
             <input type="hidden" name=IdMateria value="<?php $_POST['materia'];?>">
@@ -142,7 +143,7 @@ function getSubjectDetails($id) {
 
     $(document).ready(function(){
       var alumnoAAgregar = {};
-
+      $("#loader").fadeIn('slow');
       $('#dataAgregar').on('hide.bs.modal', function(e){
           //console.log('asasassas',  $(this).parent())
             $(this).parent().trigger('reset');
@@ -154,8 +155,12 @@ function getSubjectDetails($id) {
       $.ajax({
   			url:'./ABM_Modal/ajax/alumnosListado_ajax.php',
   			data: {'action': 'ajax', 'materia': <?php echo $materia_id ?>},
+        beforeSend: function(objeto){
+          $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
+        },
   			success:function(data){
   				$("#listado").html(data);
+          $("#loader").html("");
   			}
   		});
 
@@ -168,8 +173,12 @@ function getSubjectDetails($id) {
            url: './ABM_Modal/ajax/alumnosListado_ajax.php',
            type: 'POST',
            data: {'action': 'borrar', 'materia': <?php echo $materia_id ?>, 'id': studentId},
+           beforeSend: function(objeto){
+             $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
+           },
            success: function(data) {
              $("#listado").html(data);
+             $("#loader").html("");
            }
          });
       });
@@ -212,9 +221,14 @@ function getSubjectDetails($id) {
           type: "POST",
           url: "./ABM_Modal/ajax/alumnosListado_ajax.php",
           data: {'action': 'agregar', 'materia': <?php echo $materia_id ?>, 'agregarAlumno': alumnoAAgregar},
+          beforeSend: function(objeto){
+            $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
+          },
           success: function(data){
             //console.log(data)
             $("#listado").html(data);
+            $("#loader").html("");
+            
           }
         });
         modal.find('#datos_error').html('<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Alumno Agregado</strong></div>')
