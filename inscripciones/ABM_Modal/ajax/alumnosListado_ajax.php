@@ -170,10 +170,14 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 		if ($allowed_student) {
       $_SESSION["listado"] = $allowed_student;
-      asort($allowed_student);
-      foreach ($allowed_student as $student): ?>
+      usort($_SESSION["listado"], function ($item1, $item2) {
+          return $item1['Apellido'] <=> $item2['Apellido'];
+      });
+      $counter = 1;
+      foreach (  $_SESSION["listado"] as $student): ?>
       <tr>
         <!-- <td width="150"  align="center"><h4><?php //var_dump($student); ?></h4></td> -->
+        <td width="50"  align="center"><h4><?php echo $counter; ?></h4></td>
         <td width="150"  align="center"><h4><?php echo $student['DNI']; ?></h4></td>
         <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student['Apellido'] . " " . $student['Nombre']; ?></h4></td>
         <td width="700" align="center" class="noprint">
@@ -195,11 +199,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
         </td>
       </tr>
+      <?php ++$counter;  ?>
     <?php endforeach;
 
 		} else {
 			?>
-      <tr><td colspan="4">
+      <tr><td colspan="5">
 			<div class="alert alert-warning ">
               <h4>Aviso!!!</h4> No hay datos para mostrar
               <p>Puede agregar alumnos via el botón "Agregar Alumno"</p>
@@ -235,10 +240,14 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     }
 
     if ($_SESSION["listado"]) {
-      asort($_SESSION["listado"]);
+      usort($_SESSION["listado"], function ($item1, $item2) {
+          return $item1['Apellido'] <=> $item2['Apellido'];
+      });
+      $counter = 1;
       foreach ($_SESSION["listado"] as $student): ?>
       <tr>
         <!-- <td width="150"  align="center"><h4><?php var_dump($_SESSION["listado"]); ?></h4></td> -->
+        <td width="50"  align="center"><h4><?php echo $counter; ?></h4></td>
         <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
         <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
         <td width="700" align="center" class="noprint">
@@ -260,6 +269,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
+      <?php ++$counter;  ?>
     <?php endforeach;
 
 		}
@@ -281,10 +291,14 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 
     if ($student_in_allowed_students === FALSE) {
-      asort($_SESSION["listado"]);
+      usort($_SESSION["listado"], function ($item1, $item2) {
+          return $item1['Apellido'] <=> $item2['Apellido'];
+      });
+      $counter = 1;
       foreach ($_SESSION["listado"] as $student): ?>
       <tr>
         <!-- <td width="150"  align="center"><h4><?php var_dump($_SESSION["listado"]); ?></h4></td> -->
+        <td width="50"  align="center"><h4><?php echo $counter; ?></h4></td>
         <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
         <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
         <td width="700" align="center" class="noprint">
@@ -306,12 +320,18 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
+      <?php ++$counter;  ?>
+
     <?php endforeach;
 
   } else {
-    asort($_SESSION["listado"]);
+    usort($_SESSION["listado"], function ($item1, $item2) {
+        return $item1['Apellido'] <=> $item2['Apellido'];
+    });
+    $counter = 1;
     foreach ($_SESSION["listado"] as $student): ?>
     <tr>
+      <td width="50"  align="center"><h4><?php echo $counter; ?></h4></td>
       <td width="150"  align="center"><h4><?php echo $student["DNI"]; ?></h4></td>
       <td width="400"  align="left" style="padding-left: 7px"><h4><?php echo $student["Apellido"] . " " . $student["Nombre"]; ?></h4></td>
       <td width="700" align="center" class="noprint">
@@ -333,6 +353,8 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
       </td>
     </tr>
+    <?php ++$counter;  ?>
+
   <?php endforeach;
    }
 }

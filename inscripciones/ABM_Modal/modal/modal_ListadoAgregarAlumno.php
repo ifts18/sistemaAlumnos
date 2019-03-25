@@ -16,7 +16,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Buscar Alumnos por DNI:</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Buscar Alumnos por:</h4>
       </div>
       <div class="modal-body">
         <div id="datos_error"></div>
@@ -24,8 +24,13 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
           <input type="hidden" class="form-control" id="materia_id" name="materia_id">
 
           <div class="form-group">
-            <label for="dni" class="control-label">DNI:</label>
-            <input type="text" class="form-control" id="dniBuscar" name="dni" required>
+            <div class="form-inline">
+              <select class="selectpicker" aria-controls="table" name="filtro" id="filtro">
+                  <option value="apellido">Apellido</option>
+                  <option value="dni">DNI</option>
+              </select>
+              <input class="form-control" type="text" name="palabra" id="palabra" required>
+            </div>
           </div>
 
           <div id="alumnos_busqueda"></div>

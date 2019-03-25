@@ -76,11 +76,14 @@ function getSubjectDetails($id) {
     <link href="ABM_Modal/css/bootstrap.min.css" rel="stylesheet">
     <link href="ABM_Modal/css/dataTables.bootstrap.css" rel="stylesheet">
     <link href="ABM_Modal/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="ABM_Modal/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="ABM_Modal/css/bootstrap-select.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css?<?php echo time(); ?>" type="text/css" media="screen" />
     <link rel="stylesheet" href="print.css?<?php echo time(); ?>" type="text/css" media="print"  id="printCss"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
     <script src="ABM_Modal/js/bootstrap.min.js"></script>
+    <script src="ABM_Modal/js/bootstrap-select.min.js"></script>
   </head>
   <body>
     <?php include("ABM_Modal/modal/modal_ListadoAgregarAlumno.php");?>
@@ -89,11 +92,12 @@ function getSubjectDetails($id) {
         <table width="1000" border="1" align="center" style="margin-bottom: 100px;" >
         <thead>
           <tr>
-            <td width="604" colspan="2" align="center" class="noprint"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
+            <td width="604" colspan="3" align="center" class="noprint"><h1> IFTS18 - Listado Alumnos por Materia </h1></td>
             <td width="480" colspan="2" align="center" class="noprint"><h2><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
-            <td class="printable-text" colspan="4" align="center" ><h2 class="printable-title"><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
+            <td class="printable-text" colspan="5" align="center" ><h2 class="printable-title"><?php print $subjectDetails['Descripcion'] ?>&nbsp;</h2></td>
           </tr>
           <tr>
+            <td width="50" align="center"><h4>Nro</h4></td>
             <td width="150" align="center"><h4>DNI</h4></td>
             <td width="300" align="left" style="padding-left: 7px"><h4>Apellido y Nombre</h4></td>
             <td class="noprint" width="700" align="center"></td>
@@ -125,7 +129,7 @@ function getSubjectDetails($id) {
       <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
           <div style="padding: 10px;">
             <input type="submit" value="Guardar" class="btn btn-warning"/>
-            <input type="hidden" name="IdMateria" value="<?php $_POST['materia'];?>">
+            <input type="hidden" name="IdMateria" value="<?php echo  $materia_id; ?>">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dataAgregar">
               <i class='glyphicon glyphicon-edit'></i> Agregar Alumno</button>
               <button  class="btn btn-primary" type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
@@ -188,30 +192,41 @@ function getSubjectDetails($id) {
       // buscar alumno por dni en el modal
       $('#dataAgregar').on('show.bs.modal', function (event) {
         var modal = $(this);
-        modal.find('.modal-title').text('Buscar alumno por DNI ');
+        modal.find('.modal-title').text('Buscar alumno por:');
         const submitButton = modal.find('.btn-primary');
         modal.find('#materia_id').val(<?php echo $materia_id ?>);
         //const listadoAlumnosJS = <?php //echo json_encode($allowed_student) ?>;
 
-        var DNI = modal.find('#dniBuscar');
+        const DNI = modal.find('#palabra');
+        const tipoFiltro = modal.find('#filtro');
 
-        $(DNI).on('change', function() {
+        $(DNI, tipoFiltro).on('change', function() {
           var valorABuscar = DNI.val();
-
-          $.ajax({
-             url: 'ABM_Modal/ajax/agregarAlumnosListado_ajax.php',
-             type: 'GET',
-             data: 'DNI='+ valorABuscar,
-             success: function(data) {
-               var tempDatos = {};
-               $('#alumnos_busqueda').html(data);
-               tempDatos['IdAlumno'] = modal.find('.agregarAlumno_idAlumno').val();
-               tempDatos['DNI'] = modal.find('.agregarAlumno_dni').text().trim();
-               tempDatos['Apellido'] = modal.find('.agregarAlumno_apellido').text().trim();
-               tempDatos['Nombre'] = modal.find('.agregarAlumno_nombre').text().trim();
-               alumnoAAgregar = tempDatos;
-             }
-           });
+          const filtroUsado = tipoFiltro.val();
+          if(valorABuscar) {
+            $.ajax({
+               url: 'ABM_Modal/ajax/agregarAlumnosListado_ajax.php',
+               type: 'GET',
+               data: {'palabra': valorABuscar, 'filtro': filtroUsado},
+               success: function(data) {
+                 $('#alumnos_busqueda').html(data);
+                 // tempDatos['IdAlumno'] = modal.find('input').val();
+                 // console.log('aaa',tempDatos['IdAlumno'] )
+                 // tempDatos['DNI'] = modal.find('input:checked').parent().find('.agregarAlumno_dni').text().trim();
+                 // tempDatos['Apellido'] = modal.find('input:checked').parent().find('.agregarAlumno_apellido').text().trim();
+                 // tempDatos['Nombre'] = modal.find('input:checked').parent().find('.agregarAlumno_nombre').text().trim();
+                 // alumnoAAgregar = tempDatos;
+               }
+             });
+           }
+        });
+        $(document).on("change",".agregarAlumno_idAlumno",function(){
+          var tempDatos = {};
+          tempDatos['IdAlumno'] = this.value;
+          tempDatos['DNI'] =  $(this).parent().parent().find('.agregarAlumno_dni').text().trim();
+          tempDatos['Apellido'] = $(this).parent().parent().find('.agregarAlumno_apellido').text().trim();
+          tempDatos['Nombre'] =  $(this).parent().parent().find('.agregarAlumno_nombre').text().trim();
+          alumnoAAgregar = tempDatos;
         });
       });
 
