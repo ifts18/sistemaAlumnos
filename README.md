@@ -47,6 +47,11 @@ La base de datos deberá ser importada localmente con el mismo nombre que indica
 
 Cuando necesitemos modificar la base de datos de producción debemos primero hacer un back-up de la misma. 
 
+### :four: Correr con docker
+1. Instalado docker ejecutar en el raiz de proyecto: `docker-compose up`
+2. Editar la conexion a mysql en el archivo `inscripciones/Connections/MySQL.php` utilizando el server de la base de datos: `sistemaalumnos-mysql` *NO comittear este cambio!*
+2. Una vez que termina, ingresar a `http://localhost:8081`
+
 
 ## :sos: Dudas?
 

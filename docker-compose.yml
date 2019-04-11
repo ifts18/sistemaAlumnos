@@ -1,0 +1,37 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+    mysql:
+      image: mysql:5.7
+      container_name: sistemaalumnos-mysql
+      working_dir: /inscripciones
+      volumes:
+        - .:/inscripciones
+      environment:
+        - MYSQL_ROOT_PASSWORD=claveresegura
+        - MYSQL_DATABASE=terciario
+        - MYSQL_USER=terciario18
+        - MYSQL_PASSWORD=nji90okm
+      ports:
+        - "8083:3306"
+
+    webserver:
+      image: nginx:alpine
+      container_name: sistemaalumnos-webserver
+      working_dir: /inscripciones
+      volumes:
+          - .:/inscripciones
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "8081:80"
+
+    php-fpm:
+      build: phpdocker/php-fpm
+      container_name: sistemaalumnos-php-fpm
+      working_dir: /inscripciones
+      volumes:
+        - .:/inscripciones
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php5/fpm/conf.d/99-overrides.ini
+
