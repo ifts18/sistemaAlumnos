@@ -190,9 +190,11 @@ $listDetails = getListDetails($materia_id);
            type: 'POST',
            data: {'action': 'borrar', 'materia': <?php echo $materia_id ?>, 'id': studentId},
            beforeSend: function(objeto){
+             $this[0].setAttribute('disabled', 'disabled');
              $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
            },
            success: function(data) {
+            $this[0].removeAttribute('disabled');
              $("#listado").html(data);
              $("#loader").html("");
            }

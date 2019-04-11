@@ -196,7 +196,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         </td>
         <td width="100" align="center" class="actions noprint">
           <BR>
-        <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
+        <button class="quitarBtn btn btn-danger"  type="button" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
         </td>
       </tr>
       <?php ++$counter;  ?>
@@ -266,7 +266,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         </td>
         <td width="100" align="center" class="actions noprint">
           <BR>
-        <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
+        <button class="quitarBtn btn btn-danger"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
       <?php ++$counter;  ?>
@@ -317,7 +317,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         </td>
         <td width="100" align="center" class="actions noprint">
           <BR>
-        <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
+        <button class="quitarBtn btn btn-danger"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
       <?php ++$counter;  ?>
@@ -350,7 +350,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       </td>
       <td width="100" align="center" class="actions noprint">
         <BR>
-      <button class="quitarBtn"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
+      <button class="quitarBtn btn btn-danger"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
       </td>
     </tr>
     <?php ++$counter;  ?>
