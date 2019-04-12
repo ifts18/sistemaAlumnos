@@ -5,6 +5,11 @@
 function dbconnect()
 {
 	$hostname_MySQL = "localhost";
+
+	if (array_key_exists("DB_HOST", $_SERVER)) {
+		$hostname_MySQL = $_SERVER["DB_HOST"];
+	}
+	
 	$database_MySQL = "terciario";
 	$username_MySQL = "terciario18";
 	$password_MySQL = "nji90okm";
