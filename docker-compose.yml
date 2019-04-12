@@ -31,7 +31,8 @@ services:
       build: phpdocker/php-fpm
       container_name: sistemaalumnos-php-fpm
       working_dir: /inscripciones
+      environment:
+        - DB_HOST=sistemaalumnos-mysql
       volumes:
         - .:/inscripciones
-        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php5/fpm/conf.d/99-overrides.ini
-
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
