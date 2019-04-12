@@ -195,7 +195,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
           <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
         </td>
         <td width="100" align="center" class="actions noprint">
-          <BR>
         <button class="quitarBtn btn btn-danger"  type="button" data-alumno-id=<?php echo $student['IdAlumno']; ?>>Quitar</button>
         </td>
       </tr>
@@ -265,7 +264,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
           <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
         </td>
         <td width="100" align="center" class="actions noprint">
-          <BR>
         <button class="quitarBtn btn btn-danger"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
@@ -316,7 +314,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
           <table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
         </td>
         <td width="100" align="center" class="actions noprint">
-          <BR>
         <button class="quitarBtn btn btn-danger"  type="button" data-alumno-id=<?php echo $student["IdAlumno"]; ?>>Quitar</button>
         </td>
       </tr>
