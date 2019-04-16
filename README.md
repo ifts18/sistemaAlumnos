@@ -47,6 +47,12 @@ La base de datos deberá ser importada localmente con el mismo nombre que indica
 
 Cuando necesitemos modificar la base de datos de producción debemos primero hacer un back-up de la misma. 
 
+### :four: Correr con docker
+1. Instalar docker
+2. Ejecutarlo `docker-compose up`
+3. La BD ya va a estar creada con el usuario del sistema, solo resta importarla y darle permisos. El servidor de bd esta en `localhost:8083`
+4. Ingresar a `http://localhost:8081`
+
 
 ## :sos: Dudas?
 
