@@ -212,7 +212,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 			<?php
 		}
 	} elseif ($action == "borrar") {
-    //borra de la lista temporarea
+    //borra de la lista temporal
     function DeleteAlumnoFromResult($listado, $id) {
       foreach ($listado as $key => $val) {
         if ($val["IdAlumno"] === $id) {
@@ -222,19 +222,25 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       return $listado;
     }
 
-    //agrego a array para borrarlo en la base si es que ya tenia listado
-    function DeleteAlumnoFromDBList($listado, $id) {
-      foreach ($listado as $key => $val) {
-        if ($val["IdAlumno"] === $id) {
-          return $listado[$key];
-        }
-      }
-      return $listadoTrash;
+    // Borra de la BD
+    function DeleteAlumnoFromDb($idAlumno, $idMateria) {
+      mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = NULL WHERE IdAlumno = $idAlumno AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
     }
 
+    // //agrego a array para borrarlo en la base si es que ya tenia listado
+    // function DeleteAlumnoFromDBList($listado, $id) {
+    //   foreach ($listado as $key => $val) {
+    //     if ($val["IdAlumno"] === $id) {
+    //       return $listado[$key];
+    //     }
+    //   }
+    //   return $listadoTrash;
+    // }
 
-    if(isset($_REQUEST['id'])) {
-      $_SESSION["trash"][] = DeleteAlumnoFromDBList($_SESSION["listado"], $_REQUEST['id']);
+
+    if(isset($_REQUEST['id']) && isset($_REQUEST['materia'])) {
+      DeleteAlumnoFromDb($_REQUEST['id'], $_REQUEST['materia']);
+      // $_SESSION["trash"][] = DeleteAlumnoFromDBList($_SESSION["listado"], $_REQUEST['id']);
       $_SESSION["listado"] = DeleteAlumnoFromResult($_SESSION["listado"],$_REQUEST['id']);
     }
 

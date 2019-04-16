@@ -65,14 +65,14 @@ foreach ($_SESSION["listado"] as $student) {
   mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = $idMateria WHERE IdAlumno = $par1 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
 }
 
-if(isset($_SESSION["trash"])){
-  foreach ($_SESSION["trash"] as $student) {
-    $par2= $student["IdAlumno"];
+// if(isset($_SESSION["trash"])){
+//   foreach ($_SESSION["trash"] as $student) {
+//     $par2= $student["IdAlumno"];
 
-   mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = NULL WHERE IdAlumno = $par2 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
-  }
-  unset($_SESSION["trash"]);
-}
+//    mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = NULL WHERE IdAlumno = $par2 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
+//   }
+//   unset($_SESSION["trash"]);
+// }
 mysqli_free_result($Recordset1);
 ?>
 
