@@ -201,6 +201,12 @@ $listDetails = getListDetails($materia_id);
          });
       });
 
+      // Reinicio valores del modal
+      $('#dataAgregar').on('hide.bs.modal', function (event) {
+        alumnoAAgregar = {};
+        $('#palabra').val('');
+      });
+
       // buscar alumno por dni en el modal
       $('#dataAgregar').on('show.bs.modal', function (event) {
         var modal = $(this);
@@ -212,7 +218,7 @@ $listDetails = getListDetails($materia_id);
         const DNI = modal.find('#palabra');
         const tipoFiltro = modal.find('#filtro');
 
-        $(DNI, tipoFiltro).on('change', function() {
+        $('#btnBuscarEnAgregar').on('click', function() {
           var valorABuscar = DNI.val();
           const filtroUsado = tipoFiltro.val();
           if(valorABuscar) {
@@ -232,6 +238,7 @@ $listDetails = getListDetails($materia_id);
              });
            }
         });
+
         $(document).on("change",".agregarAlumno_idAlumno",function(){
           var tempDatos = {};
           tempDatos['IdAlumno'] = this.value;
@@ -243,7 +250,7 @@ $listDetails = getListDetails($materia_id);
       });
 
       //agregar el alumno a la lista
-      $('#actualidarDatos').submit(function( event ) {
+      $('#btnGuardarBuscarAlumnoListado').click(function( event ) {
         event.preventDefault();
         var modal = $(this);
         $.ajax({
