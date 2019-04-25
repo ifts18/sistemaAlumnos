@@ -56,4 +56,4 @@ Cuando necesitemos modificar la base de datos de producción debemos primero hac
 
 ## :sos: Dudas?
 
-Si Google no puede responderlo preguntale a tus compañeres :smiley:
+Si Google no puede responderlo, preguntale a tus compañeres :smiley:
