@@ -1,6 +1,8 @@
+<?php require_once('../../Connections/MySQL.php');
 
-<?php require_once('../../Connections/MySQL.php'); ?>
-<?php
+// Constantes de esta pagina
+const HOW_MANY_YEARS_OLD = 3, HOW_MANY_SUBJECTS = 3;
+
 //initialize the session
 if (!isset($_SESSION)) {
   session_start();
@@ -54,13 +56,13 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 <?php
 
-	$action = (isset($_REQUEST["action"])&& $_REQUEST["action"] !=NULL)?$_REQUEST["action"]:'';
+  $action = (isset($_REQUEST["action"])&& $_REQUEST["action"] !=NULL)?$_REQUEST["action"]:'';
+  $idMateria = GetSQLValueString($_REQUEST["materia"], "int");
 
 	if($action == "ajax"){
     $allowed_student =[];
 
     //para cargar desde base o cargar de 0 por correlativas
-    $idMateria = GetSQLValueString($_REQUEST["materia"], "int");
     $sqlCheckListExist = "SELECT * FROM lista_materia WHERE IdListaMateria = '$idMateria'";
     $Recordset0 = mysqli_query(dbconnect(),$sqlCheckListExist) or die(mysqli_error(dbconnect()));
     $resultarr0 = mysqli_fetch_assoc($Recordset0);
@@ -82,97 +84,41 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     }
     if(!$resultarr0) {
       //sino cargo a todos los que esten habilitados (con correlativas las que tienen)
-
-      function getSubject($id) {
-        $query = "select * from terciario.materias_plan where IdMateria={$id}";
-        $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error(dbconnect()));
-        $subject = mysqli_fetch_assoc($recordset);
-        return $subject;
-      }
-
-      function getSubjectDetails($id) {
-        $query = "select * from terciario.materias where IdMateria={$id}";
-        $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error(dbconnect()));
-        $subjectDetails = mysqli_fetch_assoc($recordset);
-        return $subjectDetails;
-      }
-
-      function getSubjectCorrelatives($subject) {
-        $correlatives = [];
-
-        $query = "select * from terciario.correlativas
-                  where (IdMateriaPlan={$subject['IdMateriaPlan']})";
-        $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
-        $result = mysqli_fetch_all($recordset, MYSQLI_ASSOC);
-
-        foreach($result as $correlative_result) {
-          array_push($correlatives, getSubject($correlative_result['IdCorrelativa']));
-        }
-
-        return $correlatives;
-      }
-
-      function getStudents() {
-        $query_students = "select Apellido, Nombre, DNI, IdAlumno from terciario.alumnos";
-        $recordset_students = mysqli_query(dbconnect(),$query_students) or die(mysqli_error());
-        $students = mysqli_fetch_all($recordset_students, MYSQLI_ASSOC);
-
-        return $students;
-      }
-
-      function studentHasSign($student, $subject) {
-        $hasSign = False;
-
-        $query = "select * from terciario.alumno_materias
-                  where (IdAlumno={$student['IdAlumno']} and IdMateriaPlan={$subject['IdMateriaPlan']})";
-        $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error());
-        $result = mysqli_fetch_assoc($recordset);
-
-        if (isset($result['FechaFirma'])) {
-          $hasSign = True;
-        }
-
-        return $hasSign;
-      }
-
-      function studentHasCorrelatives($student, $subject_correlatives) {
-        $has_correlatives = True;
-
-        foreach($subject_correlatives as $correlative) {
-          if (!studentHasSign($student, $correlative)) {
-            $has_correlatives = False;
-            break;
-          }
-        }
-
-        return $has_correlatives;
-        }
-
-      $materia_id = $_REQUEST["materia"];
-      $subject = getSubject($materia_id);
-      $subject_correlatives = getSubjectCorrelatives($subject);
-
-      foreach (getStudents() as $student) {
-        if (!studentHasSign($student, $subject) and
-          studentHasCorrelatives($student, $subject_correlatives)) {
-
-          array_push($allowed_student, $student);
-        }
-      }
-
+      $query = mysqli_query(dbconnect(), 
+      "SELECT DISTINCT A.IdAlumno, A.Apellido, A.Nombre, A.DNI, AM.FechaFirma, M.Descripcion, A.FechaCreacion
+        FROM alumnos A
+        INNER JOIN (
+          SELECT AM.*
+          FROM alumno_materias AM
+          INNER JOIN correlativas C ON C.IdCorrelativa = AM.IdMateriaPlan
+          WHERE C.IdMateriaPlan = $idMateria /* Materia deseada para buscar SUS correlativas */
+          AND AM.FechaFirma IS NOT NULL /* Chequeamos que las tenga firmadas */
+        ) AS CR ON CR.IdAlumno = A.IdAlumno /* Joineamos con las que tiene correlativas a la materia deseada */
+        INNER JOIN (
+          SELECT AM.IdAlumno, COUNT(AM.IdMateriaPlan) AS TotalFirmadas
+          FROM alumno_materias AM
+          WHERE AM.FechaFirma IS NOT NULL
+          GROUP BY AM.IdAlumno
+        ) AS TF ON TF.IdAlumno = A.IdAlumno /* Joineamos con el resultado total de las que tiene firmadas */
+        INNER JOIN alumno_materias AM ON AM.IdAlumno = A.IdAlumno
+        INNER JOIN materias_plan MP ON MP.IdMateriaPlan = AM.IdMateriaPlan
+        INNER JOIN materias M ON M.IdMateria = MP.IdMateria
+        WHERE AM.IdMateriaPlan = $idMateria
+        AND AM.FechaFirma IS NULL /* No la tiene YA firmada */
+        AND YEAR(A.FechaCreacion) > YEAR(CURDATE()) - ".HOW_MANY_YEARS_OLD."  /* Creado en los ultimos 3 años */
+        AND TF.TotalFirmadas > ".HOW_MANY_SUBJECTS." /* Tenga al menos 3 aprobadas */
+        ORDER BY A.Apellido;"
+      );
+      
+      $allowed_student = mysqli_fetch_all($query, MYSQLI_ASSOC);
+      
       if(isset($_SESSION["listado"])) {
         $_SESSION["listado"] = $allowed_student;
       }
-
-      #print_r($allowed_student);
-      $subjectDetails = getSubjectDetails($materia_id);
     }
 
 		if ($allowed_student) {
       $_SESSION["listado"] = $allowed_student;
-      usort($_SESSION["listado"], function ($item1, $item2) {
-          return $item1['Apellido'] <=> $item2['Apellido'];
-      });
       $counter = 1;
       foreach (  $_SESSION["listado"] as $student): ?>
       <tr>
