@@ -87,14 +87,14 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       $query = mysqli_query(dbconnect(), 
       "SELECT DISTINCT A.IdAlumno, A.Apellido, A.Nombre, A.DNI, AM.FechaFirma, M.Descripcion, A.FechaCreacion
         FROM alumnos A
-        INNER JOIN (
+        LEFT JOIN ( /* porque puede que la materia NO tenga correlativas */
           SELECT AM.*
           FROM alumno_materias AM
           INNER JOIN correlativas C ON C.IdCorrelativa = AM.IdMateriaPlan
           WHERE C.IdMateriaPlan = $idMateria /* Materia deseada para buscar SUS correlativas */
           AND AM.FechaFirma IS NOT NULL /* Chequeamos que las tenga firmadas */
         ) AS CR ON CR.IdAlumno = A.IdAlumno /* Joineamos con las que tiene correlativas a la materia deseada */
-        INNER JOIN (
+        LEFT JOIN ( /* Porque puede que el alumno no tenga materias firmadas  */
           SELECT AM.IdAlumno, COUNT(AM.IdMateriaPlan) AS TotalFirmadas
           FROM alumno_materias AM
           WHERE AM.FechaFirma IS NOT NULL
@@ -106,7 +106,15 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         WHERE AM.IdMateriaPlan = $idMateria
         AND AM.FechaFirma IS NULL /* No la tiene YA firmada */
         AND YEAR(A.FechaCreacion) > YEAR(CURDATE()) - ".HOW_MANY_YEARS_OLD."  /* Creado en los ultimos 3 años */
-        AND TF.TotalFirmadas > ".HOW_MANY_SUBJECTS." /* Tenga al menos 3 aprobadas */
+        AND
+          CASE
+            /* 
+              EL CASE ES PARA CUANDO EL ALUMNO ES MAS VIEJO QUE EL AÑO ACTUAL -REVISAR PORQUE VA A TRAER SIEMPRE ALUMNOS Y SOLO QUEREMOS
+              QUE ESTO SE APLIQUE A ALUMNOS QUE SON REALMENTE DE PRIMERO (EN REALIDAD A MATERIAS, NO A ALUMNOS)
+            */
+            WHEN YEAR(A.FechaCreacion) < YEAR(CURDATE()) THEN TF.TotalFirmadas > ".HOW_MANY_SUBJECTS." /* Tenga al menos 3 aprobadas */
+            ELSE 1 = 1
+          END
         ORDER BY A.Apellido;"
       );
       
