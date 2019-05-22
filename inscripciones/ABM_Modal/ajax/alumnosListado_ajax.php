@@ -1,7 +1,7 @@
 <?php require_once('../../Connections/MySQL.php');
 
 // Constantes de esta pagina
-const HOW_MANY_YEARS_OLD = 3, HOW_MANY_SUBJECTS = 3;
+const HOW_MANY_YEARS_OLD = 3, HOW_MANY_SUBJECTS = 3, MAX_ID_SUBJECT_FROM_FIRST_YEAR = 11;
 
 //initialize the session
 if (!isset($_SESSION)) {
@@ -84,39 +84,58 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     }
     if(!$resultarr0) {
       //sino cargo a todos los que esten habilitados (con correlativas las que tienen)
-      $query = mysqli_query(dbconnect(), 
-      "SELECT DISTINCT A.IdAlumno, A.Apellido, A.Nombre, A.DNI, AM.FechaFirma, M.Descripcion, A.FechaCreacion
+      $query = mysqli_query(dbconnect(),
+      "SELECT DISTINCT 
+        A.IdAlumno, 
+        A.Apellido, 
+        A.Nombre, 
+        A.DNI, 
+        AM.FechaFirma, 
+        AM.EsEquivalencia, 
+        M.Descripcion, 
+        M.IdMateria, 
+        A.FechaCreacion
+        , COUNT(C.IdCorrelativa) AS CorrelativasMateria
+        , COALESCE(CA.CorrelativasAprobadas, 0) AS CorrelativasAprobadas
+        , COALESCE(AMF.TotalFirmadas, 0) AS TotalFirmadas
+        , IF(YEAR(CURDATE()) = YEAR(A.FechaCreacion), 1, 0) AS DeEste
+        , YEAR(CURDATE()) - YEAR(A.FechaCreacion) AS Antiguedad
         FROM alumnos A
-        LEFT JOIN ( /* porque puede que la materia NO tenga correlativas */
-          SELECT AM.*
-          FROM alumno_materias AM
-          INNER JOIN correlativas C ON C.IdCorrelativa = AM.IdMateriaPlan
-          WHERE C.IdMateriaPlan = $idMateria /* Materia deseada para buscar SUS correlativas */
-          AND AM.FechaFirma IS NOT NULL /* Chequeamos que las tenga firmadas */
-        ) AS CR ON CR.IdAlumno = A.IdAlumno /* Joineamos con las que tiene correlativas a la materia deseada */
-        LEFT JOIN ( /* Porque puede que el alumno no tenga materias firmadas  */
-          SELECT AM.IdAlumno, COUNT(AM.IdMateriaPlan) AS TotalFirmadas
-          FROM alumno_materias AM
-          WHERE AM.FechaFirma IS NOT NULL
+        INNER JOIN alumno_materias AM ON A.IdAlumno = AM.IdAlumno
+        INNER JOIN materias_plan MP ON AM.IdMateriaPlan = MP.IdMateriaPlan
+        INNER JOIN materias M ON MP.IdMateria = M.IdMateria
+        LEFT JOIN correlativas C ON C.IdMateriaPlan = AM.IdMateriaPlan
+        LEFT JOIN (
+          SELECT AM.IdAlumno, COUNT(C.IdMateriaPlan) AS CorrelativasAprobadas
+          FROM correlativas C
+          INNER JOIN alumno_materias AM ON 
+            AM.IdMateriaPlan = C.IdCorrelativa AND 
+            AM.FechaFirma IS NOT NULL 
+            AND C.IdMateriaPlan = $idMateria
           GROUP BY AM.IdAlumno
-        ) AS TF ON TF.IdAlumno = A.IdAlumno /* Joineamos con el resultado total de las que tiene firmadas */
-        INNER JOIN alumno_materias AM ON AM.IdAlumno = A.IdAlumno
-        INNER JOIN materias_plan MP ON MP.IdMateriaPlan = AM.IdMateriaPlan
-        INNER JOIN materias M ON M.IdMateria = MP.IdMateria
-        WHERE AM.IdMateriaPlan = $idMateria
-        AND AM.FechaFirma IS NULL /* No la tiene YA firmada */
-        AND YEAR(A.FechaCreacion) > YEAR(CURDATE()) - ".HOW_MANY_YEARS_OLD."  /* Creado en los ultimos 3 años */
-        AND
-          CASE
-            /* 
-              EL CASE ES PARA CUANDO EL ALUMNO ES MAS VIEJO QUE EL AÑO ACTUAL -REVISAR PORQUE VA A TRAER SIEMPRE ALUMNOS Y SOLO QUEREMOS
-              QUE ESTO SE APLIQUE A ALUMNOS QUE SON REALMENTE DE PRIMERO (EN REALIDAD A MATERIAS, NO A ALUMNOS)
-            */
-            WHEN YEAR(A.FechaCreacion) < YEAR(CURDATE()) THEN TF.TotalFirmadas > ".HOW_MANY_SUBJECTS." /* Tenga al menos 3 aprobadas */
-            ELSE 1 = 1
-          END
-        ORDER BY A.Apellido;"
-      );
+        ) AS CA ON CA.IdAlumno = A.IdAlumno
+        LEFT JOIN (
+          SELECT AM.IdAlumno, COUNT(AM.IdAlumno) As TotalFirmadas
+          FROM alumno_materias AM
+          WHERE AM.FechaFirma IS NOT NULL OR AM.EsEquivalencia = 1
+          GROUP BY AM.IdAlumno
+        ) AS AMF ON AMF.IdAlumno = A.IdAlumno
+        WHERE 
+        M.IdMateria = $idMateria
+        AND AM.EsEquivalencia = 0 /* No la tiene que haber aprobado por equivalencia */
+        AND AM.FechaFirma IS NULL /* Obvio que tiene que tener la fechaFirma en NULL */
+        GROUP BY A.IdAlumno, AM.FechaFirma, AM.EsEquivalencia, M.Descripcion
+        HAVING CorrelativasAprobadas = CorrelativasMateria /* Chequeamos que la cantidad de correlativas aprobadas sea igual a la requerida por la materia */
+        AND 
+          (M.IdMateria >= ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND (
+            TotalFirmadas > ".HOW_MANY_SUBJECTS." AND
+            Antiguedad <= ".HOW_MANY_YEARS_OLD." AND
+            DeEste = 0
+          )) OR (
+            M.IdMateria < ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND
+            DeEste = 0
+          )
+        ORDER BY A.Apellido ASC;");
       
       $allowed_student = mysqli_fetch_all($query, MYSQLI_ASSOC);
       
