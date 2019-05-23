@@ -133,8 +133,9 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
             DeEste = 0
           )) OR (
             M.IdMateria < ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND
-            (DeEste = 1 OR Antiguedad = 1) /* Trae los de este año y el anterior, los demas los sacamos */
+            (DeEste = 1 OR Antiguedad <= 1) /* Trae los de este año y el anterior, los demas los sacamos */
           )
+          
         ORDER BY A.Apellido ASC;");
       
       $allowed_student = mysqli_fetch_all($query, MYSQLI_ASSOC);
