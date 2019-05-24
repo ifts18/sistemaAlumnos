@@ -59,31 +59,29 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   $action = (isset($_REQUEST["action"])&& $_REQUEST["action"] !=NULL)?$_REQUEST["action"]:'';
   $idMateria = GetSQLValueString($_REQUEST["materia"], "int");
 
-	if($action == "ajax"){
-    $allowed_student =[];
+	if($action == "ajax") {
+    $allowed_student = [];
 
-    //para cargar desde base o cargar de 0 por correlativas
-    $sqlCheckListExist = "SELECT * FROM lista_materia WHERE IdListaMateria = '$idMateria'";
-    $Recordset0 = mysqli_query(dbconnect(),$sqlCheckListExist) or die(mysqli_error(dbconnect()));
-    $resultarr0 = mysqli_fetch_assoc($Recordset0);
+    $query = mysqli_query(dbconnect(), "
+      SELECT COUNT(*)
+      FROM lista_materia LM
+      WHERE LM.IdListaMateria = $idMateria
+    ;");
 
-    //si la lista existe cargo los que esten asociados
-    if($resultarr0) {
-      $sqlSelectStudentsWithIdLista = "SELECT * from alumno_materias where IdListaMateria = '$idMateria'";
-      $Recordset2 = mysqli_query(dbconnect(),$sqlSelectStudentsWithIdLista) or die(mysqli_error(dbconnect()));
-      $resultarr = mysqli_fetch_all($Recordset2, MYSQLI_ASSOC);
-      //$allowed_student = $resultarr;
-      //$allowed_student = [];
-      foreach($resultarr as $alumno) {
-        $sqlGetStudentsWithIdLista ="select * from alumnos where IdAlumno = {$alumno['IdAlumno']}";
-        $Recordset3 = mysqli_query(dbconnect(),$sqlGetStudentsWithIdLista) or die(mysqli_error(dbconnect()));
-        $allowed_student[] = mysqli_fetch_assoc($Recordset3);
-      }
-      mysqli_free_result($Recordset2);
-      mysqli_free_result($Recordset0);
-    }
-    if(!$resultarr0) {
-      //sino cargo a todos los que esten habilitados (con correlativas las que tienen)
+    $tieneListadoGenerado = mysqli_fetch_row($query);
+
+    // Si tiene listado generado, voy a buscar los alumnos por IdMateria
+    if ($tieneListadoGenerado[0] === 1) {
+      $query = mysqli_query(dbconnect(), "
+        SELECT * FROM
+        alumnos A
+        INNER JOIN alumno_materias AM ON A.IdAlumno = AM.IdAlumno
+        WHERE AM.IdListaMateria = $idMateria
+        ORDER BY A.Apellido ASC
+      ");
+
+      $allowed_student = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    } else { // Sino, tengo que generar un nuevo listado
       $query = mysqli_query(dbconnect(),
       "SELECT DISTINCT 
         A.IdAlumno, 
