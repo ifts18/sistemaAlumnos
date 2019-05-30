@@ -71,7 +71,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $tieneListadoGenerado = mysqli_fetch_row($query);
 
     // Si tiene listado generado, voy a buscar los alumnos por IdMateria
-    if ($tieneListadoGenerado[0] === 1) {
+    if ($tieneListadoGenerado[0] == 1) {
       $query = mysqli_query(dbconnect(), "
         SELECT * FROM
         alumnos A
