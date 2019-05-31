@@ -56,7 +56,22 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 
- $materia_id = $_POST['materia'];
+  $materia_id = $_POST['materia'];
+  $queryDivisiones = mysqli_query(dbconnect(), "
+  SELECT D.NombreDivision, D.IdDivision
+  FROM alumno_materias AM
+  INNER JOIN division D ON D.IdDivision = AM.IdDivision
+  WHERE AM.IdMateriaPlan = $materia_id AND AM.IdDivision <> 0
+  GROUP BY AM.IdDivision;
+");
+
+$divisiones = mysqli_fetch_all($queryDivisiones, MYSQLI_ASSOC);
+
+$divisionPorDefecto = 0;
+
+if (count($divisiones) > 0) {
+  $divisionPorDefecto = $divisiones[0]['IdDivision'];
+}
 
 // obtengo los datos de la materia solamente
  $subjectDetails = getSubjectDetails($materia_id);
@@ -138,6 +153,15 @@ $listDetails = getListDetails($materia_id);
     	<div id="loader" class="text-center noprint"> <img src="./ABM_Modal/loader.gif"></div>
       <div class="noprint" style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
           <div style="padding: 10px;">
+          <?php if (count($divisiones) > 0) { ?>
+            <label for="">Cambiar division
+              <select id="divisiones" class="form-control">
+                <?php foreach($divisiones as $division) { ?>
+                  <option value="<?php echo $division['IdDivision'] ?>"><?php echo $division['NombreDivision']; ?></option>
+                <?php } ?> 
+              </select>
+            </label> 
+          <?php } ?>
             <input type="submit" value="Guardar" class="btn btn-warning"/>
             <input type="hidden" name="IdMateria" value="<?php echo  $materia_id; ?>">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dataAgregar">
@@ -160,6 +184,29 @@ $listDetails = getListDetails($materia_id);
     $(document).ready(function(){
       var alumnoAAgregar = {};
       $("#loader").fadeIn('slow');
+      
+      obtenerListado(<?php echo $materia_id; ?>, <?php echo $divisionPorDefecto; ?>);
+
+      $('#divisiones').on('change', function() {
+        obtenerListado(<?php echo $materia_id ?>, this.value);
+      });
+
+      function obtenerListado(idMateria, idDivision) {
+        $.ajax({
+          url: './ABM_Modal/ajax/alumnosListado_ajax.php',
+          data: {
+            action: 'ajax',
+            materia: idMateria,
+            division: idDivision
+          },
+          beforeSend: () => $('#loader').html(`<img src="./ABM_Modal/loader.gif" />`),
+          success: data => {
+            $('#listado').html(data);
+            $('#loader').html('');
+          }
+        });
+      }
+
       $('#dataAgregar').on('hide.bs.modal', function(e){
           //console.log('asasassas',  $(this).parent())
             $(this).parent().trigger('reset');
@@ -167,18 +214,7 @@ $listDetails = getListDetails($materia_id);
             $(this).find('#datos_error').empty();
         }) ;
 
-      //obtengo listado inicial de alumnos que pueden cursar
-      $.ajax({
-  			url:'./ABM_Modal/ajax/alumnosListado_ajax.php',
-  			data: {'action': 'ajax', 'materia': <?php echo $materia_id ?>},
-        beforeSend: function(objeto){
-          $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
-        },
-  			success:function(data){
-  				$("#listado").html(data);
-          $("#loader").html("");
-  			}
-  		});
+
 
       //eliminar alumno de la lista x id
       $(document).on("click",".quitarBtn",function(){

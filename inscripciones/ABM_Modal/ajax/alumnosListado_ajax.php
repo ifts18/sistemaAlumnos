@@ -57,7 +57,8 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 <?php
 
   $action = (isset($_REQUEST["action"])&& $_REQUEST["action"] !=NULL)?$_REQUEST["action"]:'';
-  $idMateria = GetSQLValueString($_REQUEST["materia"], "int");
+  $idMateria = GetSQLValueString($_REQUEST['materia'], "int");
+  $idDivision = GetSQLValueString($_REQUEST['division'], 'int');
 
 	if($action == "ajax") {
     $allowed_student = [];
@@ -77,6 +78,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         alumnos A
         INNER JOIN alumno_materias AM ON A.IdAlumno = AM.IdAlumno
         WHERE AM.IdListaMateria = $idMateria
+        AND AM.IdDivision = $idDivision
         ORDER BY A.Apellido ASC
       ");
 
@@ -122,6 +124,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         M.IdMateria = $idMateria
         AND AM.EsEquivalencia = 0 /* No la tiene que haber aprobado por equivalencia */
         AND AM.FechaFirma IS NULL /* Obvio que tiene que tener la fechaFirma en NULL */
+        AND AM.IdDivision = $idDivision /* chequeo la division */
         GROUP BY A.IdAlumno, AM.FechaFirma, AM.EsEquivalencia, M.Descripcion
         HAVING CorrelativasAprobadas = CorrelativasMateria /* Chequeamos que la cantidad de correlativas aprobadas sea igual a la requerida por la materia */
         AND 
@@ -133,7 +136,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
             M.IdMateria < ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND
             (DeEste = 1 OR Antiguedad <= 1) /* Trae los de este año y el anterior, los demas los sacamos */
           )
-          
         ORDER BY A.Apellido ASC;");
       
       $allowed_student = mysqli_fetch_all($query, MYSQLI_ASSOC);
