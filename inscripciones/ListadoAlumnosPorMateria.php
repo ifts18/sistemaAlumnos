@@ -114,7 +114,7 @@ $listDetails = getListDetails($materia_id);
     <?php include("ABM_Modal/modal/modal_ListadoAgregarAlumno.php");?>
     <div id="printable-table">
       <form action="ListadoAlumnosPorMateriaGuardar.php" method="post" onsubmit="return confirm('¿Seguro quiere guardar los datos?');">
-        <table width="1000" border="1" align="center" style="margin-bottom: 100px;" >
+        <table width="1000" border="1" align="center" style="margin-bottom: 150px;" >
         <thead>
           <tr>
             <td width="604" colspan="3" align="center" class="noprint"><h3> IFTS18 - Listado Alumnos por Materia </h3></td>
@@ -169,6 +169,7 @@ $listDetails = getListDetails($materia_id);
               <button  class="btn btn-primary" type="button" onclick="printPresencia()" >Imprimir Listado De Presencia</button>
             <button  class="btn btn-primary" type="button" onClick="window.print()">Imprimir Listado Para Parciales</button>
           </div>
+          <button class="btn btn-info" type="button" onClick="location.href='GenerarListadoAlumnosPorMateria.php'">Volver atras</button>
           <button class="btn btn-info" type="button" onClick="location.href='Direcciones.php'" >Volver al menu principal</button>
       </div>
     </div>
