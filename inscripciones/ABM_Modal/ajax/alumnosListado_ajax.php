@@ -128,12 +128,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
         GROUP BY A.IdAlumno, AM.FechaFirma, AM.EsEquivalencia, M.Descripcion
         HAVING CorrelativasAprobadas = CorrelativasMateria /* Chequeamos que la cantidad de correlativas aprobadas sea igual a la requerida por la materia */
         AND 
-          (M.IdMateria >= ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND (
+          (M.IdMateria > ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND (
             TotalFirmadas > ".HOW_MANY_SUBJECTS." AND
             Antiguedad <= ".HOW_MANY_YEARS_OLD." AND
             DeEste = 0
           )) OR (
-            M.IdMateria < ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND
+            M.IdMateria <= ".MAX_ID_SUBJECT_FROM_FIRST_YEAR." AND
             (DeEste = 1 OR Antiguedad <= 1) /* Trae los de este año y el anterior, los demas los sacamos */
           )
         ORDER BY A.Apellido ASC;");
