@@ -65,7 +65,7 @@ if($row_Recordset1) {
   // mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = $idMateria WHERE IdAlumno = $par1 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
   
 // }
-
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 mysqli_query(dbconnect(), "
 UPDATE alumno_materias 
 SET IdListaMateria = $idMateria
