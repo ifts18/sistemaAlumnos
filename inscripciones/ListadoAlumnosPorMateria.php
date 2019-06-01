@@ -183,12 +183,14 @@ $listDetails = getListDetails($materia_id);
     }
 
     $(document).ready(function(){
+      let idDivision = <?php echo $divisionPorDefecto; ?>;
       var alumnoAAgregar = {};
       $("#loader").fadeIn('slow');
       
       obtenerListado(<?php echo $materia_id; ?>, <?php echo $divisionPorDefecto; ?>);
 
       $('#divisiones').on('change', function() {
+        idDivision = this.value;
         obtenerListado(<?php echo $materia_id ?>, this.value);
       });
 
@@ -293,7 +295,12 @@ $listDetails = getListDetails($materia_id);
         $.ajax({
           type: "POST",
           url: "./ABM_Modal/ajax/alumnosListado_ajax.php",
-          data: {'action': 'agregar', 'materia': <?php echo $materia_id ?>, 'agregarAlumno': alumnoAAgregar},
+          data: {
+            action: 'agregar', 
+            materia: <?php echo $materia_id ?>,
+            division: idDivision,
+            'agregarAlumno': alumnoAAgregar
+          },
           beforeSend: function(objeto){
             $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
           },

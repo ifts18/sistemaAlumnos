@@ -198,7 +198,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
     // Borra de la BD
     function DeleteAlumnoFromDb($idAlumno, $idMateria) {
-      mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = NULL WHERE IdAlumno = $idAlumno AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
+      mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = NULL, IdDivision = 0 WHERE IdAlumno = $idAlumno AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
     }
 
     // //agrego a array para borrarlo en la base si es que ya tenia listado
@@ -264,6 +264,14 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
         if (!$student_in_allowed_students) {
           $_SESSION["listado"][] = $_REQUEST["agregarAlumno"];
+
+          $idMateria = $_REQUEST['materia'];
+          $idDivision = $_REQUEST['division'];
+          $idAlumno = $_REQUEST["agregarAlumno"]["IdAlumno"];
+
+          // actualizamos en BD un alumno que agro por modal
+          mysqli_query(dbconnect(),
+            "UPDATE alumno_materias SET IdDivision = $idDivision, IdListaMateria = $idMateria WHERE IdAlumno = $idAlumno AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
         }
       }
 
