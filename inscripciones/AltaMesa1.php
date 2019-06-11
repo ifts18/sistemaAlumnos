@@ -65,6 +65,13 @@ Seleccione Turno: <!-- <input type="text" name="turno" /><br><br>-->
   <input type="checkbox" name="turno" value="2"  onchange="validacion('form1', this)" > 2<br>
   <input type="checkbox" name="turno" value="3"   onchange="validacion('form1', this)"> 3<br><br>
   </div>
+Seleccione Cursada: <!-- <input type="text" name="division" /><br><br>-->
+<br>
+<div>
+<input type="checkbox" name="division" value="1"  onchange="validacion('form1', this)"> A<br>
+  <input type="checkbox" name="division" value="2"  onchange="validacion('form1', this)" > B<br>
+  </div>
+
 Materia: <!-- <input type="text" name="materia" /><br><br> -->
   <br><input type="checkbox" name="materia[]" value="1" > Ingles<br>
   <input type="checkbox" name="materia[]" value="2" > Arquitectura de computadoras<br>
