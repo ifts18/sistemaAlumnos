@@ -49,16 +49,19 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                      break;
                             }
                 }
-                $sql = "SELECT mf.IdMesaFinal as id, m.Descripcion as Materia, tf.IdTurnosFinales as Turno , 
-                        DATE_FORMAT(mf.FechaMesa,'%d/%m/%Y') as FechaMesa 
-                        FROM mesas_final mf
-                        INNER JOIN materias_plan mp on mp.IdMateriaPlan = mf.IdMateriaPlan
-                        INNER JOIN materias m on m.IdMateria = mp.IdMateria
-                        INNER JOIN turnos_finales tf on tf.IdTurnosFinales = mf.IdTurnosFinales
-                        /*WHERE mf.DisponibleDesdeFecha <= NOW() and mf.DisponibleHastaFecha >= NOW()*/
+                $sql = "SELECT MF.IdMesaFinal AS id, 
+                        M.Descripcion AS Materia,
+                        TF.IdTurnosFinales AS Turno,
+                        COALESCE(D.NombreDivision, 'NINGUNA') AS Division,
+                        DATE_FORMAT(MF.FechaMesa, '%d/%m/%Y') AS FechaMesa
+                        FROM mesas_final MF
+                        INNER JOIN materias_plan MP ON MP.IdMateriaPlan = MF.IdMateriaPlan
+                        INNER JOIN materias M ON M.IdMateria = MP.IdMateria
+                        INNER JOIN turnos_finales TF ON TF.IdTurnosFinales = MF.IdTurnosFinales
+                        LEFT JOIN division D ON D.IdDivision = MF.IdDivision
                         $WhereClause
-                        ORDER BY mf.FechaMesa desc
-                        LIMIT $offset,$per_page ";
+                        ORDER BY MF.FechaMesa DESC
+                        LIMIT $offset, $per_page";
                    
                 $count_query = mysqli_query(dbconnect(),"
                         SELECT count(*) AS numrows  FROM (
@@ -79,13 +82,13 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 		if ($numrows>0){
 			?>
                 <div class="col-sm-12">            
-                    <table id="myTable" align="center" aria-describedby="table_info" role="grid" style="width: 70%;"  
-                    class="table table-striped table-bordered dataTable tablesorter" cellspacing="0" width="100%">
+                    <table id="myTable" align="center" aria-describedby="table_info" role="grid" class="table table-striped table-bordered dataTable tablesorter" cellspacing="0">
                               <thead>
                                     <tr style="font-weight: bold">
                                         <td style="width: 325px" align="center">Materia</td>
                                         <td align="center">Turno</td>
                                         <td align="center">Fecha de Mesa</td>
+                                        <td align="center">División</td>
                                         <th style="text-align: center">Acciones</th>
                                     </tr>
                             </thead>
@@ -94,9 +97,10 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                             while($row = mysqli_fetch_array($query)){
                                     ?>
                                     <tr >
-                                        <td align="left" <h4> <?php echo $row['Materia']; ?></h4></td>
-                                        <td align="center" style="font-weight:bold" <h4> <?php echo $row['Turno']; ?></h4></td>                    
-                                        <td align="center" <h4> <?php echo $row['FechaMesa']; ?></h4></td>
+                                        <td align="left"><h4><?php echo $row['Materia']; ?></h4></td>
+                                        <td align="center" style="font-weight:bold" ><h4><?php echo $row['Turno']; ?></h4></td>                    
+                                        <td align="center" ><h4><?php echo $row['FechaMesa']; ?></h4></td>
+                                        <td align="center"><h4><?php echo $row['Division']?></h4></td>
                                         <td align="center">
                                             <button type="button" class="btn btn-info" data-toggle="modal" 
                                                     data-target="#dataUpdate" data-id="<?php echo $row['id']?>" 
