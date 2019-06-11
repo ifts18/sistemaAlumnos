@@ -34,13 +34,16 @@ else {
 					 header("Location: " . "altamesa.php" );
 			     }	*****/
 					    $turno=$_POST["turno"];
+                        $division=$_POST["division"];
 						$materia=$_POST["materia"];
 						$count = count($materia);
 						
 						for ($i = 0; $i < $count; $i++) {
 							echo $materia[$i];
 						
-    						$turnoint=$turno;
+    						
+                            $turnoint=$turno;
+                            $divisionint=$division;     
 							$materiaint=$materia[$i];
 							$fechamesa=$_POST['fechamesa'];
 							$fechamesa= $fechamesa.' 00:00:00';
@@ -49,8 +52,8 @@ else {
 							$hasta=$_POST['hasta'];
 							$hasta=$hasta.' 00:00:00';
 							
-							$sql1 = "INSERT INTO `terciario`.`mesas_final`(`IdMesaFinal`, `IdTurnosFinales`, `IdMateriaPlan`, `Abierta`, `FechaMesa`, `Limite`, `FechaCreacion`, `DisponibleDesdeFecha`, `DisponibleHastaFecha`)
-							VALUES(NULL, $turnoint, $materiaint, 1, '$fechamesa', 0, CURRENT_TIMESTAMP, '$desde', '$hasta');";
+							$sql1 = "INSERT INTO `terciario`.`mesas_final`(`IdMesaFinal`, `IdTurnosFinales`,`IdDivision`, `IdMateriaPlan`, `Abierta`, `FechaMesa`, `Limite`, `FechaCreacion`, `DisponibleDesdeFecha`, `DisponibleHastaFecha`)
+							VALUES(NULL, $turnoint,$divisionint,$materiaint, 1, '$fechamesa', 0, CURRENT_TIMESTAMP, '$desde', '$hasta');";
 							$Recordset1 = mysqli_query(dbconnect(),$sql1) or die(mysqli_error());
 						}  
 					header("Location: " . "AltaMesa1.php" );
