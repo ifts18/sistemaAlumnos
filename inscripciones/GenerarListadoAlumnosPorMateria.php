@@ -66,6 +66,25 @@ $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
 ?>
 
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="ABM_Modal/css/bootstrap.min.css" rel="stylesheet">
+    <link href="ABM_Modal/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="ABM_Modal/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="ABM_Modal/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="ABM_Modal/css/bootstrap-select.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?<?php echo time(); ?>" type="text/css" media="screen" />
+    <link rel="stylesheet" href="print.css?<?php echo time(); ?>" type="text/css" media="print"  id="printCss"/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script  type="text/javascript" src="ABM_Modal/js/jquery.min.js"></script>
+    <script src="ABM_Modal/js/bootstrap.min.js"></script>
+    <script src="ABM_Modal/js/bootstrap-select.min.js"></script>
+  </head>
+</html>
+<body>
 <table width="1000" border="1" align="center">
   <tbody>
     <tr>
@@ -87,8 +106,9 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
       <td align="center" <h4> <?php echo $row_Recordset1['CodigoMateria']; ?> </h4></td>
       <td align="center" <h4> <?php echo $row_Recordset1['Descripcion']; ?> </h4></td>
       <td>
-      <br><br>
-          <input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar
+        <div class="radio" align="center">
+          <label><input type="radio" name="materia" value="<?php echo $row_Recordset1['IdMateria']?>">Seleccionar</label>
+        </div>
       </td>
     </tr>
   <?php } while ($row_Recordset1 = mysqli_fetch_assoc($Recordset1));
@@ -97,10 +117,11 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   </tbody>
 </table>
 <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px;">
-  <button type="submit">Enviar</button>
-  <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
+  <button class="btn btn-primary" type="submit">Enviar</button>
+  <input class="btn btn-info" type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
 </form>
+</body>
 <?php
 mysqli_free_result($Recordset1);
 ?>
