@@ -17,7 +17,7 @@ if (isset($_POST['turno']) == '') {
 
 for ($i = 0; $i < count($_POST["materias"]); $i++) {
 	$turno = $_POST["turno"];
-	$division = $_POST["division"];
+	$division = isset($_POST["division"]) ? $_POST["division"] : 0;
 	$materiaId = $_POST["materias"][$i];
 	$fechamesa= $_POST['fechamesa'];
 	$desde = $_POST['desde'];

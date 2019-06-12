@@ -91,6 +91,9 @@ $rowRecordset = mysqli_fetch_assoc($recordsetMaterias);
                       <label class="radio-inline">
                         <input type="radio" name="division" value="2"> B
                       </label>
+                      <label class="radio-inline">
+                        <input type="radio" name="division" value="0"> Ninguna
+                      </label>
                     </div>
                   </div>
                 </div>
