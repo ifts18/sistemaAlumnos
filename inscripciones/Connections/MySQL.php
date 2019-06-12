@@ -4,7 +4,7 @@
 # HTTP="true"
 function dbconnect()
 {
-	$hostname_MySQL = "localhost";
+	$hostname_MySQL = "127.0.0.1";
 
 	if (array_key_exists("DB_HOST", $_SERVER)) {
 		$hostname_MySQL = $_SERVER["DB_HOST"];
