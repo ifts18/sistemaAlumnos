@@ -67,15 +67,15 @@ $rowRecordset = mysqli_fetch_assoc($recordsetMaterias);
                   <div class="form-inline">
                     <div class="form-group">
                       <label for="fechamesa" style="margin-right: 5px;">Fecha de la mesa</label>
-                      <input type="text" class="form-control" id="fechamesa">
+                      <input type="text" class="form-control" name="fechamesa" id="fechamesa">
                     </div>
                     <div class="form-group">
                       <label for="desde" style="margin-right: 5px;">Disponible desde</label>
-                      <input type="text" class="form-control" id="desde">
+                      <input type="text" class="form-control" name="desde" id="desde">
                     </div>
                     <div class="form-group">
                       <label for="hasta" style="margin-right: 5px;">Disponible hasta</label>
-                      <input type="text" class="form-control" id="hasta">
+                      <input type="text" class="form-control" name="hasta" id="hasta">
                     </div>
                   </div>
                 </div>
