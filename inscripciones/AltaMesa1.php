@@ -45,7 +45,7 @@ $rowRecordset = mysqli_fetch_assoc($recordsetMaterias);
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="margin-bottom: 60px;">
       <div class="row">
         <div class="col-xs-12">
           <table width="1000" border="1" align="center">
