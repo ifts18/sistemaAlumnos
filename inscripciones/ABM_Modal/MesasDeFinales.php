@@ -228,10 +228,10 @@ function Color($fechaMesa) {
                         >
                           Modificar
                         </button>
-                        <form style="display: inline; " method="POST">
+                        <form id="formEliminarMesa" style="display: inline; " method="POST">
                           <input type="hidden" name="id-mesa-final" value="<?php echo $row['id']; ?>">
                           <input type="hidden" name="action" value="eliminar-mesa">
-                          <button class="btn btn-danger btn-eliminar" type="submit">
+                          <button class="btn btn-danger btn-eliminar" id="btnEliminarMesa" type="submit">
                             Eliminar
                           </button>
                         </form>
@@ -285,6 +285,13 @@ function Color($fechaMesa) {
 
         $('#modalModificar').modal('show');
       });
+
+      $('#btnEliminarMesa').click(e => {
+        e.preventDefault();
+        if(confirm("Seguro que desea eliminar esta mesa?")) {
+          $('#formEliminarMesa').submit();
+        }
+      })
     </script>
   </body>
 </html>
