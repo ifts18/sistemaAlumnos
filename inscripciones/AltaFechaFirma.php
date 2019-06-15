@@ -99,10 +99,10 @@ $modificarId = $_GET['id'];
     <td
     <br><br>
 
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="0" checked="checked">No Cambiar
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="2" > Borrar Firma
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="1" > Modificar Ingrese fecha:
-        <input type="date"  name="idAlumnoMateria<?php echo $row_Recordset1['IdAlumnoMateria']?>" >
+        <input class="action" type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="0" checked="checked">No Cambiar
+        <input class="action" type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="2" > Borrar Firma
+        <input class="action" type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="1" > Modificar Ingrese fecha:
+        <input class="date" type="date"  name="idAlumnoMateria<?php echo $row_Recordset1['IdAlumnoMateria']?>" >
         <input type="hidden" name="materia<?php echo $row_Recordset1['IdAlumnoMateria']; ?>" value="<?php echo $row_Recordset1['Descripcion']; ?>" />
         <input type="hidden" name="id" value="<?=$_GET['id'];?>" />
 
@@ -123,6 +123,29 @@ $modificarId = $_GET['id'];
 </form>
 
 <script>
+const dateElements = document.getElementsByClassName('date');
+const actionElements = document.getElementsByClassName('action');
+const actionChangeHandler = e => {
+  const element = e.target;
+
+  if (element.checked) {
+    document.getElementById(`row${element.name.replace('idmesa', '')}`).classList.remove('error');
+  }
+};
+
+const dateChangeHandler = e => {
+  console.log(e);
+  document.getElementById(`row${e.target.name.replace('idAlumnoMateria', '')}`).classList.remove('error');
+};
+
+for( let x = 0; x < actionElements.length; x++) {
+  actionElements[x].addEventListener('change', actionChangeHandler);
+}
+
+for( let x = 0; x < dateElements.length; x++) {
+  dateElements[x].addEventListener('change', dateChangeHandler);
+}
+
 document.getElementById('btnSubmit').addEventListener('click', e => {
   e.preventDefault();
   const form = document.getElementById('fechasFirma');
