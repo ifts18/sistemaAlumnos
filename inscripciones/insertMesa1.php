@@ -28,7 +28,9 @@ for ($i = 0; $i < count($_POST["materias"]); $i++) {
 		(IdMesaFinal, IdTurnosFinales, IdDivision, IdMateriaPlan, Abierta, FechaMesa, Limite, 
 		FechaCreacion, DisponibleDesdeFecha, DisponibleHastaFecha)
 		VALUES (NULL, $turno, $division, $materiaId, 1, 
-		STR_TO_DATE('$fechamesa', '%d/%m/%Y %H:%i'), 0, CURRENT_TIMESTAMP, 
+		STR_TO_DATE('$fechamesa', '%d/%m/%Y %H:%i'), 
+		0, 
+		CURRENT_TIMESTAMP, 
 		STR_TO_DATE('$desde', '%d/%m/%Y %H:%i'), 
 		STR_TO_DATE('$hasta', '%d/%m/%Y %H:%i')
 		);
