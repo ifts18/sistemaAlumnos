@@ -65,6 +65,12 @@ $modificarId = $_GET['id'];
 
 ?>
 
+<style>
+  .error {
+    background-color: red;
+  }
+</style>
+
 <table width="1000" border="1" align="center">
   <tbody>
     <tr>
@@ -120,6 +126,7 @@ $modificarId = $_GET['id'];
 document.getElementById('btnSubmit').addEventListener('click', e => {
   e.preventDefault();
   const form = document.getElementById('fechasFirma');
+  const materias = [];
 
   const formInputs = Object.values(form.elements).reduce((obj, field) => {
     if (field.type === 'radio' && !field.checked) {
@@ -141,23 +148,23 @@ document.getElementById('btnSubmit').addEventListener('click', e => {
       if (formInputs[fechaKey] === '') { // Sino tiene un valor en el input de fecha. Mostramos el error
         const materia = formInputs[`materia${key.replace('idmesa', '')}`];
         const dateElement = document.getElementById(`row${key.replace('idmesa', '')}`).classList.add('error');
-        alert(`Para modificar ${materia} debe ingresar una fecha valida`);
+        materias.push(materia);
         isFormValid = false;
       }
     }
   });
+
+  if (!isFormValid) {
+    setTimeout(() => { // esta dentro de un timeout asi se hace en el nextTick y podemos pintar de rojo antes!
+      alert(`Para modificar ${materias.join(', ')} debe ingresar una fecha valida`);
+    });
+  }
 
   if (isFormValid) {
     form.submit();
   }
 });
 </script>
-
-<style>
-  .error {
-    background-color: red;
-  }
-</style>
 
 <?php
 mysqli_free_result($Recordset1);
