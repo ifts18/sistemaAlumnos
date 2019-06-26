@@ -65,6 +65,12 @@ $modificarId = $_GET['id'];
 
 ?>
 
+<style>
+  .error {
+    background-color: red;
+  }
+</style>
+
 <table width="1000" border="1" align="center">
   <tbody>
     <tr>
@@ -74,7 +80,7 @@ $modificarId = $_GET['id'];
   </tbody>
 </table>
 
-<form method="post" action="UpdateFechaFirma.php" style="padding-bottom: 60px;">
+<form id="fechasFirma" method="post" action="UpdateFechaFirma.php" style="padding-bottom: 60px;">
 
 <table width="1103" border="1" align="center">
   <tbody>
@@ -85,7 +91,7 @@ $modificarId = $_GET['id'];
       <td width="100" align="center">FechaFirma</td>
     </tr>
     <?php do { ?>
-  <tr>
+  <tr id="row<?php echo $row_Recordset1['IdAlumnoMateria']?>">
     <td align="center" <h4><?php echo $row_Recordset1['Apellido']; ?></h4></td>
     <td align="center" <h4><?php echo $row_Recordset1['DNI']; ?></h4></td>
     <td align="center" <h4><?php echo $row_Recordset1['Descripcion']; ?></h4></td>
@@ -93,10 +99,11 @@ $modificarId = $_GET['id'];
     <td
     <br><br>
 
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="0" checked="checked">No Cambiar
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="2" > Borrar Firma
-        <input type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="1" > Modificar Ingrese fecha:
-        <input type="date"  name="idAlumnoMateria<?php echo $row_Recordset1['IdAlumnoMateria']?>" >
+        <input class="action" type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="0" checked="checked">No Cambiar
+        <input class="action" type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="2" > Borrar Firma
+        <input class="action" type="radio" name="idmesa<?php echo $row_Recordset1['IdAlumnoMateria']?>" value="1" > Modificar Ingrese fecha:
+        <input class="date" type="date"  name="idAlumnoMateria<?php echo $row_Recordset1['IdAlumnoMateria']?>" >
+        <input type="hidden" name="materia<?php echo $row_Recordset1['IdAlumnoMateria']; ?>" value="<?php echo $row_Recordset1['Descripcion']; ?>" />
         <input type="hidden" name="id" value="<?=$_GET['id'];?>" />
 
     </td>
@@ -109,12 +116,78 @@ $modificarId = $_GET['id'];
 
 <div style="text-align:center; position: fixed; bottom: 0; background-color: #fff; left: 0; right: 0; padding-bottom: 10px">
     <BR>
-    <input type="submit" />
+    <input type="submit" id="btnSubmit" />
     <input type=button onClick="location.href='Direcciones.php'" value='Volver al menu principal'>
 </div>
 
 </form>
 
+<script>
+const dateElements = document.getElementsByClassName('date');
+const actionElements = document.getElementsByClassName('action');
+const actionChangeHandler = e => {
+  const element = e.target;
+
+  if (element.checked) {
+    document.getElementById(`row${element.name.replace('idmesa', '')}`).classList.remove('error');
+  }
+};
+
+const dateChangeHandler = e => {
+  console.log(e);
+  document.getElementById(`row${e.target.name.replace('idAlumnoMateria', '')}`).classList.remove('error');
+};
+
+for( let x = 0; x < actionElements.length; x++) {
+  actionElements[x].addEventListener('change', actionChangeHandler);
+}
+
+for( let x = 0; x < dateElements.length; x++) {
+  dateElements[x].addEventListener('change', dateChangeHandler);
+}
+
+document.getElementById('btnSubmit').addEventListener('click', e => {
+  e.preventDefault();
+  const form = document.getElementById('fechasFirma');
+  const materias = [];
+
+  const formInputs = Object.values(form.elements).reduce((obj, field) => {
+    if (field.type === 'radio' && !field.checked) {
+      return obj;
+    }
+
+    fieldValue = field.value;
+
+    obj[field.name] = fieldValue;
+    
+    return obj
+  }, {});
+
+  let isFormValid = true;
+
+  Object.keys(formInputs).forEach(key => {
+    if (key.indexOf('idmesa') !== -1 && formInputs[key] === '1') { // Si quiere modificar la fecha de firma
+      const fechaKey = `idAlumnoMateria${key.replace('idmesa', '')}`;
+      if (formInputs[fechaKey] === '') { // Sino tiene un valor en el input de fecha. Mostramos el error
+        const materia = formInputs[`materia${key.replace('idmesa', '')}`];
+        const dateElement = document.getElementById(`row${key.replace('idmesa', '')}`).classList.add('error');
+        materias.push(materia);
+        isFormValid = false;
+      }
+    }
+  });
+
+  if (!isFormValid) {
+    setTimeout(() => { // esta dentro de un timeout asi se hace en el nextTick y podemos pintar de rojo antes!
+      alert(`Para modificar ${materias.join(', ')} debe ingresar una fecha valida`);
+    });
+  }
+
+  if (isFormValid) {
+    form.submit();
+  }
+});
+</script>
 
 <?php
 mysqli_free_result($Recordset1);
