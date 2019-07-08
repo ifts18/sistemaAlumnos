@@ -20,7 +20,6 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
 
 <?php
 $recordsetMaterias = mysqli_query(dbconnect(), "SELECT IdMateria, Descripcion FROM materias");
-$rowRecordset = mysqli_fetch_assoc($recordsetMaterias);
 ?>
 
 <html>
