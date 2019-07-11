@@ -55,15 +55,19 @@ if (!isset($_SESSION['MM_Username']))
         {
 //mysql_select_db($database_MySQL, $MySQL);
 $par1 = $_SESSION['MM_Username'];
-$query_Recordset1 = "select
-                            mf.IdMesaFinal,  m.Descripcion , mf.FechaMesa , count(*) as Inscriptos
-                    from terciario.mesas_final mf
-                                    inner join terciario.materias_plan mp on mp.IdMateriaPlan = mf.IdMateriaPlan
-                                    inner join terciario.materias m on m.IdMateria = mp.IdMateria
-                                    inner join terciario.mesa_final_alumno mfa on mfa.IdMesaFinal = mf.IdMesaFinal
-                    where mf.Abierta = 1
-                    group by mf.IdMesaFinal,  m.Descripcion , mf.FechaMesa
-                    ORDER BY mf.IdMesaFinal desc, m.descripcion asc,mf.fechaMesa desc;";
+$query_Recordset1 = "
+  SELECT MF.IdMesaFinal, M.Descripcion, DATE_FORMAT(MF.FechaMesa, '%d/%m/%Y') AS FechaMesa, D.NombreDivision, C.Inscriptos
+  FROM mesas_final MF
+  INNER JOIN materias_plan MP ON MP.IdMateriaPlan = MF.IdMateriaPlan
+  INNER JOIN materias M ON M.IdMateria = MP.IdMateria
+  LEFT JOIN division D ON MF.IdDivision = D.IdDivision
+  INNER JOIN (
+    SELECT MF.IdMesaFinal, COUNT(MFA.IdMesaFinal) AS Inscriptos
+    FROM mesas_final MF
+    LEFT JOIN mesa_final_alumno MFA ON MFA.IdMesaFinal = MF.IdMesaFinal
+    GROUP BY MF.IdMesaFinal
+  ) AS C ON C.IdMesaFinal = MF.IdMesaFinal
+  ORDER BY MF.FechaMesa DESC, M.Descripcion ASC";
 $Recordset1 = mysqli_query(dbconnect(),$query_Recordset1) or die(mysqli_error());
 $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
@@ -86,6 +90,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
     <tr>
       <td width="100" align="center">Mesa</td>
       <td width="100" align="center">Materia</td>
+      <td width="100" align="center">División</td>
       <td width="100" align="center">Fecha</td>
       <td width="100" align="center">Alumnos Inscriptos</td>
 
@@ -94,6 +99,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   <tr>
     <td align="center" <h4> <?php echo $row_Recordset1['IdMesaFinal']; ?></h4></td>
     <td align="center" <h4> <?php echo $row_Recordset1['Descripcion']; ?></h4></td>
+    <td align="center" <h4> <?php echo $row_Recordset1['NombreDivision']; ?></h4></td>
     <td align="center" <h4> <?php echo $row_Recordset1['FechaMesa']; ?></h4></td>
     <td align="center" <h4> <?php echo $row_Recordset1['Inscriptos']; ?></h4></td>
 
