@@ -89,7 +89,7 @@ $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
   <tbody>
     <tr>
       <td width="100" align="center">Mesa</td>
-      <td width="100" align="center">Materia</td>
+      <td width="250" align="center">Materia</td>
       <td width="100" align="center">División</td>
       <td width="100" align="center">Fecha</td>
       <td width="100" align="center">Alumnos Inscriptos</td>
