@@ -83,7 +83,7 @@ function getSubjectDetails($id) {
 }
 
 function getListDetails($id) {
- $query = "select * from terciario.lista_materia where IdListaMateria={$id}";
+ $query = "select * from terciario.lista_materia where IdListaMateria={$id} AND YEAR(fechaCicloLectivo) = YEAR(NOW())";
  $recordset = mysqli_query(dbconnect(), $query) or die(mysqli_error(dbconnect()));
  $listDetails = mysqli_fetch_assoc($recordset);
  return $listDetails;
@@ -227,7 +227,7 @@ $listDetails = getListDetails($materia_id);
         $.ajax({
            url: './ABM_Modal/ajax/alumnosListado_ajax.php',
            type: 'POST',
-           data: {'action': 'borrar', 'materia': <?php echo $materia_id ?>, 'id': studentId},
+           data: {'action': 'borrar', 'materia': <?php echo $materia_id ?>, 'id': studentId, 'division': idDivision},
            beforeSend: function(objeto){
              $this[0].setAttribute('disabled', 'disabled');
              $("#loader").html("<img src='./ABM_Modal/loader.gif'>");
