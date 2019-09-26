@@ -55,7 +55,6 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 
 <?php
-
   $action = (isset($_REQUEST["action"])&& $_REQUEST["action"] !=NULL)?$_REQUEST["action"]:'';
   $idMateria = GetSQLValueString($_REQUEST['materia'], "int");
   $idDivision = GetSQLValueString($_REQUEST['division'], 'int');
@@ -67,6 +66,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
       SELECT COUNT(*)
       FROM lista_materia LM
       WHERE LM.IdListaMateria = $idMateria
+      AND YEAR(LM.fechaCicloLectivo) = YEAR(NOW())
     ;");
 
     $tieneListadoGenerado = mysqli_fetch_row($query);

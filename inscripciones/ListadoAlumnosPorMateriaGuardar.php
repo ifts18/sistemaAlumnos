@@ -66,70 +66,19 @@ if($row_Recordset1) {
   
 // }
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+// var_dump($_SESSION["listado"]);
+$idAlumnos = array_map(function($alumno) {
+  return $alumno['IdAlumno'];
+}, $_SESSION['listado']);
+$imploded = implode(',', $idAlumnos);
 mysqli_query(dbconnect(), "
-UPDATE alumno_materias 
+UPDATE alumno_materias
 SET IdListaMateria = $idMateria
-WHERE IdAlumno IN (SELECT IdAlumno FROM (SELECT DISTINCT 
-A.IdAlumno, 
-A.Apellido, 
-A.Nombre, 
-A.DNI, 
-AM.FechaFirma, 
-AM.EsEquivalencia, 
-M.Descripcion, 
-M.IdMateria, 
-A.FechaCreacion
-, COUNT(C.IdCorrelativa) AS CorrelativasMateria
-, COALESCE(CA.CorrelativasAprobadas, 0) AS CorrelativasAprobadas
-, COALESCE(AMF.TotalFirmadas, 0) AS TotalFirmadas
-, IF(YEAR(CURDATE()) = YEAR(A.FechaCreacion), 1, 0) AS DeEste
-, YEAR(CURDATE()) - YEAR(A.FechaCreacion) AS Antiguedad
-FROM alumnos A
-INNER JOIN alumno_materias AM ON A.IdAlumno = AM.IdAlumno
-INNER JOIN materias_plan MP ON AM.IdMateriaPlan = MP.IdMateriaPlan
-INNER JOIN materias M ON MP.IdMateria = M.IdMateria
-LEFT JOIN correlativas C ON C.IdMateriaPlan = AM.IdMateriaPlan
-LEFT JOIN (
-  SELECT AM.IdAlumno, COUNT(C.IdMateriaPlan) AS CorrelativasAprobadas
-  FROM correlativas C
-  INNER JOIN alumno_materias AM ON 
-    AM.IdMateriaPlan = C.IdCorrelativa AND 
-    AM.FechaFirma IS NOT NULL 
-    AND C.IdMateriaPlan = $idMateria
-  GROUP BY AM.IdAlumno
-) AS CA ON CA.IdAlumno = A.IdAlumno
-LEFT JOIN (
-  SELECT AM.IdAlumno, COUNT(AM.IdAlumno) As TotalFirmadas
-  FROM alumno_materias AM
-  WHERE AM.FechaFirma IS NOT NULL OR AM.EsEquivalencia = 1
-  GROUP BY AM.IdAlumno
-) AS AMF ON AMF.IdAlumno = A.IdAlumno
 WHERE 
-M.IdMateria = $idMateria
-AND AM.EsEquivalencia = 0 /* No la tiene que haber aprobado por equivalencia */
-AND AM.FechaFirma IS NULL /* Obvio que tiene que tener la fechaFirma en NULL */
-GROUP BY A.IdAlumno, AM.FechaFirma, AM.EsEquivalencia, M.Descripcion
-HAVING CorrelativasAprobadas = CorrelativasMateria /* Chequeamos que la cantidad de correlativas aprobadas sea igual a la requerida por la materia */
-AND 
-  (M.IdMateria > 1 AND (
-    TotalFirmadas > 3 AND
-    Antiguedad <= 3 AND
-    DeEste = 0
-  )) OR (
-    M.IdMateria <= 11 AND
-    (DeEste = 1 OR Antiguedad <= 1) /* Trae los de este año y el anterior, los demas los sacamos */
-  )
-ORDER BY A.Apellido ASC) AS QuerySelect) AND IdMateriaPlan = $idMateria
+1 = 1
+AND IdAlumno IN ($imploded)
+AND IdMateriaPlan = $idMateria
 ");
-
-// if(isset($_SESSION["trash"])){
-//   foreach ($_SESSION["trash"] as $student) {
-//     $par2= $student["IdAlumno"];
-
-//    mysqli_query(dbconnect(),"UPDATE alumno_materias SET IdListaMateria = NULL WHERE IdAlumno = $par2 AND IdMateriaPlan = $idMateria") or printf('error', mysqli_error(dbconnect()));
-//   }
-//   unset($_SESSION["trash"]);
-// }
 mysqli_free_result($Recordset1);
 ?>
 
