@@ -14,7 +14,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="https://www.buenosaires.gob.ar/sites/gcaba/files/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
