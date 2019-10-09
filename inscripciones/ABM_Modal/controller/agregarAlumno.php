@@ -37,6 +37,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                     $apellido=mysqli_real_escape_string(dbconnect(),(strip_tags($_POST["apellido"],ENT_QUOTES)));
                     $email=mysqli_real_escape_string(dbconnect(),(strip_tags($_POST["email"],ENT_QUOTES)));
                     $DNI=mysqli_real_escape_string(dbconnect(),(strip_tags($_POST["dni"],ENT_QUOTES)));
+                    $division=mysqli_real_escape_string(dbconnect(),(strip_tags($_POST["division"],ENT_QUOTES)));
 
 
                     $sql4 = "SELECT DNI FROM alumnos WHERE DNI = '$DNI' ";
@@ -59,45 +60,45 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                     $resultarr = mysqli_fetch_assoc($Recordset2);
                     $attempts = $resultarr["IdAlumno"];
 
-                    $sql3="INSERT INTO alumno_materias (idAlumnoMateria, IdAlumno, IdMateriaPlan, FechaFirma, FechaCaduco, MotivoCaduco, Repeticion, FechaCreacion) 
-                    VALUES (NULL, '$attempts', 1, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                                    (NULL, '$attempts', 2, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 3, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 4, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                           (NULL, '$attempts', 5, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 6, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 7, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 8, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 9, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 10, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP);";
+                    $sql3="INSERT INTO alumno_materias (idAlumnoMateria, IdAlumno, IdMateriaPlan, FechaFirma, FechaCaduco, MotivoCaduco, Repeticion, FechaCreacion, IdDivision) 
+                    VALUES (NULL, '$attempts', 1, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 2, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 3, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 4, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 5, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 6, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 7, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 8, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 9, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 10, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division'),
+                            (NULL, '$attempts', 11, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '$division');";
 
                     $Recordset3 = mysqli_query(dbconnect(),$sql3) or die(mysqli_error());
 
                     $sql5="INSERT INTO alumno_materias (idAlumnoMateria, IdAlumno, IdMateriaPlan, FechaFirma, FechaCaduco, MotivoCaduco, Repeticion, FechaCreacion) 
-                    VALUES (NULL, '$attempts', 11, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                                    (NULL, '$attempts', 12, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 13, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 14, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                           (NULL, '$attempts', 15, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 16, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 17, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 18, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 19, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 20, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP);";
+                    VALUES (NULL, '$attempts', 12, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 13, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 14, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 15, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 16, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 17, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 18, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 19, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 20, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP);";
 
                     $Recordset5 = mysqli_query(dbconnect(),$sql5) or die(mysqli_error());
 
                     $sql6="INSERT INTO alumno_materias (idAlumnoMateria, IdAlumno, IdMateriaPlan, FechaFirma, FechaCaduco, MotivoCaduco, Repeticion, FechaCreacion) 
                     VALUES (NULL, '$attempts', 21, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                                    (NULL, '$attempts', 22, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 23, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 24, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                           (NULL, '$attempts', 25, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 26, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 27, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 28, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 29, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
-                               (NULL, '$attempts', 30, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP);";
+                            (NULL, '$attempts', 22, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 23, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 24, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 25, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 26, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 27, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 28, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 29, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP),
+                            (NULL, '$attempts', 30, NULL, NULL, NULL, 0, CURRENT_TIMESTAMP);";
 
                     $Recordset6 = mysqli_query(dbconnect(),$sql6) or die(mysqli_error());
 

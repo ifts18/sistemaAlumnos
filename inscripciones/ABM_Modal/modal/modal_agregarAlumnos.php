@@ -44,6 +44,20 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
             <label for="dni0" class="control-label">DNI:</label>
             <input type="text" class="form-control" id="dni0" name="dni" required maxlength="10"> 
           </div>
+      <div class="form-group">
+            <!-- <label for="division0" class="control-label">Division 1° año:</label>
+            <input type="text" class="form-control" id="division0" name="division" required maxlength="1">  -->
+            <label for="division0" class="control-label">Division:</label>
+              <select id="division0" name="division" class="form-control">
+                  <option value="1">1° A</option>
+                  <option value="2">1° B</option>
+                  <!-- Las opciones siguiente no estan implementadas, en caso de abrir divisiones en segundo año implemetarlas -->
+                  <option value="1">2° A</option>
+                  <option value="2">2° B</option>
+                  <option value="0">3°</option>
+              </select>
+            </label> 
+          </div>
       </div>
       <div class="modal-footer">
         <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>-->
