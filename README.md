@@ -53,6 +53,27 @@ Cuando necesitemos modificar la base de datos de producción debemos primero hac
 3. La BD ya va a estar creada con el usuario del sistema, solo resta importarla y darle permisos. El servidor de bd esta en `localhost:8083`
 4. Ingresar a `http://localhost:8081`
 
+### :five: Correr con xampp y crear un virtual host
+1. Configurar un vhost en C:\xampp\apache\conf\extra\httpd-vhosts.conf:
+```
+<VirtualHost 127.0.0.1:80>
+    ServerName inscripciones.local.com #la url donde a la que va a responder
+    DocumentRoot "C:\xampp\htdocs\sistemaAlumnos\inscripciones" #nuestro directorio del proyecto
+    DirectoryIndex index.php
+
+    <Directory "C:\xampp\htdocs\sistemaAlumnos\inscripciones"> #nuestro directorio del proyecto
+        AllowOverride All
+        Order Allow,Deny
+        Allow from All
+    </Directory>
+</VirtualHost>
+```
+2. Configurar en host el nombre de dominio que le pusimos arriba C:\Windows\System32\drivers\etc\hosts:
+```
+127.0.0.1 inscripciones.local.com
+```
+3. Reiniciar xampp
+
 
 ## :sos: Dudas?
 
