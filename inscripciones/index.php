@@ -4,6 +4,7 @@
   include_once($_SERVER['DOCUMENT_ROOT'].'/helpers/auth.php');
   include_once($_SERVER['DOCUMENT_ROOT'].'/helpers/sessions.php');
   include_once($_SERVER['DOCUMENT_ROOT'].'/helpers/page.php');
+  include_once($_SERVER['DOCUMENT_ROOT'].'/helpers/form.php');
 
   
   if ($requestRoute !== 'login' && !$AuthManager->isLoggedIn()) {
