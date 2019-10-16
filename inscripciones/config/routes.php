@@ -2,6 +2,11 @@
 $requestRoute = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
 $routes = [
+  '' => [
+    'show-on-menu' => true,
+    'name' => 'Inicio',
+    'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/inicio.php'
+  ],
   'login' => [
     'show-on-menu' => false,
     'name' => 'Login',
@@ -11,11 +16,6 @@ $routes = [
     'show-on-menu' => false,
     'name' => 'Logout',
     'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/logout.php'
-  ],
-  'inicio' => [
-    'show-on-menu' => true,
-    'name' => 'Inicio',
-    'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/inicio.php'
   ],
   'alta-alumnos' => [
     'show-on-menu' => true,
