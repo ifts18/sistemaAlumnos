@@ -7,6 +7,11 @@ $routes = [
     'name' => 'Login',
     'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/login.php'
   ],
+  'inicio' => [
+    'show-on-menu' => true,
+    'name' => 'Inicio',
+    'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/inicio.php'
+  ],
   'alta-alumnos' => [
     'show-on-menu' => true,
     'name' => 'Alta de alumnos',
