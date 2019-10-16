@@ -47,8 +47,6 @@ class DbManager {
     $rows = array();
     $result = $this->query($query);
 
-    var_dump($query);
-
     if (!$result) {
       return $rows;
     }
