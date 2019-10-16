@@ -5,6 +5,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/helpers/db.php');
 class AuthManager {
   public function __construct($DbManager) {
     $this->sessionKey = 'user_id';
+    $this->isAdminKey = 'IsAdmin';
     $this->dbManager = $DbManager;
   }
 
@@ -28,10 +29,12 @@ class AuthManager {
     // Negrada, porque la base tiene DOS tablas (una admin y otra de alumnos) -> No queremos tocar la base en esta version
     if (!empty($alumnos)) {
       $final = $alumnos[0];
+      $final['IsAdmin'] = false;
     }
 
     if (!empty($admin)) {
       $final = $admin[0];
+      $final['IsAdmin'] = true;
     }
 
     set($this->sessionKey, $final);
@@ -48,6 +51,10 @@ class AuthManager {
   
   public function getUserSession() {
     return get($this->sessionKey);
+  }
+
+  public function isAdmin() {
+    return get($this->sessionKey)[$this->isAdminKey];
   }
 }
 
