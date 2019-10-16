@@ -19,5 +19,5 @@ if (isset($_POST) && !empty($_POST)) {
     <label for="password">Password</label>
     <input name="password" type="password" class="form-control" id="password" placeholder="Password">
   </div>
-  <button type="submit" class="btn btn-primary">Logearse</button>
+  <button type="submit" class="btn btn-primary">Ingresar</button>
 </form>
