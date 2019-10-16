@@ -1,13 +1,12 @@
-<?php 
-include_once($_SERVER['DOCUMENT_ROOT'].'/helpers/sessions.php');
-
-if(isLoggedIn()) {
+<?php
+if($AuthManager->isLoggedIn()) {
   header('Location: /');
 }
 
 if (isset($_POST) && !empty($_POST)) {
-  login($_POST['dni'], $_POST['password']);
-  header('Location: /');
+  if ($AuthManager->doLogin($_POST['dni'], $_POST['password'])) {
+    return header('Location: /');
+  }
 }
 ?>
 
