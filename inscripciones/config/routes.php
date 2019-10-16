@@ -9,6 +9,13 @@ $routes = [
     'admin' => true,
     'student' => true
   ],
+  'not-allowed' => [
+    'show-on-menu' => false,
+    'name' => 'No permitido',
+    'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/not-allowed.php',
+    'admin' => true,
+    'student' => true
+  ],
   'login' => [
     'show-on-menu' => false,
     'name' => 'Login',
