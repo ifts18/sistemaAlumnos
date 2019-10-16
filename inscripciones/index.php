@@ -46,5 +46,9 @@
     <script src="/scripts/jquery.slim.min.js"></script>
     <script src="/scripts/popper-1.14.7.min.js"></script>
     <script src="/scripts/bootstrap.min.js"></script>
+    <script>
+      console.log('%c Creado por los alumnos del IFTS! ', 'background: #ff0000; color: #1500ff; font-size: 20px;');
+      console.log('%c Última modificación: 2019 - Por Cris Montes de Oca, Sebas Poliak, Mati Rojas y Agus Tashdjian! ', 'background: #ff0000; color: #1500ff; font-size: 15px;');
+    </script>
   </body>
 </html>
