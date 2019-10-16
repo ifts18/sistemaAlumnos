@@ -3,7 +3,7 @@ $requestRoute = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
 $routes = [
   '' => [
-    'show-on-menu' => true,
+    'show-on-menu' => false,
     'name' => 'Inicio',
     'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/inicio.php',
     'admin' => true,
