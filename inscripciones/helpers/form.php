@@ -30,7 +30,11 @@ function print_fields($fields) {
 }
 
 function print_top($action, $method) {
-  echo '<form action="'.$action.'" method="'.$method.'">';
+  echo '<form';
+  if (isset($action) && $action !== '') {
+    echo ' action="'.$action.'"';
+  }
+  echo ' method="'.$method.'">';
 }
 
 function print_submit() {

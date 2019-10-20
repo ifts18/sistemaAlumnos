@@ -30,7 +30,7 @@ $form_fields = [
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <?php generate($form_fields, '', 'alta-alumno'); ?>
+      <?php generate($form_fields, ''); ?>
     </div>
   </div>
 </div>
