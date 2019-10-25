@@ -68,14 +68,9 @@
     display: table;
   }
 
-  #printable-table.presencia .print-presencia-col tr + tr {
-    border-top: 1px solid #000;
-  }
-
   #printable-table.presencia .print-presencia-col table  td + td {
     border-left: 1px solid #000;
   }
-
 
   #printable-table.presencia .print-parcial-col,
   #printable-table.presencia .print-parcial-col table{
