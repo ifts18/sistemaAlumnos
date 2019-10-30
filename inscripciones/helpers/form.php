@@ -10,16 +10,23 @@ function print_fields($fields) {
     $name = $id;
     $label = $field['label'];
     $type = $field['type'];
+    $isValid = $field['isValid'] || true;
+    $message = $field['message'] || '';
     $placeholder = isset($field['placeholder']) ? $field['placeholder'] : '';
     $help = isset($field['help']) ? $field['help'] : '';
     $value = isset($field['value']) ? $field['value'] : '';
 
+    $inputClass = $isValid ? 'form-control' : 'form-control is-invalid';
+
     $formGroup = '
       <div class="form-group">
         <label for="'.$id.'">'.$label.'</label>
-        <input value="'.$value.'" name="'.$name.'" type="'.$type.'" class="form-control" id="'.$id.'" aria-describedby="'.$id.'Help" placeholder="'.$placeholder.'">
-        
+        <input value="'.$value.'" name="'.$name.'" type="'.$type.'" class="'.$inputClass.'" id="'.$id.'" aria-describedby="'.$id.'Help" placeholder="'.$placeholder.'">
     ';
+
+    if ($message !== '') {
+      $formGroup = $formGroup.'<div class="invalid-feedback">'.$message.'</div>';
+    }
 
     if ($help !== '') {
       $formGroup = $formGroup.'<small id="'.$id.'Help" class="form-text text-muted">'.$help.'</small>';
