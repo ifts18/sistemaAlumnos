@@ -10,8 +10,8 @@ function print_fields($fields) {
     $name = $id;
     $label = $field['label'];
     $type = $field['type'];
-    $isValid = $field['isValid'] || true;
-    $message = $field['message'] || '';
+    $isValid = $field['isValid'];
+    $message = $field['message'];
     $placeholder = isset($field['placeholder']) ? $field['placeholder'] : '';
     $help = isset($field['help']) ? $field['help'] : '';
     $value = isset($field['value']) ? $field['value'] : '';
