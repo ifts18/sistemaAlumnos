@@ -1,10 +1,10 @@
 <?php
 
-$perPage = 12; // resultados por pagina
+$perPage = 10; // resultados por pagina
 $pageNumber = (int) (isset($_GET['page']) ? $_GET['page'] : '1');
 $offset = ($pageNumber - 1) * $perPage;
 
-function print_table($headers, $rows) {
+function print_table($headers, $rows, $actions) {
   if (empty($rows)) {
     return '<div class="card"><div class="card-body mx-auto">Ups... No existen resultados</div></div>';
   }
@@ -29,6 +29,12 @@ function print_table($headers, $rows) {
 
       foreach($row as $tableData) {
         $html = $html . '<td>' . $tableData . '</td>';
+      }
+
+      if (!empty($actions)) {
+        foreach($actions as $action) {
+          $html = $html . '<td data-id="'.$row['idAlumno'].'">' . $action . '</td>';
+        }
       }
 
       $html = $html . '</tr>';
