@@ -1,7 +1,6 @@
 <?php 
-echo '<script>let showToast = false;</script>';
-$toast_message = 'Alumno creado correctamente';
-$toast_bg = 'bg-success';
+$alertMessage = 'Alumno creado correctamente';
+$alertClass = 'alert-success';
 $form_fields = [
   'name' => [
       'id' => 'name',
@@ -63,16 +62,14 @@ if ($_POST) {
   }
 
   if ($isFormValid) {
-    $insertionOk = $DbManager->query('INSERT INTO alumnos (IdAlumno, IdPlan, Email, DNI, Apellido, Nombre, Password, FechaCreacion) VALUES 
+    $insertionOk = $DbManager->query('INSERTS INTO alumnos (IdAlumno, IdPlan, Email, DNI, Apellido, Nombre, Password, FechaCreacion) VALUES 
       (NULL, 1, '.$form_fields['mail']['escaped'].', '.$form_fields['dni']['escaped'].', '.$form_fields['lastname']['escaped'].', '
       .$form_fields['name']['escaped'].', '.$form_fields['dni']['escaped'].', CURRENT_TIMESTAMP)');
 
-    echo '<script> showToast = true; </script>';
-
     if(!$insertionOk) {
       error_log($DbManager->error());
-      $toast_bg = 'bg-danger';
-      $toast_message = 'Ocurrió un error al crear el alumno';
+      $alertClass = 'alert-danger';
+      $alertMessage = 'Ocurrió un error al crear el alumno';
     }
 
     $insertedAlumno = $DbManager->select('SELECT * FROM alumnos WHERE DNI = '.$form_fields['dni']['escaped']);
@@ -91,18 +88,21 @@ if ($_POST) {
 
     if(!$insertionOk) { // Si falla, tambien mostramos la toast
       error_log($DbManager->error());
-      $toast_bg = 'bg-danger';
-      $toast_message = 'Ocurrió un error al asignarle las materias al alumno';
+      $alertClass = 'alert-danger';
+      $alertMessage = 'Ocurrió un error al asignarle las materias al alumno';
     }
   }
 }
 ?>
 
-<div data-delay="3000" class="<?php echo 'toast '.$toast_bg; ?>" style="position: absolute; top: 60px; right: 0;">
-  <div class="toast-body">
-    <p id="toast-message"><?php echo $toast_message; ?></p>
+<?php if (isset($insertionOk)) {  ?>
+  <div class="alert alert-dismissible fade show <?php echo $alertClass; ?>" role="alert">
+    <strong><?php echo $alertMessage; ?></strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
+<?php } ?>
 
 <div class="container-fluid">
   <div class="row">
