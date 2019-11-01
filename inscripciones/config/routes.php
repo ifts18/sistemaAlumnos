@@ -1,5 +1,6 @@
 <?php 
-$requestRoute = str_replace('/', '', $_SERVER['REQUEST_URI']);
+$requestUri = parse_url($_SERVER['REQUEST_URI']);
+$requestRoute = str_replace('/', '', $requestUri['path']);
 
 $routes = [
   '' => [
