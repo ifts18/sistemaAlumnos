@@ -38,10 +38,10 @@ $routes = [
     'admin' => true,
     'student' => false
   ],
-  'listar-alumnos' => [
+  'alumnos' => [
     'show-on-menu' => true,
-    'name' => 'Listar alumnos',
-    'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/listar-alumnos.php',
+    'name' => 'Alumnos',
+    'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/alumnos.php',
     'admin' => true,
     'student' => false
   ],
@@ -52,20 +52,12 @@ $routes = [
     'admin' => true,
     'student' => false
   ],
-    'modificar-alumnos' => [
-    'show-on-menu' => true,
-    'name' => 'Modificar alumnos',
-    'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/modificar-alumnos.php',
-    'admin' => true,
-    'student' => false
-  ],
   'regularidad-materia' => [
     'show-on-menu' => true,
     'name' => 'Regularidad de Materias',
     'page' => $_SERVER['DOCUMENT_ROOT'].'/pages/regularidad-materia.php',
     'admin' => true,
     'student' => false
-
   ],
   'equivalencias' => [
     'show-on-menu' => true,
