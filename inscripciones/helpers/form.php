@@ -10,6 +10,7 @@ function print_fields($fields) {
     $name = $id;
     $label = $field['label'];
     $type = $field['type'];
+    $options = isset($field['options']) ? $field['options'] : [];
     $isValid = $field['isValid'] || true;
     $message = $field['message'] || '';
     $placeholder = isset($field['placeholder']) ? $field['placeholder'] : '';
@@ -21,8 +22,17 @@ function print_fields($fields) {
     $formGroup = '
       <div class="form-group">
         <label for="'.$id.'">'.$label.'</label>
-        <input value="'.$value.'" name="'.$name.'" type="'.$type.'" class="'.$inputClass.'" id="'.$id.'" aria-describedby="'.$id.'Help" placeholder="'.$placeholder.'">
     ';
+
+    if ($type === 'text') {
+      $formGroup = $formGroup . '<input value="'.$value.'" name="'.$name.'" type="'.$type.'" class="'.$inputClass.'" id="'.$id.'" aria-describedby="'.$id.'Help" placeholder="'.$placeholder.'">';
+    } else if ($type === 'select' && !empty($options)) {
+      $formGroup = $formGroup . '<select name="'.$name .'" class="'.$inputClass.'" id="'.$id.'">';
+      foreach($options as $option) {
+        $formGroup = $formGroup . '<option value="'.$option[1].'">'.$option[0].'</option>';  
+      };
+      $formGroup = $formGroup . '</select>';
+    };
 
     if ($message !== '') {
       $formGroup = $formGroup.'<div class="invalid-feedback">'.$message.'</div>';
