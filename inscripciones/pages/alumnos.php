@@ -19,29 +19,13 @@ $alumnos = $DbManager->select(str_replace('&query&', implode(', ', $fields), $qu
 
 $headers = ['ID', 'DNI', 'Apellido', 'Nombre', 'Fecha de creación', 'Email', 'Contraseña', 'Acciones']; // Seteo los headers para la tabla
 $actions = ['<button type="button" class="btn btn-editar-alumno btn-outline-info btn-sm">Modificar</button>'];
+$cancelLink = '/alumnos';
 ?>
+
 <div class="container">
   <div class="row">
     <div class="col-md-12 mb-4">
-      <form class="form-inline">
-        <div class="form-row">
-          <div class="col">
-            <select class="form-control" name="criterio">
-              <option <?php echo $criterio && $criterio === 'DNI' ? 'selected' : ''; ?> value="DNI">DNI</option>
-              <option <?php echo $criterio && $criterio === 'Apellido' ? 'selected' : ''; ?> value="Apellido">Apellido</option>
-            </select>
-          </div>
-          <div class="col">
-            <input type="text" name="text" class="form-control" value="<?php echo $text; ?>">
-          </div>
-          <div class="col">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-          </div>
-          <div class="col">
-            <a href="/listar-alumnos" class="btn btn-outline-secondary">Cancelar</a>
-          </div>
-        </div>
-      </form>
+      <?php include_once($_SERVER['DOCUMENT_ROOT'].'/blocks/buscarAlumno.php'); ?>
     </div>
     <div class="col-md-12">
       <?php echo print_table($headers, $alumnos, $actions); ?>
