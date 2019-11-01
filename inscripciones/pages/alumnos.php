@@ -17,13 +17,14 @@ $query = $query . ' LIMIT ' . $offset . ', ' . $perPage; // Ahora le agrego el L
 
 $alumnos = $DbManager->select(str_replace('&query&', implode(', ', $fields), $query)); // Hago la query de resultados!
 
-$headers = ['ID', 'DNI', 'Apellido', 'Nombre', 'Fecha de creación', 'Email', 'Contraseña']; // Seteo los headers para la tabla
+$headers = ['ID', 'DNI', 'Apellido', 'Nombre', 'Fecha de creación', 'Email', 'Contraseña', 'Acciones']; // Seteo los headers para la tabla
+$actions = ['<button type="button" class="btn btn-editar-alumno btn-outline-info btn-sm">Modificar</button>'];
 ?>
 <div class="container">
   <div class="row">
     <div class="col-md-12 mb-4">
       <form class="form-inline">
-        <div class="row">
+        <div class="form-row">
           <div class="col">
             <select class="form-control" name="criterio">
               <option <?php echo $criterio && $criterio === 'DNI' ? 'selected' : ''; ?> value="DNI">DNI</option>
@@ -36,11 +37,14 @@ $headers = ['ID', 'DNI', 'Apellido', 'Nombre', 'Fecha de creación', 'Email', 'C
           <div class="col">
             <button type="submit" class="btn btn-primary">Buscar</button>
           </div>
+          <div class="col">
+            <a href="/listar-alumnos" class="btn btn-outline-secondary">Cancelar</a>
+          </div>
         </div>
       </form>
     </div>
     <div class="col-md-12">
-      <?php echo print_table($headers, $alumnos); ?>
+      <?php echo print_table($headers, $alumnos, $actions); ?>
     </div>
     <div class="col-md-12">
       <?php echo print_pagination($pageNumber, $totalPages); ?>
