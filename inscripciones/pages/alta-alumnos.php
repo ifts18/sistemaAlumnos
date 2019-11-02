@@ -33,6 +33,15 @@ $form_fields = [
     'value' => isset($_POST['dni']) ? $_POST['dni'] : '',
     'message' => '',
     'isValid' => true
+  ],
+  'division' => [
+    'id' => 'division',
+    'label' => 'Division',
+    'type' => 'select',
+    'options' => [['1° A', 1], ['1° B', 2], ['2° A', 1], ['2° B', 2], ['3°', 0]],
+    'value' => isset($_POST['division']) ? $_POST['division'] : '',
+    'message' => '',
+    'isValid' => true
   ]
 ];
 
@@ -73,11 +82,11 @@ if ($_POST) {
     }
 
     $insertedAlumno = $DbManager->select('SELECT * FROM alumnos WHERE DNI = '.$form_fields['dni']['escaped']);
-    $insertIntoAlumnoMaterias = 'INSERT INTO alumno_materias (idAlumnoMateria, IdAlumno, IdMateriaPlan, FechaFirma, FechaCaduco, MotivoCaduco, Repeticion, FechaCreacion) VALUES';
+    $insertIntoAlumnoMaterias = 'INSERT INTO alumno_materias (idAlumnoMateria, IdAlumno, IdMateriaPlan, FechaFirma, FechaCaduco, MotivoCaduco, Repeticion, FechaCreacion, IdDivision) VALUES';
 
     // 30 materias
     for ($i = 1; $i <= 30; $i++) {
-      $insertIntoAlumnoMaterias = $insertIntoAlumnoMaterias.' (NULL, '.$insertedAlumno[0]['IdAlumno'].', '.$i.',NULL, NULL, NULL, 0, CURRENT_TIMESTAMP)';
+      $insertIntoAlumnoMaterias = $insertIntoAlumnoMaterias.' (NULL, '.$insertedAlumno[0]['IdAlumno'].', '.$i.',NULL, NULL, NULL, 0, CURRENT_TIMESTAMP, '.$form_fields['division']['escaped'].')';
 
       if ($i !== 30) {
         $insertIntoAlumnoMaterias = $insertIntoAlumnoMaterias.', ';
