@@ -1,14 +1,10 @@
 <?php 
+include_once($_SERVER['DOCUMENT_ROOT'].'/helpers/buscarAlumno.php');
 $fields = ['idAlumno', 'DNI', 'Apellido', 'Nombre', 'FechaCreacion', 'Email', 'Password']; // aca estan los campos que voy a pedirle al SQL
 
-$query = 'SELECT &query& FROM alumnos WHERE 1 = 1'; // Estructura basica de la query
+$query = 'SELECT &query& FROM alumnos WHERE 1 = 1 '; // Estructura basica de la query
 
-$criterio = $_GET['criterio']; // Seteo variables del form de busqueda
-$text = $_GET['text']; // Seteo variables del form de busqueda
-
-if (isset($criterio) && isset($text)) {
-  $query = $query . ' AND ' . $criterio . ' LIKE ' . $DbManager->quote('%'.$text.'%'); // Si tengo variables de busqueda, las agrego a la clausula del WHERE
-}
+$query = $query . setWhere();
 
 $count = (int) $DbManager->select(str_replace('&query&', 'COUNT(*) AS Total', $query))[0]['Total']; // Ejecuto un COUNT para el total y el paginado
 $totalPages = ceil($count / $perPage); // Estas son las paginas que voy a tener
