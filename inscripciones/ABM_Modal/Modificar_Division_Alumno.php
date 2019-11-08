@@ -59,7 +59,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                   <option value="apellido">Apellido</option>
                 </select>
                   <input class="form-control" type="text" name="palabra" id="palabra">
-                  <input type="hidden" class="form-control" id="origen" name="origen" value="2">
+                  <input type="hidden" class="form-control" id="origen" name="origen" value="3">
                 <button id="buscar"  class="btn btn-primary">Buscar</button>
                 <br>
                 <br>

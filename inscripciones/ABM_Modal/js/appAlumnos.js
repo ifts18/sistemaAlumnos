@@ -3,7 +3,7 @@
 			var palabra = document.getElementById("palabra").value;
 			var filtro = document.getElementById("filtro").value;
 			var origen = document.getElementById("origen").value;
-                        var parametros = {"action":"ajax","page":page,"method":"buscar","filtro":filtro,"palabra":palabra,"origen":origen};
+			var parametros = {"action":"ajax","page":page,"method":"buscar","filtro":filtro,"palabra":palabra,"origen":origen};
 		
 
 		$("#loader").fadeIn('slow');
@@ -24,21 +24,19 @@
 		  var button = $(event.relatedTarget) // Botón que activó el modal
 		  var nombre = button.data('nombre') // Extraer la información de atributos de datos
 		  var apellido = button.data('apellido') // Extraer la información de atributos de datos
-                  var email = button.data('email') // Extraer la información de atributos de datos
+		  var email = button.data('email') // Extraer la información de atributos de datos
 		  var dni = button.data('dni') // Extraer la información de atributos de datos
-                  var password = button.data('password') // Extraer la información de atributos de datos
-                  var id = button.data('idalumno') // Extraer la información de atributos de datos
-
-		 
+		  var password = button.data('password') // Extraer la información de atributos de datos
+		  var id = button.data('idalumno') // Extraer la información de atributos de datos
 		  
 		  var modal = $(this)
 		  modal.find('.modal-title').text('Modificar Alumno ');
 		  modal.find('.modal-body #idAlumno').val(id).change();
 		  modal.find('.modal-body #nombre').val(nombre).change();
 		  modal.find('.modal-body #apellido').val(apellido).change();
-                  modal.find('.modal-body #email').val(email).change();
+		  modal.find('.modal-body #email').val(email).change();
 		  modal.find('.modal-body #password').val(password).change();
-                  modal.find('.modal-body #dni').val(dni).change();
+		  modal.find('.modal-body #dni').val(dni).change();
 //                  modal.find('.modal-body #origen').val(origen).change();
 
 		  $('.alert').hide();//Oculto alert

@@ -90,8 +90,11 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                         <td width="100" align="center">Apellido</td>
                                         <td width="100" align="center">Nombre</td>
                                         <td width="150" align="center">Fecha de ingreso</td>
+                                    <?php
+                                        if ($origen != 3){ ?>    
                                         <td width="80" align="center">E-mail</td>
                                         <td width="100" align="center">Password</td>
+                                    <?php } ?>
                                     <?php
                                         if ($origen != 1){ ?>
                                         <th width="90" align="center">Acciones</th>
@@ -99,25 +102,27 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                     </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            while($row = mysqli_fetch_array($query)){
-                                    ?>
-                                    <tr >
-                                            <td align="center" <h4> <?php echo $row['DNI']; ?></h4></td>
-                                            <td align="left" <h4> <?php echo $row['Apellido'];?></h4></td>
-                                            <td align="left" <h4> <?php echo $row['Nombre']; ?></h4></td>
-                                            <td align="left" <h4> <?php echo $row['FechaCreacion']; ?></h4></td>
-                                            <td align="left" <h4> <?php echo $row['Email']; ?></h4></td>
-                                            <td align="center" <h4> <?php echo $row['Password']; ?></h4></td>
-                                            <?php
-                                            if ($origen != 1){ ?>
-                                            <td>
-                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate" data-idAlumno="<?php echo $row['idAlumno']?>" data-dni="<?php echo $row['DNI']?>" data-apellido="<?php echo $row['Apellido']?>" data-nombre="<?php echo $row['Nombre']?>" data-email="<?php echo $row['Email']?>" data-dni="<?php echo $row['DNI']?>" data-password="<?php echo $row['Password']?>" ><i class='glyphicon glyphicon-edit'></i> Modificar</button>    
-                                            </td>   
-                                            <?php } ?>
-                                            
-                                    </tr>
-                                    <?php } ?>
+                                <?php
+                                while($row = mysqli_fetch_array($query)){
+                                ?>
+                                <tr >
+                                <td align="center" <h4> <?php echo $row['DNI']; ?></h4></td>
+                                <td align="left" <h4> <?php echo $row['Apellido'];?></h4></td>
+                                <td align="left" <h4> <?php echo $row['Nombre']; ?></h4></td>
+                                <td align="left" <h4> <?php echo $row['FechaCreacion']; ?></h4></td>
+                                <?php
+                                if ($origen != 3){ ?>
+                                <td align="left" <h4> <?php echo $row['Email']; ?></h4></td>
+                                <td align="center" <h4> <?php echo $row['Password']; ?></h4></td>
+                                <?php } ?>
+                                <?php
+                                if ($origen != 1){ ?>
+                                <td>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate" data-idAlumno="<?php echo $row['idAlumno']?>" data-dni="<?php echo $row['DNI']?>" data-apellido="<?php echo $row['Apellido']?>" data-nombre="<?php echo $row['Nombre']?>" data-email="<?php echo $row['Email']?>" data-dni="<?php echo $row['DNI']?>" data-password="<?php echo $row['Password']?>" ><i class='glyphicon glyphicon-edit'></i> Modificar</button>    
+                                </td>   
+                                <?php } ?>
+                                </tr>
+                                <?php } ?>
                             </tbody>
                     </table>
                 </div>    
