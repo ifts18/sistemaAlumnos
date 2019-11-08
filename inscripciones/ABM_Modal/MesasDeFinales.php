@@ -27,9 +27,11 @@ if (isset($_POST['action'])) {
   }
 
   if ($_POST['action'] === 'editar-mesa') {
-    if (isset($_POST['id-mesa-final']) && isset($_POST['materia']) && isset($_POST['fechaMesa']) && isset($_POST['turno'])) {
+    if (isset($_POST['id-mesa-final']) && isset($_POST['materia']) && isset($_POST['fechaMesa']) && isset($_POST['turno']) && isset($_POST['fechaInicioInscripcion']) && isset($_POST['fechaFinInscripcion'])) {
       $IdMesaFinal = $_POST['id-mesa-final'];
       $fechaMesa = $_POST['fechaMesa'];
+      $fechaInicioInscripcion = $_POST['fechaInicioInscripcion'];
+      $fechaFinInscripcion = $_POST['fechaFinInscripcion'];
       $IdDivision = GetSQLValueString(0, 'int');
       $IdTurno = $_POST['turno'];
 
@@ -42,6 +44,8 @@ if (isset($_POST['action'])) {
         mesas_final
         SET IdTurnosFinales = $IdTurno,
         FechaMesa = STR_TO_DATE('$fechaMesa', '%d/%m/%Y %H:%i'),
+        DisponibleDesdeFecha = STR_TO_DATE('$fechaInicioInscripcion', '%d/%m/%Y %H:%i'),
+        DisponibleHastaFecha = STR_TO_DATE('$fechaFinInscripcion', '%d/%m/%Y %H:%i'),
         IdDivision = $IdDivision
         WHERE IdMesaFinal = $IdMesaFinal
       ");
@@ -68,7 +72,9 @@ $resultado = mysqli_query(dbconnect(), "
   TF.IdTurnosFinales AS Turno,
   COALESCE(D.NombreDivision, '-') AS Division,
   COALESCE(D.IdDivision, 0) AS IdDivision,
-  MF.FechaMesa FechaMesa
+  MF.FechaMesa AS FechaMesa,
+  MF.DisponibleDesdeFecha AS FechaInicioInscripcion,
+  MF.DisponibleHastaFecha AS FechaFinInscripcion
   FROM mesas_final MF
   INNER JOIN materias_plan MP ON MP.IdMateriaPlan = MF.IdMateriaPlan
   INNER JOIN materias M ON M.IdMateria = MP.IdMateria
@@ -152,15 +158,23 @@ function Color($fechaMesa) {
               <input type="hidden" id="modalModificarIdMesaFinal" name="id-mesa-final" value="">
               <input type="hidden" id="modalModificarIdMateria" name="id-materia" value="">
               <div class="form-group">
-                <label for="materia" class="control-label">Materia</label>
+                <label for="modalModificarMateria" class="control-label">Materia</label>
                 <input type="text" class="form-control" id="modalModificarMateria" name="materia" readonly>
               </div>
               <div class="form-group">
-                <label for="fechaMesa" class="control-label">Fecha de la mesa</label>              
+                <label for="modalModificarFechaMesa" class="control-label">Fecha de la mesa</label>              
                 <input type="text" class="form-control" id="modalModificarFechaMesa" name="fechaMesa" />
               </div>
               <div class="form-group">
-                <label for="division" class="control-label">Division</label>
+                <label for="modalModificarInicioInscripcion" class="control-label">Inicio inscripción</label>              
+                <input type="text" class="form-control" id="modalModificarInicioInscripcion" name="fechaInicioInscripcion" />
+              </div>
+              <div class="form-group">
+                <label for="modalModificarFinInscripcion" class="control-label">Fin inscripción</label>              
+                <input type="text" class="form-control" id="modalModificarFinInscripcion" name="fechaFinInscripcion" />
+              </div>
+              <div class="form-group">
+                <label for="modalModificarDivision" class="control-label">Division</label>
                 <select name="division" id="modalModificarDivision" class="form-control">
                   <option value="0">NINGUNA</option>
                   <?php while($row = mysqli_fetch_assoc($divisiones)) { ?>
@@ -169,7 +183,7 @@ function Color($fechaMesa) {
                 </select>
               </div>
               <div class="form-group">
-                <label for="turno" class="control-label">Turno</label>
+                <label for="modalModificarTurno" class="control-label">Turno</label>
                 <select name="turno" id="modalModificarTurno" class="form-control">
                   <?php while($row = mysqli_fetch_assoc($turnos)) { ?>
                     <option value="<?php echo $row['IdTurnosFinales'] ?>"><?php echo $row['IdTurnosFinales']; ?></option>
@@ -179,7 +193,7 @@ function Color($fechaMesa) {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Actualizar Mesa</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
           </div>
         </div>
@@ -205,6 +219,8 @@ function Color($fechaMesa) {
                   <th>Materia</th>
                   <th>Turno</th>
                   <th>Fecha de mesa</th>
+                  <th>Inicio inscripción</th>
+                  <th>Fin inscripción</th>
                   <th>División</th>
                   <th>Acciones</th>
                 </tr>
@@ -216,6 +232,8 @@ function Color($fechaMesa) {
                       <td><?php echo $row['Materia'] ?></td>
                       <td><?php echo $row['Turno'] ?></td>
                       <td><?php echo date("d/m/Y", strtotime($row['FechaMesa'])); ?></td>
+                      <td><?php echo date("d/m/Y", strtotime($row['FechaInicioInscripcion'])); ?></td>
+                      <td><?php echo date("d/m/Y", strtotime($row['FechaFinInscripcion'])); ?></td>
                       <td><?php echo $row['Division'] ?></td>
                       <td>
                         <button class="btn btn-info botonModificarMesa"
@@ -223,6 +241,8 @@ function Color($fechaMesa) {
                           data-mesa-materia="<?php echo $row['Materia']; ?>"
                           data-mesa-turno="<?php echo $row['Turno']; ?>"
                           data-mesa-fecha="<?php echo date("d/m/Y", strtotime($row['FechaMesa'])); ?>"
+                          data-mesa-inicio-inscripcion="<?php echo date("d/m/Y", strtotime($row['FechaInicioInscripcion'])); ?>"
+                          data-mesa-fin-inscripcion="<?php echo date("d/m/Y", strtotime($row['FechaFinInscripcion'])); ?>"
                           data-mesa-division="<?php echo $row['IdDivision']; ?>"
                           data-id-materia="<?php echo $row['IdMateria']?>"
                         >
@@ -268,13 +288,15 @@ function Color($fechaMesa) {
     <script src="js/bootstrap-select.min.js"></script>
     <script>
       $('.botonModificarMesa').click(e => {
-        const { mesaDivision, mesaFecha, mesaId, mesaMateria, mesaTurno, idMateria } = e.target.dataset;
+        const { mesaDivision, mesaFecha, mesaInicioInscripcion, mesaFinInscripcion, mesaId, mesaMateria, mesaTurno, idMateria } = e.target.dataset;
         $('#modalModificarDivision').prop('disabled', false);
 
         $('#modalModificarIdMateria').val(idMateria);
         $('#modalModificarIdMesaFinal').val(mesaId);
         $('#modalModificarMateria').val(mesaMateria);
         $('#modalModificarFechaMesa').val(mesaFecha);
+        $('#modalModificarInicioInscripcion').val(mesaInicioInscripcion);
+        $('#modalModificarFinInscripcion').val(mesaFinInscripcion);
         $('#modalModificarDivision').val(mesaDivision);
         $('#modalModificarTurno').val(mesaTurno);
 
