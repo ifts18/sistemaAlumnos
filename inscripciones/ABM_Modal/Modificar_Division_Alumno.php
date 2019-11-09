@@ -53,10 +53,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
           <div class="col-xs-12 col-sm-6 col-md-8">   
             <div class="form-inline"  style="text-align: center">
                 <select class="selectpicker" aria-controls="table" name="filtro" id="filtro">
-                  <option value="todos">Todos</option>
-                  <option value="fechaing">Fecha de Ingreso</option>
                   <option value="dni">DNI</option>
-                  <option value="apellido">Apellido</option>
                 </select>
                   <input class="form-control" type="text" name="palabra" id="palabra">
                   <input type="hidden" class="form-control" id="origen" name="origen" value="3">

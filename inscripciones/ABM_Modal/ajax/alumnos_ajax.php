@@ -118,7 +118,7 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                 <?php
                                 if ($origen != 1){ ?>
                                 <td>
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate" data-idAlumno="<?php echo $row['idAlumno']?>" data-dni="<?php echo $row['DNI']?>" data-apellido="<?php echo $row['Apellido']?>" data-nombre="<?php echo $row['Nombre']?>" data-email="<?php echo $row['Email']?>" data-dni="<?php echo $row['DNI']?>" data-password="<?php echo $row['Password']?>" ><i class='glyphicon glyphicon-edit'></i> Modificar</button>    
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate" data-origen="<?php echo $origen?>" data-idAlumno="<?php echo $row['idAlumno']?>" data-dni="<?php echo $row['DNI']?>" data-apellido="<?php echo $row['Apellido']?>" data-nombre="<?php echo $row['Nombre']?>" data-email="<?php echo $row['Email']?>" data-dni="<?php echo $row['DNI']?>" data-password="<?php echo $row['Password']?>" ><i class='glyphicon glyphicon-edit'></i> Modificar</button>    
                                 </td>   
                                 <?php } ?>
                                 </tr>
