@@ -103,28 +103,65 @@ if (isset($_POST['dni'])) {
   }
 }
 ?>
-<table width="500" border="1" align="center">
-  <tbody>
-    <tr>
-      <td><form name="form1" align="center" method="POST" action="<?php echo $loginFormAction; ?>">
-        <table width="335" border="1" align="center">
-          <tbody>
-            <tr>
-              <td width="129" style="font-family: Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif; text-align: right;">DNI : </td>
-              <td width="190"><input name="dni" type="text" required="required" id="dni"></td>
-            </tr>
-            <tr>
-              <td style="font-family: Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif; text-align: right;">Contrase&ntildea :</td>
-              <td><input name="password" type="password" required="required" id="password"></td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td><input type="submit" name="login" id="login" value="Login"></td>
-            </tr>
-          </tbody>
-        </table>
-        <!---<a href="Recuperar.php">Recuperar Contrase&ntildea</a>--->
-      </form></td>
-    </tr>
-  </tbody>
-</table>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="favicon.png">
+    <link rel="stylesheet" href="styles/bootstrap-4.3.1.min.css">
+    <title>IFTS18</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
+    <div class="container">
+        <a class="navbar-brand" href="#">Instituto de Formación Técnica Superior N°18</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+  </nav>
+  <form name="form1"  method="POST" action="<?php echo $loginFormAction; ?>">
+  <main class="login-form">
+      <div class="cotainer">
+          <div class="row justify-content-center">
+              <div class="col-md-8">
+                  <div class="card">
+                      <div class="card-header">Iniciar Sesion</div>
+                      <div class="card-body">
+                          <form class="container">
+                              <div class="form-group row">
+                                  <label for="email_address" class="col-md-4 col-form-label text-md-right">DNI</label>
+                                  <div class="col-md-6">
+                                      <input type="text" id="email_address" class="form-control" id="dni" name="dni" required="required">
+                                  </div>
+                              </div>
+
+                              <div class="form-group row">
+                                  <label for="password" class="col-md-4 col-form-label text-md-right">Contraseña</label>
+                                  <div class="col-md-6">
+                                      <input type="password" id="password" class="form-control" name="password" required="required">
+                                  </div>
+                              </div>
+
+                              
+                              <div class="col-md-6 offset-md-4">
+                                  <button type="submit" name="login" id="login" value="Login" class="btn btn-primary">
+                                      Login
+                                  </button>
+                              </div>
+                      </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+  </main>
+</form>
+</body>
+<script src="scripts/jquery-3.3.1.slim.min.js"></script>
+<script src="scripts/popper-1.14.7.min.js"></script>
+<script src="scripts/bootstrap-4.3.1.min.js"></script>
+</html>
