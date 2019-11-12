@@ -78,15 +78,15 @@ $recordsetMaterias = mysqli_query(dbconnect(), "
                   <div class="form-inline">
                     <div class="form-group">
                       <label for="fechamesa" style="margin-right: 5px;">Fecha de la mesa</label>
-                      <input type="text" class="form-control pone-calendar" name="fechamesa" id="fechamesa">
+                      <input type="text" class="form-control pone-calendar-fechaMesa" name="fechamesa" id="fechamesa">
                     </div>
                     <div class="form-group">
                       <label for="desde" style="margin-right: 5px;">Disponible desde</label>
-                      <input type="text" class="form-control pone-calendar" name="desde" id="desde">
+                      <input type="text" class="form-control pone-calendar-desde-hasta" name="desde" id="desde">
                     </div>
                     <div class="form-group">
                       <label for="hasta" style="margin-right: 5px;">Disponible hasta</label>
-                      <input type="text" class="form-control pone-calendar" name="hasta" id="hasta">
+                      <input type="text" class="form-control pone-calendar-desde-hasta" name="hasta" id="hasta">
                     </div>
                   </div>
                 </div>
@@ -163,10 +163,18 @@ $recordsetMaterias = mysqli_query(dbconnect(), "
         return new Date(da.getFullYear() + 1, da.getMonth(), da.getDate());
       }
 
-      $('.pone-calendar').datepicker({
+      $('.pone-calendar-fechaMesa').datepicker({
         format: "dd/mm/yyyy",
         language: "es",
         daysOfWeekDisabled: "0,6",
+        autoclose: true,
+        startDate: new Date(),
+        endDate: oneYearAfter()
+      });
+
+      $('.pone-calendar-desde-hasta').datepicker({
+        format: "dd/mm/yyyy",
+        language: "es",
         autoclose: true,
         startDate: new Date(),
         endDate: oneYearAfter()
