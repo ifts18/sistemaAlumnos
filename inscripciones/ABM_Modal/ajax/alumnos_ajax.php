@@ -64,10 +64,23 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                     break;
                             }
                 }
-                 $sql = "SELECT idAlumno, DNI, Apellido, Nombre, FechaCreacion, Email, Password  from alumnos
-                        $WhereClause
-                        $OrderBy
-                        LIMIT $offset,$per_page ";
+
+                if ($origen != 3) {
+                        $sql = "SELECT idAlumno, DNI, Apellido, Nombre, FechaCreacion, Email, Password  from alumnos
+                                $WhereClause
+                                $OrderBy
+                                LIMIT $offset,$per_page ";
+                } else {
+                        $sql = "SELECT al.DNI, al.Apellido, al.Nombre, m.Descripcion, am.IdDivision, m.IdMateria
+                                FROM alumno_materias am
+                                INNER JOIN alumnos al ON am.IdAlumno = al.IdAlumno
+                                INNER JOIN materias_plan mp on mp.IdMateriaPlan = am.IdMateriaPlan
+                                INNER JOIN materias m on m.IdMateria = mp.IdMateria
+                                WHERE al.DNI = '$palabra'
+                                ORDER BY m.IdMateria";
+                        $WhereClauseCount = " WHERE DNI = '$palabra' ";
+                }
+
                    
                 $count_query = mysqli_query(dbconnect(),"SELECT count(*) AS numrows  FROM (
                                     SELECT * from alumnos ) x
@@ -89,9 +102,15 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                         <td width="100" align="center">DNI</td>
                                         <td width="100" align="center">Apellido</td>
                                         <td width="100" align="center">Nombre</td>
-                                        <td width="150" align="center">Fecha de ingreso</td>
+                                    <?php
+                                        if ($origen == 3){ ?>
+                                        <th width="160" align="center">Materia</th>
+                                        <th width="10" align="center">Division</th>
+                                        <th width="80" align="center"></th>
+                                    <?php } ?>
                                     <?php
                                         if ($origen != 3){ ?>    
+                                        <td width="150" align="center">Fecha de ingreso</td>
                                         <td width="80" align="center">E-mail</td>
                                         <td width="100" align="center">Password</td>
                                     <?php } ?>
@@ -109,16 +128,39 @@ if ((isset($_SERVER['QUERY_STRING'])) && ($_SERVER['QUERY_STRING'] != "")){
                                 <td align="center" <h4> <?php echo $row['DNI']; ?></h4></td>
                                 <td align="left" <h4> <?php echo $row['Apellido'];?></h4></td>
                                 <td align="left" <h4> <?php echo $row['Nombre']; ?></h4></td>
-                                <td align="left" <h4> <?php echo $row['FechaCreacion']; ?></h4></td>
+                                <?php
+                                if ($origen == 3){ ?>
+                                <td align="left" <h4> <?php echo $row['Descripcion']; ?></h4></td>
+                                <td align="left" <h4>
+                                                        <?php switch ($row['IdDivision']) {
+                                                                case 1:
+                                                                        echo 'A';
+                                                                break;
+                                                                case 2:
+                                                                        echo 'B';
+                                                                break;
+                                                                default:
+                                                                echo 'Ninguna';
+                                                        break;
+                                                }; ?></h4></td>
+                                <td align="left" <h4> 
+                                        <select  aria-controls="table" name="division" id="division">
+                                                <option value="" selected disabled>Seleccionar</option>
+                                                <option value="1">A</option>
+                                                <option value="2">B</option>
+                                                <option value="0">Ninguna</option>
+                                        </select></h4></td>
+                                <?php } ?>
                                 <?php
                                 if ($origen != 3){ ?>
+                                <td align="left" <h4> <?php echo $row['FechaCreacion']; ?></h4></td>
                                 <td align="left" <h4> <?php echo $row['Email']; ?></h4></td>
                                 <td align="center" <h4> <?php echo $row['Password']; ?></h4></td>
                                 <?php } ?>
                                 <?php
                                 if ($origen != 1){ ?>
                                 <td>
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate" data-origen="<?php echo $origen?>" data-idAlumno="<?php echo $row['idAlumno']?>" data-dni="<?php echo $row['DNI']?>" data-apellido="<?php echo $row['Apellido']?>" data-nombre="<?php echo $row['Nombre']?>" data-email="<?php echo $row['Email']?>" data-dni="<?php echo $row['DNI']?>" data-password="<?php echo $row['Password']?>" ><i class='glyphicon glyphicon-edit'></i> Modificar</button>    
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dataUpdate" data-origen="<?php echo $origen?>" data-idAlumno="<?php echo $row['idAlumno']?>" data-dni="<?php echo $row['DNI']?>" data-apellido="<?php echo $row['Apellido']?>" data-nombre="<?php echo $row['Nombre']?>" data-email="<?php echo $row['Email']?>" data-dni="<?php echo $row['DNI']?>" data-password="<?php echo $row['Password']?>" data-materia="<?php echo $row['Descripcion']?>" data-division="<?php echo $row['IdDivision']?>"><i class='glyphicon glyphicon-edit'></i> Modificar</button>    
                                 </td>   
                                 <?php } ?>
                                 </tr>
