@@ -41,7 +41,7 @@ if (!isset($_SESSION)) {
     </tr>
 
     <tr>
-        <td width="100" align="center"> <A HREF = "ABM_Modal/Modificar_Division_Alumno.php?origen=3">Modificar Division Alumno</A>
+        <td width="100" align="center"> <A HREF = "ABM_Modal/Modificar_Division_Alumno.php?origen=3">Modificar Division Alumnos</A>
         <BR>
         <BR>
         </td>
