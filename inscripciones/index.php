@@ -53,7 +53,7 @@ if (isset($_POST['dni'])) {
   $MM_redirecttoReferrer = false;
 
   $LoginRS__query=sprintf("SELECT idAlumno, DNI, concat_ws(',', Apellido, Nombre) ApeNom FROM alumnos WHERE DNI=%s AND Password=%s",
-    GetSQLValueString($loginUsername, "int"), GetSQLValueString($password, "int"));
+    GetSQLValueString($loginUsername, "int"), GetSQLValueString($password, "text"));
 
   $LoginRS = mysqli_query(dbconnect(),$LoginRS__query) or die(mysql_error());
   $row_Recordset1 = mysqli_fetch_assoc($LoginRS);
